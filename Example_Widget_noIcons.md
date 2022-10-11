@@ -1,3 +1,3 @@
 ```dataviewjs
-dv.view("tasksCalendar", {pages: "", view: "widget", options: "noIcons"})
+dv.view("tasksCalendar", {pages: "", view: "widget", firstDayOfWeek: 1, options: "noIcons"})
 ```
