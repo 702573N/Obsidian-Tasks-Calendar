@@ -214,6 +214,7 @@ function getMonth(tasks, month, option) {
 		// Set Cell Name And Weekday
 		if ( moment(month).add(i, "days").format("D") == 1 ) {
 			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
+			cell = cell.replace("{{class}}", "{{class}} newMonth");
 		} else {
 			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", shortDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
 		};
