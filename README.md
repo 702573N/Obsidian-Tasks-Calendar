@@ -77,6 +77,8 @@ Hovering a task let popup a small info about the note and the complete task titl
 
 ![13](https://user-images.githubusercontent.com/59178587/195028049-21d46f18-aa87-4bf2-a07c-a1d08ac315ef.png)
 
+After a task is completed the start- and scheduled dates are no longer needed and will be hidden. The task is now only displayed on the final completion date.
+
 
 
 ## Impressions
