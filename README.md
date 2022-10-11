@@ -62,6 +62,10 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
 The color should be hex in quotation marks to work properly. This color is set for text and as semi-transparent background. The icon itself is placed in front of each task to help identify where this task comes from.
 
+6. The week calendar has an additional information which is not shown in the other calendar views. The last cell lists all uncompleted tasks without date (start, scheduled, due). This "backlog" always remains in the field of view when switching through the individual weeks and is intended to ensure that these tasks are not forgotten.
+
+![14](https://user-images.githubusercontent.com/59178587/195046274-b6b9479b-09b0-4dab-bfd5-577977babb5a.png)
+
 
 
 ## How It Works
