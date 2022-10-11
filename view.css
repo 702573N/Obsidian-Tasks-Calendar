@@ -1,0 +1,249 @@
+.buttons {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	overflow: hidden;
+	cursor: default;
+	padding: 5px 10px;
+	margin: 0 1px;
+}
+.buttons button {
+	padding: 2px 5px;
+	background: none !important;
+	box-shadow: none !important;
+	border: none !important;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin: 0;
+	height: 22px;
+}
+.buttons button:nth-child(1),
+.buttons button:nth-child(3) {
+	flex-basis: 20%;
+}
+.buttons button:nth-child(2) {
+	flex-basis: 60%;
+}
+.buttons button:focus,
+.buttons button:active {
+	outline: none !important;
+	box-shadow: none !important;
+	border: none !important;
+}
+
+
+
+
+
+.grid {
+	display: flex;
+	align-items: stretch;
+	align-content: stretch;
+	flex-direction: row;
+	flex-wrap: wrap;
+	overflow: hidden;
+	cursor: default;
+}
+.grid .cell {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	box-sizing: border-box;
+	overflow: hidden;
+	margin: 0;
+	border-bottom: 1px solid rgba(125,125,125,0.25);
+}
+.grid[data-view='week'] .cell {
+	min-width: 50%;
+	max-width: 50%;
+	height: 19.5vH;
+}
+.grid[data-view='month'] .cell {
+	min-width: calc(100% / 7);
+	max-width: calc(100% / 7);
+	height: 60px;
+}
+.grid .cellContent {
+	display: inline-block;
+	height: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
+	flex-shrink: 1;
+	flex-grow: 1;
+}
+.grid .cellContent::-webkit-scrollbar {
+	display: none;
+}
+
+.grid .cell.today .cellName {
+	font-weight: bold;
+}
+.grid .cell.today {
+	background-color: #0a84ff26;
+	box-shadow: inset 0 0 0 1px #0a84ff80;
+}
+
+.grid .cell[data-weekday="0"] .cellName,
+.grid .gridHead[data-weekday="0"] {
+	color: #ff443a;
+}
+.grid .cell[data-weekday="0"] {
+}
+.grid .cell[data-weekday="6"] .cellName,
+.grid .gridHead[data-weekday="6"] {
+	color: #0a84ff;
+}
+.grid .cell[data-weekday="6"] {
+}
+.grid a {
+	text-decoration: none !important;
+}
+.grid[data-view='week'] {
+	border-top: 1px solid rgba(125,125,125,0.25);
+}
+.grid[data-view='week'] .cellName,
+.grid[data-view='week'] .task,
+.grid[data-view='week'] .gridHead {
+	font-size: 14px;
+}
+.grid[data-view='month'] .cellName,
+.grid[data-view='month'] .task,
+.grid[data-view='month'] .gridHead {
+	font-size: 10px;
+}
+.grid[data-view='month'] .cell {
+	margin: 0;
+}
+
+
+
+.grid[data-view='month'] .prevMonth,
+.grid[data-view='month'] .nextMonth {
+	background: rgba(125,125,125,0.1);
+}
+
+
+
+.grid .gridHead {
+	display: inline;
+	box-sizing: border-box;
+	border-top: 1px solid rgba(125,125,125,0.25);
+	border-bottom: 1px solid rgba(125,125,125,0.25);
+	overflow: hidden;
+	min-width: calc(100% / 7);
+	max-width: calc(100% / 7);
+	height: auto;
+	text-align: center;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 0;
+}
+.grid .cellName {
+	display: inline-block;
+	font-weight: normal;
+	padding: 0 2px;
+	color: var(--text-normal);
+	flex-shrink: 0;
+	flex-grow: 0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	text-align: left;
+	margin: 0 1px;
+}
+.grid .cellName strong {
+	font-weight: normal;
+	/* float: right; */
+	color: var(--text-normal);
+	opacity: 0.5;
+	font-size: 8px;
+	margin-right: 5px;
+}
+.grid .task {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	margin: 1px 1px 2px 1px;
+	padding: 0 2px;
+	text-decoration: none;
+	color: var(--text-normal);
+	word-break: break-all;
+	line-height: 1.5;
+	background: rgba(125,125,125,0.25);
+}
+
+
+
+.grid .task.noIcons {
+	/* border-left: 2px solid rgba(125,125,125,0.5); */
+	border-left: 2px solid currentColor;
+}
+.grid .task.noIcons:before {
+	display: none !important;
+}
+.grid .task.noIcons.done {
+	text-decoration: line-through !important;
+	color: var(--text-faint) !important;
+}
+
+
+
+/* TASK STATES */
+.grid .task.overdue:before {
+	content: "⚠ ";
+}
+.grid .task.start:before {
+	content: "🛫 ";
+}
+.grid .task.due:before {
+	content: "📅 ";
+}
+.grid .task.progress:before {
+	content: "⏳ ";
+}
+.grid .task.done:before {
+	content: "✅ ";
+}
+.grid .task.recurrence:before {
+	content: "🔁 ";
+}
+.grid .task.cancelled:before {
+	content: "🚫 ";
+}
+.grid .task.backlog:before {
+	content: "📌 ";
+}
+.grid .task.cancelled {
+	text-decoration: line-through;
+}
+
+
+
+
+/* WIDGET */
+
+.grid[data-view='widget'] .cell {
+	width: calc(100% / 7);
+	height: 100px;
+}
+.grid[data-view='widget'] .cellName {
+	border-top: 1px solid rgba(125,125,125,0.25);
+}
+.grid[data-view='widget'] .cellName,
+.grid[data-view='widget'] .task,
+.grid[data-view='widget'] .gridHead {
+	font-size: 10px;
+}
+.grid[data-view='widget'] .cellName {
+	text-align: center;
+	font-weight: normal;
+}
