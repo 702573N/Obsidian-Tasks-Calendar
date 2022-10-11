@@ -1,5 +1,5 @@
 // Get Input
-let {pages, view, options} = input;
+let {pages, view, firstDayOfWeek, options} = input;
 
 // Get Tasks From Pages
 if (pages=="") {
@@ -17,7 +17,6 @@ var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
-var firstDayOfWeek = 1;
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, progress, cancelled;
 
 // Templates
