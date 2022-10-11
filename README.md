@@ -22,7 +22,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     If you paste the main files (js/css) into another folder then "tasksCalendar", you have to replace the name between the first quotation marks.
  
- 4. There are 3 different variables to set path/location as "pages", calendar view style as "view" and visibility of note icons as "options"
+ 4. There are 4 different variables to set path/location as "pages", calendar view style as "view", first day of the week (0 or 1) as "firstDayOfWeek" and visibility of note icons as "options"
  
     ```
     pages: ""
@@ -30,6 +30,8 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     pages: "Task Management/Work"
     # custom folder
+    
+    ---
     
     view: "month"
     # Month calendar
@@ -39,12 +41,16 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     view: "widget"
     # Widget calendar, small week calendar
+    
+    ---
  
     firstDayOfWeek: 1
     # Monday as first day of week
     
     firstDayOfWeek: 0
     # Sunday as first day of week
+    
+    ---
  
     options: ""
     # Typical Task plugin icons in front of each task
