@@ -22,7 +22,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     If you paste the main files (js/css) into another folder then "tasksCalendar", you have to replace the name between the first quotation marks.
  
- 4. There are 3 different variables to set path/location as "pages, calendar view style as "view" and visibility of note icons as "options"
+ 4. There are 3 different variables to set path/location as "pages", calendar view style as "view" and visibility of note icons as "options"
  
     ```
     pages: ""
