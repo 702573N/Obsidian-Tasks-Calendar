@@ -58,6 +58,7 @@
 	overflow: hidden;
 	margin: 0;
 	border-bottom: 1px solid rgba(125,125,125,0.25);
+	background-color: var(--background-primary);
 }
 .grid[data-view='week'] .cell {
 	min-width: 50%;
@@ -125,8 +126,9 @@
 
 .grid[data-view='month'] .prevMonth,
 .grid[data-view='month'] .nextMonth {
-	background: rgba(125,125,125,0.1);
+	background: var(--background-primary-alt);
 }
+
 
 
 
