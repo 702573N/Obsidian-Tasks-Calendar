@@ -1,5 +1,5 @@
 # Obsidian-Tasks-Calendar
-Dataview Snippet To Show Tasks In Different Calendar Views
+Dataview snippet to show tasks in different calendar views
 
 
 ## Story
@@ -8,7 +8,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
 
 ## Setup
 1.  Install "Dataview Plugin" from the external plugins
-2.  Create a new folder in obsidian a paste the files "view.js" and "view.css" into it
+2.  Create a new folder called "tasksCalendar" or any other name and paste the files "view.js" and "view.css" into it
 
     ![11](https://user-images.githubusercontent.com/59178587/195023158-99381088-0cc0-428e-8077-6ea66a388992.png)
 
@@ -19,6 +19,8 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     dv.view("tasksCalendar", {pages: "", view: "month", options: "noIcons"})
     '''
     ```
+    
+    If you paste the main files (js/css) into another folder then "tasksCalendar", you have to replace the name between the first quotation marks.
  
  4. There are 3 different variables to set path/location as "pages, calendar view style as "view" and visibility of note icons as "options"
  
@@ -34,15 +36,22 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     view: "week"
     #  Week calendar, Agenda calendar
+    
+    view: "widget"
+    # Widget calendar, small week calendar
  
     options: ""
     # Typical Task plugin icons in front of each task
     
     options: "noIcons"
     # Hide Task plugin Icons in front of each task
+    
+    options: "vertical"
+    options: "horizontal"
+    # The sorting order of days inside the week calendar can be changed between horizontal (left to right) and vertical (top to bottom).
     ```
     
-5. In each note file you can set a custom "color" and a custom "icon" to show up in the calendar. To do this, you only need to enter the following metadata in the note header.
+5. In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note.
 
     ```
     ---
@@ -51,7 +60,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     ---
     ```
     
-The color should be a hex color to work properly. This color is set as text-color and semi-transparent background-color. The icon itself is placed in front of each task to help identify where this task comes from.
+The color should be hex in quotation marks to work properly. This color is set for text and as semi-transparent background. The icon itself is placed in front of each task to help identify where this task comes from.
 
 
 
