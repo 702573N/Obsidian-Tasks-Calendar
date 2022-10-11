@@ -319,7 +319,7 @@ function getWeek(tasks, week) {
 	};
 	
 	// Backlog
-	var todo = tasks.filter(t=>!t.completed && !t.due);
+	var todo = tasks.filter(t=>!t.completed && !t.due && !t.start && !t.scheduled);
 	var todos = "";
 	for (var t=0; t<todo.length; t++) {
 			todos += setTask(todo[t], "backlog " + options);
