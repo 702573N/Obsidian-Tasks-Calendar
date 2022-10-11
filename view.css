@@ -128,6 +128,10 @@
 .grid[data-view='month'] .nextMonth {
 	background: var(--background-primary-alt);
 }
+.grid[data-view='month'] .newMonth {
+	/* box-shadow: inset 20px 0px 5px -20px rgba(125,125,125,0.5); */
+	border-left: 1px solid rgba(125,125,125,0.25);
+}
 
 
 
@@ -186,7 +190,6 @@
 
 
 .grid .task.noIcons {
-	/* border-left: 2px solid rgba(125,125,125,0.5); */
 	border-left: 2px solid currentColor;
 }
 .grid .task.noIcons:before {
