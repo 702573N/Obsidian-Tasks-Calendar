@@ -99,15 +99,21 @@ After a task is completed the start- and scheduled dates are no longer needed an
 ## Impressions
 
 ### Month Calendar
-![1](https://user-images.githubusercontent.com/59178587/195021412-7991d71f-0529-4eab-990f-3e8b248587f4.png)
-![2](https://user-images.githubusercontent.com/59178587/195021427-0adfe60c-5c9a-4df0-9129-707a5eac1ff7.png)
-![7](https://user-images.githubusercontent.com/59178587/195021459-d3db3edc-c7c1-4cdf-b771-2a1cc579f91e.png)
-![8](https://user-images.githubusercontent.com/59178587/195021467-71a7ac80-a1ed-4f13-bfe9-4a3dafe7a39f.png)
+![15](https://user-images.githubusercontent.com/59178587/195291256-8079668d-cca3-4581-9795-93f9d5df9858.png)
+![7](https://user-images.githubusercontent.com/59178587/195291631-193a3097-0726-4719-bbb5-6bc494a3f5d2.png)
+
+![18](https://user-images.githubusercontent.com/59178587/195291344-99dac5d7-802b-40a8-8d6b-04a3be17e5d8.png)
+![2](https://user-images.githubusercontent.com/59178587/195291931-571a5801-02ed-4bc0-bdb7-90db67a55fef.png)
+
+
+
 
 ### Week/Agenda Calendar
-![3](https://user-images.githubusercontent.com/59178587/195023404-b66e90e2-c977-4d3a-8382-f524f028259a.png)
-![4](https://user-images.githubusercontent.com/59178587/195023423-0f1e6127-2916-45a1-acde-2fc38816373f.png)
+![17](https://user-images.githubusercontent.com/59178587/195292199-80ba52ae-0463-480f-9370-ae4688315fad.png)
+![3](https://user-images.githubusercontent.com/59178587/195292211-308f4c52-ae80-475a-a127-c29d7eb6dbfd.png)
+
 
 ### Widget Calendar
-![5](https://user-images.githubusercontent.com/59178587/195023502-878d2ed5-3b30-4d89-abfd-ee97fce95b8a.png)
-![6](https://user-images.githubusercontent.com/59178587/195023521-16d27087-8faa-4267-9df5-81824bd16d5d.png)
+![16](https://user-images.githubusercontent.com/59178587/195292466-db898e24-553c-4434-8b8c-8b1c6f1a47d3.png)
+![5](https://user-images.githubusercontent.com/59178587/195292541-0b7e3bc5-f873-4a64-ab44-50fcc6d3cae3.png)
+
