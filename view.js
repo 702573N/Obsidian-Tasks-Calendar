@@ -17,7 +17,7 @@ var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
-var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, progress, cancelled;
+var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled;
 
 // Templates
 var gridTemplate = "<div class='grid {{class}}' data-view='{{view}}'>{{gridContent}}</div>";
@@ -106,7 +106,7 @@ function getTasks(date) {
 	overdue = tasks.filter(t=>!t.completed && !t.checked && t.due && moment(t.due.toString()).isBefore(date)).sort(t=>t.due);
 	start = tasks.filter(t=>!t.completed && !t.checked && t.start && moment(t.start.toString()).isSame(date)).sort(t=>t.start);
 	scheduled = tasks.filter(t=>!t.completed && !t.checked && t.scheduled && moment(t.scheduled.toString()).isSame(date)).sort(t=>t.scheduled);
-	progress = tasks.filter(t=>!t.completed && !t.checked && t.due && t.start && moment(t.due.toString()).isAfter(date) && moment(t.start.toString()).isBefore(date) );
+	process = tasks.filter(t=>!t.completed && !t.checked && t.due && t.start && moment(t.due.toString()).isAfter(date) && moment(t.start.toString()).isBefore(date) );
 	cancelled = tasks.filter(t=>!t.completed && t.checked && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
 }
 
@@ -202,7 +202,7 @@ function getMonth(tasks, month, option) {
 		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
 		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start " + options)};
 		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "scheduled")};
-		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress")};
+		for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
 		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
 		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
 		
@@ -301,7 +301,7 @@ function getWeek(tasks, week) {
 		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
 		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
 		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
-		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress")};
+		for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
 		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
 		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
 	
@@ -417,7 +417,7 @@ function getWidget(tasks, week) {
 		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
 		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
 		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
-		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress")};
+		for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
 		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
 		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
 	
