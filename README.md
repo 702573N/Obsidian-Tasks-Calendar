@@ -26,10 +26,10 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
  
     ```
     pages: ""
-    # get all tasks from all notes in obsidian
+    # Get all tasks from all notes in obsidian
     
     pages: "Task Management/Work"
-    # custom folder
+    # Set a custom folder to get tasks from
     
     ---
     
@@ -60,7 +60,10 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     options: "vertical"
     options: "horizontal"
+    options: "vertical noIcons"
+    options: "horizontal noIcons"
     # The sorting order of days inside the week calendar can be changed between horizontal (left to right) and vertical (top to bottom).
+    # You can combine all available options
     ```
     
 5. In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note.
