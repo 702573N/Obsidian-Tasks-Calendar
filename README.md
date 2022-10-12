@@ -64,7 +64,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     options: "horizontal"
     # The sorting order of days inside the week calendar can be changed between horizontal (left to right) and vertical (top to bottom).
     
-    options: "noPeriods"
+    options: "noProcess"
     # The tasks with a start-date and a due-date are not displayed on all days between them.
     
     ```
