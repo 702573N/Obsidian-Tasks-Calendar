@@ -235,6 +235,9 @@
 .grid .task.progress:before {
 	content: "⏳ ";
 }
+.grid .task.scheduled:before {
+	content: "⏳ ";
+}
 .grid .task.done:before {
 	content: "✅ ";
 }
