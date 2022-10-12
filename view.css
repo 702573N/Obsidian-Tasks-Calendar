@@ -201,7 +201,7 @@
 
 
 /* noPeriods class */
-.grid.noPeriods .progress {
+.grid.noProcess .process {
 	display: none !important;
 }
 
@@ -232,8 +232,8 @@
 .grid .task.due:before {
 	content: "📅 ";
 }
-.grid .task.progress:before {
-	content: "⏳ ";
+.grid .task.process:before {
+	content: "🟡 ";
 }
 .grid .task.scheduled:before {
 	content: "⏳ ";
