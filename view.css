@@ -233,7 +233,7 @@
 	content: "📅 ";
 }
 .grid .task.process:before {
-	content: "⚪️ ";
+	content: "➡️ ";
 }
 .grid .task.scheduled:before {
 	content: "⏳ ";
