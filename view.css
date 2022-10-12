@@ -1,3 +1,4 @@
+/* Button Head */
 .buttons {
 	display: flex;
 	flex-direction: row;
@@ -38,9 +39,7 @@
 }
 
 
-
-
-
+/* Main Calendar Grid */
 .grid {
 	display: flex;
 	align-items: stretch;
@@ -60,16 +59,6 @@
 	border-bottom: 1px solid rgba(125,125,125,0.25);
 	background-color: var(--background-primary);
 }
-.grid[data-view='week'] .cell {
-	min-width: 50%;
-	max-width: 50%;
-	height: 19.5vH;
-}
-.grid[data-view='month'] .cell {
-	min-width: calc(100% / 7);
-	max-width: calc(100% / 7);
-	height: 60px;
-}
 .grid .cellContent {
 	display: inline-block;
 	height: auto;
@@ -81,61 +70,6 @@
 .grid .cellContent::-webkit-scrollbar {
 	display: none;
 }
-
-.grid .cell.today .cellName {
-	font-weight: bold;
-}
-.grid .cell.today {
-	background-color: #0a84ff26;
-	box-shadow: inset 0 0 0 1px #0a84ff80;
-}
-
-.grid .cell[data-weekday="0"] .cellName,
-.grid .gridHead[data-weekday="0"] {
-	color: #ff443a;
-}
-.grid .cell[data-weekday="0"] {
-}
-.grid .cell[data-weekday="6"] .cellName,
-.grid .gridHead[data-weekday="6"] {
-	color: #0a84ff;
-}
-.grid .cell[data-weekday="6"] {
-}
-.grid a {
-	text-decoration: none !important;
-}
-.grid[data-view='week'] {
-	border-top: 1px solid rgba(125,125,125,0.25);
-}
-.grid[data-view='week'] .cellName,
-.grid[data-view='week'] .task,
-.grid[data-view='week'] .gridHead {
-	font-size: 14px;
-}
-.grid[data-view='month'] .cellName,
-.grid[data-view='month'] .task,
-.grid[data-view='month'] .gridHead {
-	font-size: 10px;
-}
-.grid[data-view='month'] .cell {
-	margin: 0;
-}
-
-
-
-.grid[data-view='month'] .prevMonth,
-.grid[data-view='month'] .nextMonth {
-	background: var(--background-primary-alt);
-}
-.grid[data-view='month'] .newMonth {
-	/* box-shadow: inset 20px 0px 5px -20px rgba(125,125,125,0.5); */
-	border-left: 1px solid rgba(125,125,125,0.25);
-}
-
-
-
-
 .grid .gridHead {
 	display: inline;
 	box-sizing: border-box;
@@ -162,11 +96,10 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 	text-align: left;
-	margin: 0 1px;
+	margin: 0;
 }
 .grid .cellName strong {
 	font-weight: normal;
-	/* float: right; */
 	color: var(--text-normal);
 	opacity: 0.5;
 	font-size: 8px;
@@ -186,9 +119,69 @@
 	line-height: 1.5;
 	background: rgba(125,125,125,0.25);
 }
+.grid a {
+	text-decoration: none !important;
+}
 
 
+/* Today & Weekends */
+.grid .cell.today .cellName {
+	font-weight: bold;
+}
+.grid .cell.today {
+	background-color: #0a84ff26;
+	box-shadow: inset 0 0 0 1px #0a84ff80;
+}
+.grid .cell[data-weekday="0"] .cellName,
+.grid .gridHead[data-weekday="0"] {
+	color: #ff443a;
+}
+.grid .cell[data-weekday="6"] .cellName,
+.grid .gridHead[data-weekday="6"] {
+	color: #0a84ff;
+}
 
+
+/* Week view */
+.grid[data-view='week'] {
+	border-top: 1px solid rgba(125,125,125,0.25);
+}
+.grid[data-view='week'] .cellName,
+.grid[data-view='week'] .task,
+.grid[data-view='week'] .gridHead {
+	font-size: 14px;
+}
+.grid[data-view='week'] .cell {
+	min-width: 50%;
+	max-width: 50%;
+	height: 19.5vH;
+	margin: 0;
+}
+
+
+/* Month View */
+.grid[data-view='month'] .cellName,
+.grid[data-view='month'] .task,
+.grid[data-view='month'] .gridHead {
+	font-size: 10px;
+}
+.grid[data-view='month'] .prevMonth,
+.grid[data-view='month'] .nextMonth {
+	background: var(--background-primary-alt);
+}
+.grid[data-view='month'] .newMonth {
+	/* box-shadow: inset 20px 0px 5px -20px rgba(125,125,125,0.5); */
+	border-left: 1px solid rgba(125,125,125,0.25);
+}
+.grid[data-view='month'] .cell {
+	min-width: calc(100% / 7);
+	max-width: calc(100% / 7);
+	height: 60px;
+	margin: 0;
+}
+
+
+/* noIcons class */
 .grid .task.noIcons {
 	border-left: 2px solid currentColor;
 }
@@ -201,8 +194,7 @@
 }
 
 
-
-/* TASK STATES */
+/* Task Icons */
 .grid .task.overdue:before {
 	content: "⚠ ";
 }
@@ -232,10 +224,7 @@
 }
 
 
-
-
-/* WIDGET */
-
+/* Widget view */
 .grid[data-view='widget'] .cell {
 	width: calc(100% / 7);
 	height: 100px;
