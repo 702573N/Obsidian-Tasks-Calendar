@@ -181,14 +181,42 @@
 }
 
 
-/* noIcons class */
-.grid .task.noIcons {
-	border-left: 2px solid currentColor;
+/* Widget view */
+.grid[data-view='widget'] .cell {
+	width: calc(100% / 7);
+	height: 100px;
 }
-.grid .task.noIcons:before {
+.grid[data-view='widget'] .cellName {
+	border-top: 1px solid rgba(125,125,125,0.25);
+}
+.grid[data-view='widget'] .cellName,
+.grid[data-view='widget'] .task,
+.grid[data-view='widget'] .gridHead {
+	font-size: 10px;
+}
+.grid[data-view='widget'] .cellName {
+	text-align: center;
+	font-weight: normal;
+}
+
+
+/* noPeriods class */
+.grid.noPeriods .progress {
 	display: none !important;
 }
-.grid .task.noIcons.done {
+
+
+/* noIcons class */
+.grid.noIcons .task {
+	border-left: 2px solid currentColor;
+}
+.grid.noIcons .task:before {
+	display: none !important;
+}
+
+
+/* Done tasks */
+.grid.noIcons .task.done {
 	text-decoration: line-through !important;
 	color: var(--text-faint) !important;
 }
@@ -221,23 +249,4 @@
 }
 .grid .task.cancelled {
 	text-decoration: line-through;
-}
-
-
-/* Widget view */
-.grid[data-view='widget'] .cell {
-	width: calc(100% / 7);
-	height: 100px;
-}
-.grid[data-view='widget'] .cellName {
-	border-top: 1px solid rgba(125,125,125,0.25);
-}
-.grid[data-view='widget'] .cellName,
-.grid[data-view='widget'] .task,
-.grid[data-view='widget'] .gridHead {
-	font-size: 10px;
-}
-.grid[data-view='widget'] .cellName {
-	text-align: center;
-	font-weight: normal;
 }
