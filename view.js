@@ -20,7 +20,7 @@ var dateformat = "ddd, D. MMM";
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, progress, cancelled;
 
 // Templates
-var gridTemplate = "<div class='grid' data-view='{{view}}'>{{gridContent}}</div>";
+var gridTemplate = "<div class='grid {{class}}' data-view='{{view}}'>{{gridContent}}</div>";
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
 var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='color:{{color}};background:{{background}}33' title='{{title}}'>{{taskContent}}</div></a>";
 
@@ -53,7 +53,7 @@ function getMeta(tasks) {
 		};
 		var scheduledMatch = taskText.match(/\⏳\W(\d{4}\-\d{2}\-\d{2})/);
 		if (scheduledMatch) {
-			tasks[i].start = scheduledMatch[1];
+			tasks[i].scheduled = scheduledMatch[1];
 			tasks[i].text = tasks[i].text.replace(scheduledMatch[0], "");
 		};
 		var completionMatch = taskText.match(/\✅\W(\d{4}\-\d{2}\-\d{2})/);
@@ -197,13 +197,14 @@ function getMonth(tasks, month, option) {
 		var cellContent = "";
 	
 		// Set Task And Append To Content Container
-		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue " + options)}};
-		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due " + options)};
-		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence " + options)};
+		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
+		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
+		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
 		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start " + options)};
-		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress " + options)};
-		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done " + options)};
-		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled " + options)};
+		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "scheduled")};
+		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress")};
+		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
+		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
 		
 		// Add WeekNr To First Day Of Week
 		if (weekDay == firstDayOfWeek) {
@@ -234,7 +235,7 @@ function getMonth(tasks, month, option) {
 	};
 
 	// Set Grid Content
-	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view);
+	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid To Document
 	dv.el(view+"View", grid)
@@ -295,13 +296,14 @@ function getWeek(tasks, week) {
 		var cellContent = "";
 	
 		// Set Task And Append To Content Container
-		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue " + options)}};
-		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due " + options)};
-		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence " + options)};
-		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start " + options)};
-		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress " + options)};
-		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done " + options)};
-		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled " + options)};
+		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
+		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
+		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
+		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
+		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
+		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress")};
+		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
+		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
 	
 		// Set Cell Name And Weekday
 		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
@@ -330,6 +332,13 @@ function getWeek(tasks, week) {
 	// Set Grid Content
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view);
 	
+	// Add Grid Classes
+	if (options.indexOf("noPeriods") > -1 ) {
+		grid = grid.replace("{{class}}","noPeriods");
+	} else {
+		grid = grid.replace("{{class}}","");
+	};
+	
 	// Add Grid To Document
 	dv.el(view+"View", grid)
 	
@@ -341,7 +350,6 @@ function getWeek(tasks, week) {
 			var order = [1,5,2,6,3,0,4,7];
 		};
 		for (i=1;i<8;i++) {
-			console.log("Index: " + i + " :: " + "Order: " + order[i]);
 			var cell = document.querySelector(".cell[data-weekday='" + order[i] + "']");
 			grid.appendChild(cell);
 		};
@@ -404,13 +412,14 @@ function getWidget(tasks, week) {
 		var cellContent = "";
 	
 		// Set Task And Append To Content Container
-		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue " + options)}};
-		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due " + options)};
-		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence " + options)};
-		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start " + options)};
-		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress " + options)};
-		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done " + options)};
-		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled " + options)};
+		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
+		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
+		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
+		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
+		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
+		for (var t=0; t<progress.length; t++) {cellContent += setTask(progress[t], "progress")};
+		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
+		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
 	
 		// Set Cell Name And Weekday
 		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
@@ -428,7 +437,7 @@ function getWidget(tasks, week) {
 	};
 	
 	// Set Grid Content
-	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view);
+	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid To Document
 	dv.el(view+"View", grid)
