@@ -184,8 +184,6 @@
 .grid[data-view='widget'] .cell {
 	width: calc(100% / 7);
 	height: 100px;
-}
-.grid[data-view='widget'] .cellName {
 	border-top: 1px solid rgba(125,125,125,0.25);
 }
 .grid[data-view='widget'] .cellName,
