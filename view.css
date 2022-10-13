@@ -170,7 +170,6 @@
 	background: var(--background-primary-alt);
 }
 .grid[data-view='month'] .newMonth {
-	/* box-shadow: inset 20px 0px 5px -20px rgba(125,125,125,0.5); */
 	border-left: 1px solid rgba(125,125,125,0.25);
 }
 .grid[data-view='month'] .cell {
@@ -223,32 +222,35 @@
 
 
 /* Task Icons */
+.grid .task:before {
+	margin-right: 3px;
+}
 .grid .task.overdue:before {
-	content: "⚠ ";
+	content: "⚠";
 }
 .grid .task.start:before {
-	content: "🛫 ";
+	content: "🛫";
 }
 .grid .task.due:before {
-	content: "📅 ";
+	content: "📅";
 }
 .grid .task.process:before {
-	content: "➡️ ";
+	content: "➡️";
 }
 .grid .task.scheduled:before {
-	content: "⏳ ";
+	content: "⏳";
 }
 .grid .task.done:before {
-	content: "✅ ";
+	content: "✅";
 }
 .grid .task.recurrence:before {
-	content: "🔁 ";
+	content: "🔁";
 }
 .grid .task.cancelled:before {
-	content: "🚫 ";
+	content: "🚫";
 }
 .grid .task.backlog:before {
-	content: "📌 ";
+	content: "📌";
 }
 .grid .task.cancelled {
 	text-decoration: line-through;
