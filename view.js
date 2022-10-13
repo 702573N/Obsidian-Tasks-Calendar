@@ -17,12 +17,13 @@ var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
+var transparency = "33";
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled;
 
 // Templates
 var gridTemplate = "<div class='grid {{class}}' data-view='{{view}}'>{{gridContent}}</div>";
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
-var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='color:{{color}};background:{{background}}33' title='{{title}}'>{{taskContent}}</div></a>";
+var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'>{{taskContent}}</div></a>";
 
 // Switch
 switch(view) {
@@ -111,10 +112,20 @@ function getTasks(date) {
 }
 
 // Set Task
-function setTask(obj, type, cssClass) {
+function setTask(obj, type) {
 	var noteColor = getColor(obj);
 	var noteIcon = getIcon(obj);
-	var newTask = taskTemplate.replace("{{taskContent}}", noteIcon+obj.text).replace("{{class}}",type + " " + cssClass).replace("{{taskPath}}", obj.header.path+"#"+obj.header.subpath).replace("{{due}}","done").replaceAll("{{color}}",noteColor).replaceAll("{{background}}",noteColor).replace("{{title}}", getFilename(obj.link.path) + ": " + obj.text);
+	var taskText = obj.text;
+	var style = "";
+	
+	if (noteColor) {
+		style = "color:" + noteColor + ";background:" + noteColor + transparency;
+	};
+	if (noteIcon) {
+		taskText =  noteIcon + taskText;
+	};
+	
+	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", obj.header.path+"#"+obj.header.subpath).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(obj.link.path) + ": " + obj.text);
 	return newTask;
 }
 
@@ -200,7 +211,7 @@ function getMonth(tasks, month, option) {
 		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
 		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
 		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
-		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start " + options)};
+		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
 		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "scheduled")};
 		for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
 		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
@@ -330,7 +341,7 @@ function getWeek(tasks, week) {
 	gridContent += ToDoBox;
 
 	// Set Grid Content
-	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view);
+	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid Classes
 	if (options.indexOf("noPeriods") > -1 ) {
