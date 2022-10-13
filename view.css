@@ -157,6 +157,10 @@
 	height: 19.5vH;
 	margin: 0;
 }
+.grid[data-view='week'] .cell[data-weekday="7"] {
+	background: var(--background-primary-alt);
+	border-left: 1px solid rgba(125,125,125,0.25);
+}
 
 
 /* Month View */
@@ -175,8 +179,11 @@
 .grid[data-view='month'] .cell {
 	min-width: calc(100% / 7);
 	max-width: calc(100% / 7);
-	height: 60px;
 	margin: 0;
+	height: 60px;
+}
+.grid[data-view='month'].large .cell {
+	height: 12.5vH !important;
 }
 
 
