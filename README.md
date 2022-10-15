@@ -14,11 +14,13 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
 
 3.  Create a new note or edit an existing one and add the following code line:
 
-    ```
-    '''dataviewjs
+```
+    ```dataviewjs
     dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, options: "fullHeight largeText"})
-    '''
     ```
+```
+    
+
     
     If you paste the main files (js/css) into another folder then "tasksCalendar", you have to replace the name between the first quotation marks.
  
