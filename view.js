@@ -19,6 +19,7 @@ var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
 var transparency = "33";
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled;
+var tid = (new Date()).getTime();
 
 // Templates
 var gridTemplate = "<div class='grid {{class}}' data-view='{{view}}'>{{gridContent}}</div>";
@@ -127,7 +128,13 @@ function setTask(obj, type) {
 	
 	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", obj.header.path+"#"+obj.header.subpath).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(obj.link.path) + ": " + obj.text);
 	return newTask;
-}
+};
+
+// Set Buttons
+function setButtons() {
+	var buttons = "<div class='buttons' id='buttons" + tid + "'><button id='prev"+tid+"'>←</button><button id='curr"+tid+"'></button><button id='next"+tid+"'>→</button></div>";
+	dv.el("div", buttons, { cls: view+"ViewButtons", attr: {} });
+};
 
 
 // tasksCalendar: monthView
@@ -138,39 +145,33 @@ function monthView(tasks) {
 	tToday = moment().format("YYYY-MM-DD");
 
 	// Buttons
-	var buttons = "<div class='buttons'><button id='prevMonth'>←</button><button id='currMonth'></button><button id='nextMonth'>→</button></div>";
-	dv.el(view+"ViewButtons", buttons)
+	setButtons();
 	
 	//var selectedDate = moment().date(1);
 	var selectedDate = moment().startOf("month");
 	var selectedMonth = moment(selectedDate).format("M");
 	getMonth(tasks, selectedDate);
 	
-	document.querySelectorAll("button").forEach(btn => btn.addEventListener('click', (() => {
-		document.querySelectorAll("monthView").forEach(function(el){
-			el.remove();
-		});
-		if ( btn.id == "prevMonth" ) {
+	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
+		document.getElementById(`${tid}`).remove();
+		if ( btn.id == "prev"+tid ) {
 			selectedDate = moment(selectedDate).subtract(1, "months");
 			selectedMonth = moment(selectedDate).format("M");
-		} else if ( btn.id == "currMonth") {
+		} else if ( btn.id == "curr"+tid) {
 			selectedDate = moment().date(1);
 			selctedMonth = moment(selectedDate).format("M");
-		} else if ( btn.id == "nextMonth" ) {
+		} else if ( btn.id == "next"+tid ) {
 			selectedDate = moment(selectedDate).add(1, "months");
 			selectedMonth = moment(selectedDate).format("M");
 		};
 		getMonth(tasks, selectedDate);
 	})));
-	
 };
 
-function getMonth(tasks, month, option) {
+function getMonth(tasks, month) {
 	
 	// Set Month Title
-	document.querySelectorAll('button[id=currMonth]').forEach(function(btn){
-		btn.innerText = moment(month).format("MMMM YYYY");
-	});
+	document.getElementById(`curr${tid}`).innerText = moment(month).format("MMMM YYYY");
 
 	// Build Grid
 	var gridContent = "";
@@ -249,8 +250,7 @@ function getMonth(tasks, month, option) {
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid To Document
-	dv.el(view+"View", grid)
-
+	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: tid } });
 };
 	
 // tasksCalendar: weekView
@@ -261,21 +261,18 @@ function weekView(tasks) {
 	tToday = moment().format("YYYY-MM-DD");
 	
 	// Buttons
-	var buttons = "<div class='buttons'><button id='prevWeek'>←</button><button id='currWeek'></button><button id='nextWeek'>→</button></button>";
-	dv.el(view+"ViewButtons", buttons)
+	setButtons();
 	
 	selectedDate = moment().startOf("week");
 	getWeek(tasks, selectedDate);
 	
-	document.querySelectorAll("button").forEach(btn => btn.addEventListener('click', (() => {
-		document.querySelectorAll("weekView").forEach(function(el){
-			el.remove();
-		});
-		if ( btn.id == "prevWeek" ) {
+	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
+		document.getElementById(`${tid}`).remove();
+		if ( btn.id == "prev"+tid ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-		} else if ( btn.id == "currWeek") {
+		} else if ( btn.id == "curr"+tid ) {
 			selectedDate = moment().startOf("week");
-		} else if ( btn.id == "nextWeek" ) {
+		} else if ( btn.id == "next"+tid ) {
 			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
 		};
 		getWeek(tasks, selectedDate);
@@ -285,9 +282,7 @@ function weekView(tasks) {
 function getWeek(tasks, week) {
 	
 	// Set Week Title
-	document.querySelectorAll('button[id=currWeek]').forEach(function(btn){
-		btn.innerText = moment(week).format("YYYY [W]w");
-	});
+	document.getElementById(`curr${tid}`).innerText = moment(week).format("YYYY [W]w");
 
 	// Build Grid
 	var gridContent = "";
@@ -343,15 +338,8 @@ function getWeek(tasks, week) {
 	// Set Grid Content
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
-	// Add Grid Classes
-	if (options.indexOf("noPeriods") > -1 ) {
-		grid = grid.replace("{{class}}","noPeriods");
-	} else {
-		grid = grid.replace("{{class}}","");
-	};
-	
 	// Add Grid To Document
-	dv.el(view+"View", grid)
+	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: tid } });
 	
 	if (options.indexOf("vertical") > -1 ) {
 		var grid = document.querySelector(".grid[data-view='week']");
@@ -365,7 +353,6 @@ function getWeek(tasks, week) {
 			grid.appendChild(cell);
 		};
 	};
-
 };
 
 	
@@ -377,21 +364,18 @@ function widgetView(tasks) {
 	tToday = moment().format("YYYY-MM-DD");
 	
 	// Buttons
-	var buttons = "<div class='buttons'><button id='prevWeek'>←</button><button id='currWeek'></button><button id='nextWeek'>→</button></button>";
-	dv.el(view+"ViewButtons", buttons)
+	setButtons();
 	
 	selectedDate = moment().startOf("week");
 	getWidget(tasks, selectedDate);
 	
-	document.querySelectorAll("button").forEach(btn => btn.addEventListener('click', (() => {
-		document.querySelectorAll("widgetView").forEach(function(el){
-			el.remove();
-		});
-		if ( btn.id == "prevWeek" ) {
+	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
+		document.getElementById(`${tid}`).remove();
+		if ( btn.id == "prev"+tid ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-		} else if ( btn.id == "currWeek") {
+		} else if ( btn.id == "curr"+tid ) {
 			selectedDate = moment().startOf("week");
-		} else if ( btn.id == "nextWeek" ) {
+		} else if ( btn.id == "next"+tid ) {
 			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
 		};
 		getWidget(tasks, selectedDate);
@@ -401,9 +385,7 @@ function widgetView(tasks) {
 function getWidget(tasks, week) {
 	
 	// Set Week Title
-	document.querySelectorAll('button[id=currWeek]').forEach(function(btn){
-		btn.innerText = moment(week).format("MMM YYYY [W]w");
-	});
+	document.getElementById(`curr${tid}`).innerText = moment(week).format("MMM YYYY [W]w");
 
 	// Build Grid
 	var gridContent = "";
@@ -451,6 +433,5 @@ function getWidget(tasks, week) {
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid To Document
-	dv.el(view+"View", grid)
-	
+	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: tid } });
 };
