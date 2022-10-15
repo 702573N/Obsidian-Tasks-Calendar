@@ -169,6 +169,56 @@
 	background: var(--background-primary-alt);
 	border-left: 1px solid rgba(125,125,125,0.25);
 }
+/* Horizontal order */
+.grid[data-view='week'].horizontal .cell[data-weekday='1'] { /* Monday */
+	order: 1;
+}
+.grid[data-view='week'].horizontal .cell[data-weekday='2'] { /* Tuesday */
+	order: 2;
+}
+.grid[data-view='week'].horizontal .cell[data-weekday='3'] { /* Wednesday */
+	order: 3;
+}
+.grid[data-view='week'].horizontal .cell[data-weekday='4'] { /* Thursday */
+	order: 4;
+}
+.grid[data-view='week'].horizontal .cell[data-weekday='5'] { /* Friday */
+	order: 5;
+}
+.grid[data-view='week'].horizontal .cell[data-weekday='6'] { /* Saturday */
+	order: 6;
+}
+.grid[data-view='week'].horizontal .cell[data-weekday='0'] { /* Sunday */
+	order: 7;
+}
+.grid[data-view='week'].horizontal .cell[data-weekday='7'] { /* Backlog */
+	order: 8;
+}
+/* Vertical order */
+.grid[data-view='week'].vertical .cell[data-weekday='1'] { /* Monday */
+	order: 1;
+}
+.grid[data-view='week'].vertical .cell[data-weekday='2'] { /* Tuesday */
+	order: 3;
+}
+.grid[data-view='week'].vertical .cell[data-weekday='3'] { /* Wednesday */
+	order: 5;
+}
+.grid[data-view='week'].vertical .cell[data-weekday='4'] { /* Thursday */
+	order: 7;
+}
+.grid[data-view='week'].vertical .cell[data-weekday='5'] { /* Friday */
+	order: 2;
+}
+.grid[data-view='week'].vertical .cell[data-weekday='6'] { /* Saturday */
+	order: 4;
+}
+.grid[data-view='week'].vertical .cell[data-weekday='0'] { /* Sunday */
+	order: 6;
+}
+.grid[data-view='week'].vertical .cell[data-weekday='7'] { /* Backlog */
+	order: 8;
+}
 
 
 /* Month View */
