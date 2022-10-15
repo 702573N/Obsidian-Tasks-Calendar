@@ -214,9 +214,9 @@ body:not(.is-mobile) .grid[data-view='month'].largeText .cellName strong {
 .grid[data-view='widget'] .task {
 	font-size: 10px;
 }
-.grid[data-view='widget'].largeText .gridHead,
-.grid[data-view='widget'].largeText .cellName,
-.grid[data-view='widget'].largeText .task {
+body:not(.is-mobile) .grid[data-view='widget'].largeText .gridHead,
+body:not(.is-mobile) .grid[data-view='widget'].largeText .cellName,
+body:not(.is-mobile) .grid[data-view='widget'].largeText .task {
 	font-size: 14px;
 }
 .grid[data-view='widget'].fullHeight .cell {
