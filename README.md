@@ -54,10 +54,6 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
  
     # You can combine all available options, if supported on selected calendar view
  
-    options: ""
-    # Supported on all calendar views
-    # Typical Task plugin icons in front of each task
-    
     options: "noIcons"
     # Supported on all calendar views
     # Hide Task plugin Icons in front of each task
