@@ -193,12 +193,12 @@
 .grid[data-view='month'].fullHeight .cell {
 	height: 12.5vH !important;
 }
-.grid[data-view='month'].largeText .gridHead,
-.grid[data-view='month'].largeText .cellName,
-.grid[data-view='month'].largeText .task {
+body:not(.is-mobile) .grid[data-view='month'].largeText .gridHead,
+body:not(.is-mobile) .grid[data-view='month'].largeText .cellName,
+body:not(.is-mobile) .grid[data-view='month'].largeText .task {
 	font-size: 14px;
 }
-.grid[data-view='month'].largeText .cellName strong {
+body:not(.is-mobile) .grid[data-view='month'].largeText .cellName strong {
 	font-size: 12px;
 }
 
