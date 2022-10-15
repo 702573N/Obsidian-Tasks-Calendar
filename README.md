@@ -62,6 +62,10 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     # Supported on all calendar views
     # The tasks with a start-date and a due-date are not displayed on all days between them.
     
+    options: "noWeekNr"
+    # Supported only on month view
+    # Hide the week number in the first cell of each week
+    
     options: "vertical"
     options: "horizontal"
     # Supported only on week view
