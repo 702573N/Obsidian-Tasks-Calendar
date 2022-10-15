@@ -146,16 +146,24 @@
 .grid[data-view='week'] {
 	border-top: 1px solid rgba(125,125,125,0.25);
 }
+.grid[data-view='week'] .gridHead,
 .grid[data-view='week'] .cellName,
-.grid[data-view='week'] .task,
-.grid[data-view='week'] .gridHead {
+.grid[data-view='week'] .task {
+	font-size: 10px;
+}
+.grid[data-view='week'].largeText .gridHead,
+.grid[data-view='week'].largeText .cellName,
+.grid[data-view='week'].largeText .task {
 	font-size: 14px;
 }
 .grid[data-view='week'] .cell {
 	min-width: 50%;
 	max-width: 50%;
-	height: 19.5vH;
+	height: 60px;
 	margin: 0;
+}
+.grid[data-view='week'].fullHeight .cell {
+	height: 19.2vH;
 }
 .grid[data-view='week'] .cell[data-weekday="7"] {
 	background: var(--background-primary-alt);
@@ -182,15 +190,15 @@
 	margin: 0;
 	height: 60px;
 }
-.grid[data-view='month'].large .cell {
+.grid[data-view='month'].fullHeight .cell {
 	height: 12.5vH !important;
 }
-.grid[data-view='month'].large .gridHead,
-.grid[data-view='month'].large .cellName,
-.grid[data-view='month'].large .task {
+.grid[data-view='month'].largeText .gridHead,
+.grid[data-view='month'].largeText .cellName,
+.grid[data-view='month'].largeText .task {
 	font-size: 14px;
 }
-.grid[data-view='month'].large .cellName strong {
+.grid[data-view='month'].largeText .cellName strong {
 	font-size: 12px;
 }
 
@@ -201,10 +209,18 @@
 	height: 100px;
 	border-top: 1px solid rgba(125,125,125,0.25);
 }
+.grid[data-view='widget'] .gridHead,
 .grid[data-view='widget'] .cellName,
-.grid[data-view='widget'] .task,
-.grid[data-view='widget'] .gridHead {
+.grid[data-view='widget'] .task {
 	font-size: 10px;
+}
+.grid[data-view='widget'].largeText .gridHead,
+.grid[data-view='widget'].largeText .cellName,
+.grid[data-view='widget'].largeText .task {
+	font-size: 14px;
+}
+.grid[data-view='widget'].fullHeight .cell {
+	height: 77vH !important;
 }
 .grid[data-view='widget'] .cellName {
 	text-align: center;
