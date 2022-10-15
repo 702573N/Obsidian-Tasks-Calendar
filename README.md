@@ -65,7 +65,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     options: "largeText"
     # Set larger text on tasks, cell names and grid heads
-    # On mobile devices this style class doesn't take effect in combination with the month calendar view, because the limited screen size
+    # On mobile devices this style class doesn't take effect in combination with month and widget calendar view, because the limited screen size
     
     options: "fullHeight"
     # Set height of the calendar view to fit the screen (especially suitable for mobile devices)
