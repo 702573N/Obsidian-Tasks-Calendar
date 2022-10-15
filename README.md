@@ -52,28 +52,26 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
     
     ---
  
-    # You can combine all available options, if supported on selected calendar view
+    # You can combine all available options
  
     options: "noIcons"
-    # Supported on all calendar views
     # Hide Task plugin Icons in front of each task
     
     options: "noProcess"
-    # Supported on all calendar views
     # The tasks with a start-date and a due-date are not displayed on all days between them.
     
     options: "noWeekNr"
-    # Supported only on month view
     # Hide the week number in the first cell of each week
+    
+    options: "largeText"
+    # Set larger text on tasks, cell names and grid heads
+    
+    options: "fullHeight"
+    # Set height of the calendar view to fit the screen (especially suitable for mobile devices)
     
     options: "vertical"
     options: "horizontal"
-    # Supported only on week view
-    # The sorting order of days inside the week calendar can be changed between horizontal (left to right) and vertical (top to bottom).
-    
-    options: "large"
-    # Supported only on month view
-    # The month calendar can be displayed in a large size to fit the screen.
+    # Attention: Only supported on week calendar view. The sorting order of days inside the week calendar can be changed between horizontal (left to         right) and vertical (top to bottom).
     
     ```
     
