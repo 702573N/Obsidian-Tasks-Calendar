@@ -153,7 +153,7 @@ function monthView(tasks) {
 	getMonth(tasks, selectedDate);
 	
 	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
-		document.getElementById(`${tid}`).remove();
+		document.getElementById(`grid${tid}`).remove();
 		if ( btn.id == "prev"+tid ) {
 			selectedDate = moment(selectedDate).subtract(1, "months");
 			selectedMonth = moment(selectedDate).format("M");
@@ -250,7 +250,7 @@ function getMonth(tasks, month) {
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid To Document
-	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: tid } });
+	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: "grid"+tid } });
 };
 	
 // tasksCalendar: weekView
@@ -267,7 +267,7 @@ function weekView(tasks) {
 	getWeek(tasks, selectedDate);
 	
 	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
-		document.getElementById(`${tid}`).remove();
+		document.getElementById(`grid${tid}`).remove();
 		if ( btn.id == "prev"+tid ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
 		} else if ( btn.id == "curr"+tid ) {
@@ -339,10 +339,11 @@ function getWeek(tasks, week) {
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid To Document
-	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: tid } });
+	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: "grid"+tid } });
 	
 	if (options.indexOf("vertical") > -1 ) {
-		var grid = document.querySelector(".grid[data-view='week']");
+		//var grid = document.querySelector(".grid[data-view='week']");
+		var grid = document.querySelector(`#grid${tid} .grid`);
 		if (firstDayOfWeek == 0) {
 			var order = [0,4,1,5,2,6,3,7];
 		} else if (firstDayOfWeek == 1) {
@@ -370,7 +371,7 @@ function widgetView(tasks) {
 	getWidget(tasks, selectedDate);
 	
 	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
-		document.getElementById(`${tid}`).remove();
+		document.getElementById(`grid${tid}`).remove();
 		if ( btn.id == "prev"+tid ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
 		} else if ( btn.id == "curr"+tid ) {
@@ -433,5 +434,5 @@ function getWidget(tasks, week) {
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
 	// Add Grid To Document
-	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: tid } });
+	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: "grid"+tid } });
 };
