@@ -185,6 +185,14 @@
 .grid[data-view='month'].large .cell {
 	height: 12.5vH !important;
 }
+.grid[data-view='month'].large .gridHead,
+.grid[data-view='month'].large .cellName,
+.grid[data-view='month'].large .task {
+	font-size: 14px;
+}
+.grid[data-view='month'].large .cellName strong {
+	font-size: 12px;
+}
 
 
 /* Widget view */
@@ -204,7 +212,7 @@
 }
 
 
-/* noPeriods class */
+/* noProcess class */
 .grid.noProcess .process {
 	display: none !important;
 }
@@ -215,6 +223,12 @@
 	border-left: 2px solid currentColor;
 }
 .grid.noIcons .task:before {
+	display: none !important;
+}
+
+
+/* noWeekNr class */
+.grid.noWeekNr .cellName strong {
 	display: none !important;
 }
 
