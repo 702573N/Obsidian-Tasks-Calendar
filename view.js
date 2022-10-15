@@ -340,20 +340,6 @@ function getWeek(tasks, week) {
 	
 	// Add Grid To Document
 	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: "grid"+tid } });
-	
-	if (options.indexOf("vertical") > -1 ) {
-		//var grid = document.querySelector(".grid[data-view='week']");
-		var grid = document.querySelector(`#grid${tid} .grid`);
-		if (firstDayOfWeek == 0) {
-			var order = [0,4,1,5,2,6,3,7];
-		} else if (firstDayOfWeek == 1) {
-			var order = [1,5,2,6,3,0,4,7];
-		};
-		for (i=1;i<8;i++) {
-			var cell = document.querySelector(".cell[data-weekday='" + order[i] + "']");
-			grid.appendChild(cell);
-		};
-	};
 };
 
 	
