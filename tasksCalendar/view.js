@@ -21,6 +21,9 @@ var transparency = "33";
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled;
 var tid = (new Date()).getTime();
 
+// Set Root Node
+const rootNode = dv.el("div", "", {cls: "tasksCalendar", attr: {id: "tasksCalendar"+tid, view: view}});
+
 // Templates
 var gridTemplate = "<div class='grid {{class}}' data-view='{{view}}'>{{gridContent}}</div>";
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
@@ -132,8 +135,8 @@ function setTask(obj, type) {
 
 // Set Buttons
 function setButtons() {
-	var buttons = "<div class='buttons' id='buttons" + tid + "'><button id='prev"+tid+"'>←</button><button id='curr"+tid+"'></button><button id='next"+tid+"'>→</button></div>";
-	dv.el("div", buttons, { cls: view+"ViewButtons", attr: {} });
+	var buttons = "<button class='previous'>←</button><button class='current'></button><button class='next'>→</button>";
+	rootNode.querySelector("span").appendChild(dv.el("div", buttons, {cls: "buttons", attr: {}}));
 };
 
 
@@ -152,15 +155,15 @@ function monthView(tasks) {
 	var selectedMonth = moment(selectedDate).format("M");
 	getMonth(tasks, selectedDate);
 	
-	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
-		document.getElementById(`grid${tid}`).remove();
-		if ( btn.id == "prev"+tid ) {
+	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
+		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+		if ( btn.className == "previous" ) {
 			selectedDate = moment(selectedDate).subtract(1, "months");
 			selectedMonth = moment(selectedDate).format("M");
-		} else if ( btn.id == "curr"+tid) {
+		} else if ( btn.className == "current") {
 			selectedDate = moment().date(1);
 			selctedMonth = moment(selectedDate).format("M");
-		} else if ( btn.id == "next"+tid ) {
+		} else if ( btn.className == "next" ) {
 			selectedDate = moment(selectedDate).add(1, "months");
 			selectedMonth = moment(selectedDate).format("M");
 		};
@@ -171,7 +174,7 @@ function monthView(tasks) {
 function getMonth(tasks, month) {
 	
 	// Set Month Title
-	document.getElementById(`curr${tid}`).innerText = moment(month).format("MMMM YYYY");
+	rootNode.querySelector('button.current').innerText = moment(month).format("MMMM YYYY");
 
 	// Build Grid
 	var gridContent = "";
@@ -249,8 +252,8 @@ function getMonth(tasks, month) {
 	// Set Grid Content
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
-	// Add Grid To Document
-	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: "grid"+tid } });
+	// Add Grid To rootNode
+	rootNode.querySelector("span").appendChild(dv.el("div", grid, { cls: "grid", attr: {}}));
 };
 	
 // tasksCalendar: weekView
@@ -266,13 +269,13 @@ function weekView(tasks) {
 	selectedDate = moment().startOf("week");
 	getWeek(tasks, selectedDate);
 	
-	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
-		document.getElementById(`grid${tid}`).remove();
-		if ( btn.id == "prev"+tid ) {
+	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
+		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+		if ( btn.className == "previous" ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-		} else if ( btn.id == "curr"+tid ) {
+		} else if ( btn.className == "current" ) {
 			selectedDate = moment().startOf("week");
-		} else if ( btn.id == "next"+tid ) {
+		} else if ( btn.className == "next" ) {
 			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
 		};
 		getWeek(tasks, selectedDate);
@@ -282,7 +285,7 @@ function weekView(tasks) {
 function getWeek(tasks, week) {
 	
 	// Set Week Title
-	document.getElementById(`curr${tid}`).innerText = moment(week).format("YYYY [W]w");
+	rootNode.querySelector('button.current').innerText = moment(week).format("YYYY [W]w");
 
 	// Build Grid
 	var gridContent = "";
@@ -338,8 +341,8 @@ function getWeek(tasks, week) {
 	// Set Grid Content
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
-	// Add Grid To Document
-	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: "grid"+tid } });
+	// Add Grid To rootNode
+	rootNode.querySelector("span").appendChild(dv.el("div", grid, { cls: "grid", attr: {}}));
 };
 
 	
@@ -356,13 +359,13 @@ function widgetView(tasks) {
 	selectedDate = moment().startOf("week");
 	getWidget(tasks, selectedDate);
 	
-	document.querySelectorAll(`#buttons${tid} > button`).forEach(btn => btn.addEventListener('click', (() => {
-		document.getElementById(`grid${tid}`).remove();
-		if ( btn.id == "prev"+tid ) {
+	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
+		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+		if ( btn.className == "previous" ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-		} else if ( btn.id == "curr"+tid ) {
+		} else if ( btn.className == "current" ) {
 			selectedDate = moment().startOf("week");
-		} else if ( btn.id == "next"+tid ) {
+		} else if ( btn.className == "next" ) {
 			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
 		};
 		getWidget(tasks, selectedDate);
@@ -372,7 +375,7 @@ function widgetView(tasks) {
 function getWidget(tasks, week) {
 	
 	// Set Week Title
-	document.getElementById(`curr${tid}`).innerText = moment(week).format("MMM YYYY [W]w");
+	rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY [W]w");
 
 	// Build Grid
 	var gridContent = "";
@@ -416,9 +419,9 @@ function getWidget(tasks, week) {
 		gridContent += cell;
 	};
 	
-	// Set Grid Content
+	// SetGrid Content
 	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
 	
-	// Add Grid To Document
-	dv.el("div", grid, { cls: view+"ViewGrid", attr: { id: "grid"+tid } });
+	// Add Grid To rootNode
+	rootNode.querySelector("span").appendChild(dv.el("div", grid, { cls: "grid", attr: {}}));
 };
