@@ -83,8 +83,10 @@ The tasks with a start-date and a due-date are not displayed on all days between
 options: "noWeekNr"
 ```
 Hide the week number in the first cell of each week.
-    
+
+```
 options: "largeText"
+```
 Set larger text on tasks, cell names and grid heads.
 On mobile devices this style class doesn't take effect in combination with month and widget calendar view, because the limited screen size.
 
