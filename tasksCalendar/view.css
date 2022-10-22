@@ -43,8 +43,6 @@
 	box-shadow: none !important;
 	border: none !important;
 }
-
-
 /* Main Calendar Grid */
 .tasksCalendar .grid {
 	display: flex;
@@ -54,6 +52,7 @@
 	flex-wrap: wrap;
 	overflow: hidden;
 	cursor: default;
+	width: 100%;
 }
 .tasksCalendar .cell {
 	display: flex;
@@ -90,6 +89,7 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	margin: 0;
+	font-size: 14px;
 }
 .tasksCalendar .cellName {
 	display: inline-block;
@@ -103,6 +103,7 @@
 	overflow: hidden;
 	text-align: left;
 	margin: 0;
+	font-size: 14px;
 }
 .tasksCalendar .cellName strong {
 	font-weight: normal;
@@ -125,6 +126,7 @@
 	line-height: 1.5;
 	background: rgba(125,125,125,0.25);
 	text-decoration: none !important;
+	font-size: 14px;
 }
 .tasksCalendar a {
 	text-decoration: none !important;
@@ -149,90 +151,12 @@
 }
 
 
-/* Week view */
-.tasksCalendar .grid[data-view='week'] {
-	border-top: 1px solid rgba(125,125,125,0.25);
-}
-.tasksCalendar .grid[data-view='week'] .gridHead,
-.tasksCalendar .grid[data-view='week'] .cellName,
-.tasksCalendar .grid[data-view='week'] .task {
-	font-size: 10px;
-}
-.tasksCalendar .grid[data-view='week'].largeText .gridHead,
-.tasksCalendar .grid[data-view='week'].largeText .cellName,
-.tasksCalendar .grid[data-view='week'].largeText .task {
-	font-size: 14px;
-}
-.tasksCalendar .grid[data-view='week'] .cell {
-	min-width: 50%;
-	max-width: 50%;
-	height: 60px;
-	margin: 0;
-}
-.tasksCalendar .grid[data-view='week'].fullHeight .cell {
-	height: 19.2vH;
-}
-.tasksCalendar .grid[data-view='week'] .cell[data-weekday="7"] {
-	background: var(--background-primary-alt);
-	border-left: 1px solid rgba(125,125,125,0.25);
-}
-/* Horizontal order */
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='1'] { /* Monday */
-	order: 1;
-}
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='2'] { /* Tuesday */
-	order: 2;
-}
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='3'] { /* Wednesday */
-	order: 3;
-}
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='4'] { /* Thursday */
-	order: 4;
-}
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='5'] { /* Friday */
-	order: 5;
-}
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='6'] { /* Saturday */
-	order: 6;
-}
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='0'] { /* Sunday */
-	order: 7;
-}
-.tasksCalendar .grid[data-view='week'].horizontal .cell[data-weekday='7'] { /* Backlog */
-	order: 8;
-}
-/* Vertical order */
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='1'] { /* Monday */
-	order: 1;
-}
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='2'] { /* Tuesday */
-	order: 3;
-}
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='3'] { /* Wednesday */
-	order: 5;
-}
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='4'] { /* Thursday */
-	order: 7;
-}
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='5'] { /* Friday */
-	order: 2;
-}
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='6'] { /* Saturday */
-	order: 4;
-}
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='0'] { /* Sunday */
-	order: 6;
-}
-.tasksCalendar .grid[data-view='week'].vertical .cell[data-weekday='7'] { /* Backlog */
-	order: 8;
-}
-
-
 /* Month View */
-.tasksCalendar .grid[data-view='month'] .cellName,
-.tasksCalendar .grid[data-view='month'] .task,
-.tasksCalendar .grid[data-view='month'] .gridHead {
-	font-size: 10px;
+.tasksCalendar .grid[data-view='month'] .cell {
+	height: 12.5vH;
+	min-width: calc(100% / 7);
+	max-width: calc(100% / 7);
+	margin: 0;
 }
 .tasksCalendar .grid[data-view='month'] .prevMonth,
 .tasksCalendar .grid[data-view='month'] .nextMonth {
@@ -241,47 +165,181 @@
 .tasksCalendar .grid[data-view='month'] .newMonth {
 	border-left: 1px solid rgba(125,125,125,0.25);
 }
-.tasksCalendar .grid[data-view='month'] .cell {
-	min-width: calc(100% / 7);
-	max-width: calc(100% / 7);
-	margin: 0;
-	height: 60px;
-}
-.tasksCalendar .grid[data-view='month'].fullHeight .cell {
-	height: 12.5vH !important;
-}
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'].largeText .gridHead,
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'].largeText .cellName,
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'].largeText .task {
-	font-size: 14px;
-}
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'].largeText .cellName strong {
-	font-size: 12px;
-}
+
 
 
 /* Widget view */
-.tasksCalendar .grid[data-view='widget'] .cell {
-	width: calc(100% / 7);
-	height: 100px;
-	border-top: 1px solid rgba(125,125,125,0.25);
+.tasksCalendar .grid[data-view='widget'] {
+	flex-wrap: nowrap !important;
 }
-.tasksCalendar .grid[data-view='widget'] .gridHead,
-.tasksCalendar .grid[data-view='widget'] .cellName,
-.tasksCalendar .grid[data-view='widget'] .task {
-	font-size: 10px;
+.tasksCalendar .grid[data-view='widget'] .cell {
+	width: 100%;
+	height: 140px;
+	border-top: 1px solid rgba(125,125,125,0.25);
 }
 body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .gridHead,
 body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .cellName,
 body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 	font-size: 14px;
 }
-.tasksCalendar .grid[data-view='widget'].fullHeight .cell {
-	height: 77vH !important;
-}
 .tasksCalendar .grid[data-view='widget'] .cellName {
 	text-align: center;
 	font-weight: normal;
+}
+.tasksCalendar .grid[data-view='widget'].noMonday .cell[data-weekday="1"] {
+	display: none !important;
+}
+.tasksCalendar .grid[data-view='widget'].noTuesday .cell[data-weekday="2"] {
+	display: none !important;
+}
+.tasksCalendar .grid[data-view='widget'].noWednesday .cell[data-weekday="3"] {
+	display: none !important;
+}
+.tasksCalendar .grid[data-view='widget'].noThursday .cell[data-weekday="4"] {
+	display: none !important;
+}
+.tasksCalendar .grid[data-view='widget'].noFriday .cell[data-weekday="5"] {
+	display: none !important;
+}
+.tasksCalendar .grid[data-view='widget'].noSaturday .cell[data-weekday="6"] {
+	display: none !important;
+}
+.tasksCalendar .grid[data-view='widget'].noSunday .cell[data-weekday="0"] {
+	display: none !important;
+}
+
+
+/* Agenda view */
+.tasksCalendar .grid[data-view='agenda'] {
+	border-top: 1px solid rgba(125,125,125,0.25);
+}
+.tasksCalendar .grid[data-view='agenda'] {
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	height: 100%;
+	gap: 0%;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(1),
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(2),
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(3),
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(4),
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(5),
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(8) {
+	height: 25.6vH;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(6),
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(7) {
+	height: 12.8vH;
+}
+/* Default Order */
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(1) {
+	grid-row-start: 1;
+	grid-row-end: 3;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(2) {
+	grid-row-start: 3;
+	grid-row-end: 5;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(3) {
+	grid-row-start: 5;
+	grid-row-end: 7;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(4) {
+	grid-row-start: 1;
+	grid-row-end: 3;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(5) {
+	grid-row-start: 3;
+	grid-row-end: 5;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(6) {
+	grid-row-start: 5;
+	grid-row-end: 6;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(7) {
+	grid-row-start: 6;
+	grid-row-end: 7;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'] .cell:nth-child(8) {
+	display: none;
+}
+/* Horizontal Order */
+.tasksCalendar .grid[data-view='agenda'].horizontal .cell:nth-child(1) {
+	grid-row-start: 1;
+	grid-row-end: 3;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+.tasksCalendar .grid[data-view='agenda'].horizontal .cell:nth-child(3) {
+	grid-row-start: 3;
+	grid-row-end: 5;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+.tasksCalendar .grid[data-view='agenda'].horizontal .cell:nth-child(5) {
+	grid-row-start: 5;
+	grid-row-end: 7;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+.tasksCalendar .grid[data-view='agenda'].horizontal .cell:nth-child(2) {
+	grid-row-start: 1;
+	grid-row-end: 3;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'].horizontal .cell:nth-child(4) {
+	grid-row-start: 3;
+	grid-row-end: 5;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'].horizontal .cell:nth-child(6) {
+	grid-row-start: 5;
+	grid-row-end: 6;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'].horizontal .cell:nth-child(7) {
+	grid-row-start: 6;
+	grid-row-end: 7;
+	grid-column-start: 3;
+	grid-column-end: 5;
+}
+/* backlog class */
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(8) {
+	display: flex;
+	grid-row-start: 7;
+	grid-row-end: 8;
+	grid-column-start: 1;
+	grid-column-end: 5;
+}
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(1),
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(2),
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(3),
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(4),
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(5),
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(8) {
+	height: 19.2vH;
+}
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(6),
+.tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(7) {
+	height: 9.6vH;
 }
 
 
@@ -289,8 +347,6 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 .tasksCalendar .grid.noProcess .process {
 	display: none !important;
 }
-
-
 /* noIcons class */
 .tasksCalendar .grid.noIcons .task {
 	border-left: 2px solid currentColor;
@@ -298,18 +354,37 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 .tasksCalendar .grid.noIcons .task:before {
 	display: none !important;
 }
-
-
 /* noWeekNr class */
 .tasksCalendar .grid.noWeekNr .cellName strong {
 	display: none !important;
 }
-
-
 /* Done tasks */
 .tasksCalendar .grid.noIcons .task.done {
 	text-decoration: line-through !important;
 	color: var(--text-faint) !important;
+}
+/* Mini class */
+.tasksCalendar .grid.mini .gridHead,
+.tasksCalendar .grid.mini .cellName,
+.tasksCalendar .grid.mini .task {
+	font-size: 10px !important;
+}
+.tasksCalendar .grid[data-view='month'].mini .cell {
+	height: 60px !important;
+}
+.tasksCalendar .grid[data-view='widget'].mini .cell {
+	height: 80px !important;
+}
+
+
+/* Mobile */
+body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .gridHead,
+body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .cellName,
+body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .task {
+	font-size: 14px;
+}
+body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .cellName strong {
+	font-size: 12px;
 }
 
 
