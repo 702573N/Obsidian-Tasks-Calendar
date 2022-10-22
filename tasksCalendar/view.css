@@ -378,13 +378,13 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 
 
 /* Mobile */
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .gridHead,
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .cellName,
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .task {
-	font-size: 10px;
+body.is-mobile .tasksCalendar .grid:not([data-view='agenda']) .gridHead,
+body.is-mobile .tasksCalendar .grid:not([data-view='agenda']).cellName,
+body.is-mobile .tasksCalendar .grid:not([data-view='agenda']) .task {
+	font-size: 10px !important;
 }
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .cellName strong {
-	font-size: 8px;
+body.is-mobile .tasksCalendar .grid:not([data-view='agenda']) .cellName strong {
+	font-size: 8px !important;
 }
 
 
