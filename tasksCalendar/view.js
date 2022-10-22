@@ -25,20 +25,19 @@ var tid = (new Date()).getTime();
 const rootNode = dv.el("div", "", {cls: "tasksCalendar", attr: {id: "tasksCalendar"+tid, view: view}});
 
 // Templates
-var gridTemplate = "<div class='grid {{class}}' data-view='{{view}}'>{{gridContent}}</div>";
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
 var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'>{{taskContent}}</div></a>";
 
 // Switch
 switch(view) {
-	case "week":
-		weekView(tasks);
-	break;
 	case "month":
 		monthView(tasks);
 	break;
 	case "widget":
 		widgetView(tasks);
+	break;
+	case "agenda":
+		agendaView(tasks);
 	break;
 };
 
@@ -250,15 +249,12 @@ function getMonth(tasks, month) {
 	};
 
 	// Set Grid Content
-	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
-	
-	// Add Grid To rootNode
-	rootNode.querySelector("span").appendChild(dv.el("div", grid, { cls: "grid", attr: {}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid "+options, attr:{'data-view': view}}));
 };
 	
-// tasksCalendar: weekView
+// tasksCalendar: agendaView
 
-function weekView(tasks) {
+function agendaView(tasks) {
 	
 	// Refresh Today
 	tToday = moment().format("YYYY-MM-DD");
@@ -339,10 +335,7 @@ function getWeek(tasks, week) {
 	gridContent += ToDoBox;
 
 	// Set Grid Content
-	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
-	
-	// Add Grid To rootNode
-	rootNode.querySelector("span").appendChild(dv.el("div", grid, { cls: "grid", attr: {}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid "+options, attr:{'data-view': view}}));
 };
 
 	
@@ -420,8 +413,5 @@ function getWidget(tasks, week) {
 	};
 	
 	// SetGrid Content
-	var grid = gridTemplate.replace("{{gridContent}}", gridContent).replace("{{view}}",view).replace("{{class}}",options);
-	
-	// Add Grid To rootNode
-	rootNode.querySelector("span").appendChild(dv.el("div", grid, { cls: "grid", attr: {}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid "+options, attr:{'data-view': view}}));
 };
