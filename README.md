@@ -95,6 +95,11 @@ options: "horizontal"
 ```
 Only supported on agenda calendar view. The sorting order of days is vertical (by column - top to bottom and from left to right) by default and can be switched to horizontal (by row - from left to right and top to bottom).
 
+```
+options: "backlog"
+```
+Only supported on agenda calendar view. In addition to the weekdays you can show up one additional cell with backlog informations. In this cell all tasks without any date are listed, so that they do not get lost in the hectic daily routine. As soon as a task is assigned any date, this task disappears from the backlog.
+
 ---
 
 5. In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note.
