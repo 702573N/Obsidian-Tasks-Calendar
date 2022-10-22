@@ -381,10 +381,10 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .gridHead,
 body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .cellName,
 body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .task {
-	font-size: 14px;
+	font-size: 10px;
 }
 body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .cellName strong {
-	font-size: 12px;
+	font-size: 8px;
 }
 
 
