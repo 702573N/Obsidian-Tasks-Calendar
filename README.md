@@ -16,7 +16,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
 
     ````
     ```dataviewjs
-    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, options: "fullHeight largeText"})
+    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, options: ""})
     ```
     ````
     
@@ -41,29 +41,29 @@ Set a custom folder to get tasks from.
 ```
 view: "month"
 ```
-Month calendar.
+Month calendar
 
 ```
-view: "week"
+view: "agenda"
 ```
-Week calendar, Agenda calendar.
+Agenda calendar
 
 ```
 view: "widget"
 ```
-Widget calendar, small week calendar.
+Widget calendar
     
 ---
 ### firstDayOfWeek:
 ```
 firstDayOfWeek: 1
 ```
-Set monday as first day of week.
+Set monday as first day of week
 
 ```
 firstDayOfWeek: 0
 ```
-Set sunday as first day of week.
+Set sunday as first day of week
 
 ---
 ### options:
@@ -72,36 +72,28 @@ Set sunday as first day of week.
 ```
 options: "noIcons"
 ```
-Hide Task plugin Icons in front of each task.
+Hide Task plugin Icons in front of each task
 
 ```
 options: "noProcess"
 ```
-The tasks with a start-date and a due-date are not displayed on all days between them.
+The tasks with a start-date and a due-date are not displayed on all days between them
 
 ```
 options: "noWeekNr"
 ```
-Hide the week number in the first cell of each week.
+Hide the week number in the first cell of each week
 
 ```
-options: "largeText"
+options: "mini"
 ```
-Set larger text on tasks, cell names and grid heads.
-On mobile devices this style class doesn't take effect in combination with month and widget calendar view, because the limited screen size.
+Set smaller text on tasks, cell names and grid heads and reduces the height of the calendar grid.
+On mobile devices, the font size is automatically reduced on month and widget calendar, because the limited screen size.
 
-```
-options: "fullHeight"
-```
-Set height of the calendar view to fit the screen (especially suitable for mobile devices).
-
-```
-options: "vertical"
-```
 ```
 options: "horizontal"
 ```
-Attention: Only supported on week calendar view. The sorting order of days inside the week calendar can be changed between horizontal (left to         right) and vertical (top to bottom).
+Only supported on agenda calendar view. The sorting order of days is vertical (by column - top to bottom and from left to right) by default and can be switched to horizontal (by row - from left to right and top to bottom).
 
 ---
 
@@ -147,7 +139,7 @@ After a task is completed the start- and scheduled dates are no longer needed an
 
 
 
-### Week/Agenda Calendar
+### Agenda Calendar
 ![17](https://user-images.githubusercontent.com/59178587/195292199-80ba52ae-0463-480f-9370-ae4688315fad.png)
 ![3](https://user-images.githubusercontent.com/59178587/195292211-308f4c52-ae80-475a-a127-c29d7eb6dbfd.png)
 
