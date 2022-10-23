@@ -328,6 +328,7 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 	grid-row-end: 8;
 	grid-column-start: 1;
 	grid-column-end: 5;
+	background: var(--background-primary-alt);
 }
 .tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(1),
 .tasksCalendar .grid[data-view='agenda'].backlog .cell:nth-child(2),
@@ -343,10 +344,7 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 }
 
 
-/* noProcess class */
-.tasksCalendar .grid.noProcess .process {
-	display: none !important;
-}
+
 /* noIcons class */
 .tasksCalendar .grid.noIcons .task {
 	border-left: 2px solid currentColor;
@@ -363,6 +361,32 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 	text-decoration: line-through !important;
 	color: var(--text-faint) !important;
 }
+/* noDone class */
+.tasksCalendar .grid.noDone .task.done {
+	display: none !important;
+}
+/* noScheduled class */
+.tasksCalendar .grid.noScheduled .task.scheduled {
+	display: none !important;
+}
+/* noStart class */
+.tasksCalendar .grid.noStart .task.start {
+	display: none !important;
+}
+/* noDue class */
+.tasksCalendar .grid.noDue .task.due {
+	display: none !important;
+}
+/* noProcess class */
+.tasksCalendar .grid.noProcess .task.process {
+	display: none !important;
+}
+/* noRecurrence class */
+.tasksCalendar .grid.noRecurrence .task.recurrence {
+	display: none !important;
+}
+
+
 /* Mini class */
 .tasksCalendar .grid.mini .gridHead,
 .tasksCalendar .grid.mini .cellName,
