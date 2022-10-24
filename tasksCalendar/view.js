@@ -21,8 +21,14 @@ var transparency = "33";
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled;
 var tid = (new Date()).getTime();
 
+// Lucide Icons
+var moreIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>';
+var arrowLeftIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
+var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+var filterIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>';
+
 // Set Root Node
-const rootNode = dv.el("div", "", {cls: "tasksCalendar", attr: {id: "tasksCalendar"+tid, view: view}});
+const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view}});
 
 // Templates
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
@@ -134,13 +140,11 @@ function setTask(obj, type) {
 
 // Set Buttons
 function setButtons() {
-	var buttons = "<button class='previous'>←</button><button class='current'></button><button class='next'>→</button>";
+	var buttons = "<button class='more'>"+moreIcon+"</button><button class='previous'>"+arrowLeftIcon+"</button><button class='current'></button><button class='next'>"+arrowRightIcon+"</button><button class='filter'>"+filterIcon+"</button>";
 	rootNode.querySelector("span").appendChild(dv.el("div", buttons, {cls: "buttons", attr: {}}));
 };
 
-
 // tasksCalendar: monthView
-
 function monthView(tasks) {
 	
 	// Refresh Today
@@ -155,19 +159,28 @@ function monthView(tasks) {
 	getMonth(tasks, selectedDate);
 	
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
-		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 		if ( btn.className == "previous" ) {
 			selectedDate = moment(selectedDate).subtract(1, "months");
 			selectedMonth = moment(selectedDate).format("M");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getMonth(tasks, selectedDate);
 		} else if ( btn.className == "current") {
 			selectedDate = moment().date(1);
 			selctedMonth = moment(selectedDate).format("M");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getMonth(tasks, selectedDate);
 		} else if ( btn.className == "next" ) {
 			selectedDate = moment(selectedDate).add(1, "months");
 			selectedMonth = moment(selectedDate).format("M");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getMonth(tasks, selectedDate);
+		} else if ( btn.className == "filter" ) {
+			rootNode.classList.toggle("noDone");
+		} else if ( btn.className == "more" ) {
+			alert("Obsidian-Tasks-Calendar ❤️ 702573N");
 		};
-		getMonth(tasks, selectedDate);
 	})));
+	
 };
 
 function getMonth(tasks, month) {
@@ -249,7 +262,7 @@ function getMonth(tasks, month) {
 	};
 
 	// Set Grid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid "+options, attr:{'data-view': view}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
 };
 	
 // tasksCalendar: agendaView
@@ -263,22 +276,30 @@ function agendaView(tasks) {
 	setButtons();
 	
 	selectedDate = moment().startOf("week");
-	getWeek(tasks, selectedDate);
+	getAgenda(tasks, selectedDate);
 	
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
-		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 		if ( btn.className == "previous" ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getAgenda(tasks, selectedDate);
 		} else if ( btn.className == "current" ) {
 			selectedDate = moment().startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getAgenda(tasks, selectedDate);
 		} else if ( btn.className == "next" ) {
 			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getAgenda(tasks, selectedDate);
+		} else if ( btn.className == "filter" ) {
+			rootNode.classList.toggle("noDone");
+		} else if ( btn.className == "more" ) {
+			alert("Obsidian-Tasks-Calendar ❤️ 702573N");
 		};
-		getWeek(tasks, selectedDate);
 	})));
 };
 
-function getWeek(tasks, week) {
+function getAgenda(tasks, week) {
 	
 	// Set Week Title
 	rootNode.querySelector('button.current').innerText = moment(week).format("YYYY [W]w");
@@ -335,7 +356,7 @@ function getWeek(tasks, week) {
 	gridContent += ToDoBox;
 
 	// Set Grid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid "+options, attr:{'data-view': view}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
 };
 
 	
@@ -353,15 +374,23 @@ function widgetView(tasks) {
 	getWidget(tasks, selectedDate);
 	
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
-		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 		if ( btn.className == "previous" ) {
 			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getWidget(tasks, selectedDate);
 		} else if ( btn.className == "current" ) {
 			selectedDate = moment().startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getWidget(tasks, selectedDate);
 		} else if ( btn.className == "next" ) {
 			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getWidget(tasks, selectedDate);
+		} else if ( btn.className == "filter" ) {
+			rootNode.classList.toggle("noDone");
+		} else if ( btn.className == "more" ) {
+			alert("Obsidian-Tasks-Calendar ❤️ 702573N");
 		};
-		getWidget(tasks, selectedDate);
 	})));
 };
 
@@ -413,5 +442,5 @@ function getWidget(tasks, week) {
 	};
 	
 	// SetGrid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid "+options, attr:{'data-view': view}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
 };
