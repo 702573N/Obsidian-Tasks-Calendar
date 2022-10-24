@@ -122,7 +122,8 @@ The color should be hex in quotation marks to work properly. This color is set f
 
     ![14](https://user-images.githubusercontent.com/59178587/195046274-b6b9479b-09b0-4dab-bfd5-577977babb5a.png)
 
-
+## Filter
+On the upper right corner of each calendar-view is a filter-icon to show or hide all completed/done tasks. The default-filter is set by options. If you have `noDone` inside your options parameter, the filter is enabled by default.
 
 ## How It Works
 This snippet fetch all tasks with a date like due, start, scheduled, done. Tasks with a start and a due date are presented on all days from start to end (due). This way you can show up periods on you calendar like a holiday.
