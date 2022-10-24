@@ -1,5 +1,5 @@
 // Get Input
-let {pages, view, firstDayOfWeek, options} = input;
+let {pages, view, firstDayOfWeek, globalTaskFilter, options} = input;
 
 // Get Tasks From Pages
 if (pages=="") {
@@ -20,6 +20,7 @@ var dateformat = "ddd, D. MMM";
 var transparency = "33";
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled;
 var tid = (new Date()).getTime();
+var selectedDate = null;
 
 // Lucide Icons
 var moreIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>';
@@ -37,13 +38,19 @@ var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='tas
 // Switch
 switch(view) {
 	case "month":
-		monthView(tasks);
+		setButtons();
+		selectedDate = moment().startOf("month");
+		getMonth(tasks, selectedDate);
 	break;
 	case "widget":
-		widgetView(tasks);
+		setButtons();
+		selectedDate = moment().startOf("week");
+		getWidget(tasks, selectedDate);
 	break;
 	case "agenda":
-		agendaView(tasks);
+		setButtons();
+		selectedDate = moment().startOf("week");
+		getAgenda(tasks, selectedDate);
 	break;
 };
 
@@ -76,6 +83,24 @@ function getMeta(tasks) {
 			tasks[i].recurrence = true;
 			tasks[i].text = tasks[i].text.substring(0, repeatMatch)
 		};
+		var lowMatch = taskText.indexOf("🔽");
+		if (lowMatch>0) {
+			tasks[i].priority = "C";
+		};
+		var mediumMatch = taskText.indexOf("🔼");
+		if (mediumMatch>0) {
+			tasks[i].priority = "B";
+		};
+		var highMatch = taskText.indexOf("⏫");
+		if (highMatch>0) {
+			tasks[i].priority = "A";
+		};
+		if (globalTaskFilter) { // remove global task filter
+			tasks[i].text = tasks[i].text.replaceAll(globalTaskFilter,"");
+		} else {
+			tasks[i].text = tasks[i].text.replaceAll("#task","");
+		};
+		tasks[i].text = tasks[i].text.replace(/(\[).*(\:\:).*(\])/gm,""); // remove inline fields
 		tasks[i].text = tasks[i].text.replaceAll("[","");
 		tasks[i].text = tasks[i].text.replaceAll("]","");
 	};
@@ -83,7 +108,8 @@ function getMeta(tasks) {
 
 // Get Filename From Task
 function getFilename(path) {
-	return path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, "");
+	var filename = path.match(/^(?:.*\/)?([^\/]+?|)(?=(?:\.[^\/.]*)?$)/)[1];
+	return filename;
 };
 
 // Get Note Color
@@ -108,16 +134,16 @@ function getIcon(task) {
 
 // Filter Tasks
 function getTasks(date) {
-	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
+	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.priority && t.completion);
 	doneWithoutCompletionDate = tasks.filter(t=>t.completed && t.checked && !t.completion && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
 	done = done.concat(doneWithoutCompletionDate);
-	due = tasks.filter(t=>!t.completed && !t.checked && !t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
-	recurrence = tasks.filter(t=>!t.completed && !t.checked && t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
-	overdue = tasks.filter(t=>!t.completed && !t.checked && t.due && moment(t.due.toString()).isBefore(date)).sort(t=>t.due);
-	start = tasks.filter(t=>!t.completed && !t.checked && t.start && moment(t.start.toString()).isSame(date)).sort(t=>t.start);
-	scheduled = tasks.filter(t=>!t.completed && !t.checked && t.scheduled && moment(t.scheduled.toString()).isSame(date)).sort(t=>t.scheduled);
+	due = tasks.filter(t=>!t.completed && !t.checked && !t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.priority && t.due);
+	recurrence = tasks.filter(t=>!t.completed && !t.checked && t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.priority && t.due);
+	overdue = tasks.filter(t=>!t.completed && !t.checked && t.due && moment(t.due.toString()).isBefore(date)).sort(t=>t.priority && t.due);
+	start = tasks.filter(t=>!t.completed && !t.checked && t.start && moment(t.start.toString()).isSame(date)).sort(t=>t.priority && t.start);
+	scheduled = tasks.filter(t=>!t.completed && !t.checked && t.scheduled && moment(t.scheduled.toString()).isSame(date)).sort(t=>t.priority && t.scheduled);
 	process = tasks.filter(t=>!t.completed && !t.checked && t.due && t.start && moment(t.due.toString()).isAfter(date) && moment(t.start.toString()).isBefore(date) );
-	cancelled = tasks.filter(t=>!t.completed && t.checked && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
+	cancelled = tasks.filter(t=>!t.completed && t.checked && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.priority && t.due);
 }
 
 // Set Task
@@ -126,63 +152,78 @@ function setTask(obj, type) {
 	var noteIcon = getIcon(obj);
 	var taskText = obj.text;
 	var style = "";
-	
-	if (noteColor) {
-		style = "color:" + noteColor + ";background:" + noteColor + transparency;
-	};
-	if (noteIcon) {
-		taskText =  noteIcon + taskText;
-	};
-	
+	if (noteColor) { style = "color:" + noteColor + ";background:" + noteColor + transparency };
+	if (noteIcon) { taskText =  noteIcon + taskText };
 	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", obj.header.path+"#"+obj.header.subpath).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(obj.link.path) + ": " + obj.text);
 	return newTask;
+};
+
+// Set Task And Append To Content Container
+function setTaskContentContainer(currentDate) {
+	var cellContent = "";
+	if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
+	for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
+	for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
+	for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
+	for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
+	for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
+	for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
+	for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
+	return cellContent;
 };
 
 // Set Buttons
 function setButtons() {
 	var buttons = "<button class='more'>"+moreIcon+"</button><button class='previous'>"+arrowLeftIcon+"</button><button class='current'></button><button class='next'>"+arrowRightIcon+"</button><button class='filter'>"+filterIcon+"</button>";
 	rootNode.querySelector("span").appendChild(dv.el("div", buttons, {cls: "buttons", attr: {}}));
-};
-
-// tasksCalendar: monthView
-function monthView(tasks) {
-	
-	// Refresh Today
-	tToday = moment().format("YYYY-MM-DD");
-
-	// Buttons
-	setButtons();
-	
-	//var selectedDate = moment().date(1);
-	var selectedDate = moment().startOf("month");
-	var selectedMonth = moment(selectedDate).format("M");
-	getMonth(tasks, selectedDate);
-	
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
 		if ( btn.className == "previous" ) {
-			selectedDate = moment(selectedDate).subtract(1, "months");
-			selectedMonth = moment(selectedDate).format("M");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getMonth(tasks, selectedDate);
+			if (view == "month") {
+				selectedDate = moment(selectedDate).subtract(1, "months");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getMonth(tasks, selectedDate);
+			} else if (view == "agenda" || view == "widget") {
+				selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getAgenda(tasks, selectedDate);
+			}
 		} else if ( btn.className == "current") {
-			selectedDate = moment().date(1);
-			selctedMonth = moment(selectedDate).format("M");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getMonth(tasks, selectedDate);
+			if (view == "month") {
+				selectedDate = moment().date(1);
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getMonth(tasks, selectedDate);
+			} else if (view == "agenda") {
+				selectedDate = moment().startOf("week");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getAgenda(tasks, selectedDate);
+			} else if (view == "widget") {
+				selectedDate = moment().startOf("week");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getWidget(tasks, selectedDate);
+			}
 		} else if ( btn.className == "next" ) {
-			selectedDate = moment(selectedDate).add(1, "months");
-			selectedMonth = moment(selectedDate).format("M");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getMonth(tasks, selectedDate);
+			if (view == "month") {
+				selectedDate = moment(selectedDate).add(1, "months");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getMonth(tasks, selectedDate);
+			} else if (view == "agenda") {
+				selectedDate = moment(selectedDate).add(7, "days").startOf("week");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getAgenda(tasks, selectedDate);
+			} else if (view == "widget") {
+				selectedDate = moment(selectedDate).add(7, "days").startOf("week");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getWidget(tasks, selectedDate);
+			}
 		} else if ( btn.className == "filter" ) {
 			rootNode.classList.toggle("noDone");
 		} else if ( btn.className == "more" ) {
 			alert("Obsidian-Tasks-Calendar ❤️ 702573N");
 		};
 	})));
-	
 };
 
+// tasksCalendar: monthView
 function getMonth(tasks, month) {
 	
 	// Set Month Title
@@ -221,17 +262,7 @@ function getMonth(tasks, month) {
 		getTasks(currentDate);
 	
 		// Set New Content Container
-		var cellContent = "";
-	
-		// Set Task And Append To Content Container
-		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
-		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
-		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
-		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
-		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "scheduled")};
-		for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
-		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
-		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
+		var cellContent = setTaskContentContainer(currentDate);
 		
 		// Add WeekNr To First Day Of Week
 		if (weekDay == firstDayOfWeek) {
@@ -266,39 +297,6 @@ function getMonth(tasks, month) {
 };
 	
 // tasksCalendar: agendaView
-
-function agendaView(tasks) {
-	
-	// Refresh Today
-	tToday = moment().format("YYYY-MM-DD");
-	
-	// Buttons
-	setButtons();
-	
-	selectedDate = moment().startOf("week");
-	getAgenda(tasks, selectedDate);
-	
-	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
-		if ( btn.className == "previous" ) {
-			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getAgenda(tasks, selectedDate);
-		} else if ( btn.className == "current" ) {
-			selectedDate = moment().startOf("week");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getAgenda(tasks, selectedDate);
-		} else if ( btn.className == "next" ) {
-			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getAgenda(tasks, selectedDate);
-		} else if ( btn.className == "filter" ) {
-			rootNode.classList.toggle("noDone");
-		} else if ( btn.className == "more" ) {
-			alert("Obsidian-Tasks-Calendar ❤️ 702573N");
-		};
-	})));
-};
-
 function getAgenda(tasks, week) {
 	
 	// Set Week Title
@@ -319,17 +317,7 @@ function getAgenda(tasks, week) {
 		getTasks(currentDate);
 	
 		// Set New Content Container
-		var cellContent = "";
-	
-		// Set Task And Append To Content Container
-		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
-		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
-		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
-		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
-		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
-		for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
-		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
-		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
+		var cellContent = setTaskContentContainer(currentDate);
 	
 		// Set Cell Name And Weekday
 		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
@@ -359,41 +347,8 @@ function getAgenda(tasks, week) {
 	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
 };
 
-	
+
 // tasksCalendar: widgetView
-
-function widgetView(tasks) {
-	
-	// Refresh Today
-	tToday = moment().format("YYYY-MM-DD");
-	
-	// Buttons
-	setButtons();
-	
-	selectedDate = moment().startOf("week");
-	getWidget(tasks, selectedDate);
-	
-	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
-		if ( btn.className == "previous" ) {
-			selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getWidget(tasks, selectedDate);
-		} else if ( btn.className == "current" ) {
-			selectedDate = moment().startOf("week");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getWidget(tasks, selectedDate);
-		} else if ( btn.className == "next" ) {
-			selectedDate = moment(selectedDate).add(7, "days").startOf("week");
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getWidget(tasks, selectedDate);
-		} else if ( btn.className == "filter" ) {
-			rootNode.classList.toggle("noDone");
-		} else if ( btn.className == "more" ) {
-			alert("Obsidian-Tasks-Calendar ❤️ 702573N");
-		};
-	})));
-};
-
 function getWidget(tasks, week) {
 	
 	// Set Week Title
@@ -414,17 +369,7 @@ function getWidget(tasks, week) {
 		getTasks(currentDate);
 	
 		// Set New Content Container
-		var cellContent = "";
-	
-		// Set Task And Append To Content Container
-		if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
-		for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
-		for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
-		for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
-		for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
-		for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
-		for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
-		for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
+		var cellContent = setTaskContentContainer(currentDate);
 	
 		// Set Cell Name And Weekday
 		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
