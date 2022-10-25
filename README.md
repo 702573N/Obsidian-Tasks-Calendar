@@ -32,7 +32,7 @@ pages: ""
 Get all tasks from all notes in obsidian.
 
 ```
-pages: "Task Management/Work"
+pages: '"Task Management/Work"'
 ```
 Set a custom folder to get tasks from.
 
