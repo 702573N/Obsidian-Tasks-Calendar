@@ -5,7 +5,6 @@ let {pages, view, firstDayOfWeek, globalTaskFilter, options} = input;
 if (pages=="") {
 	var tasks = dv.pages().file.tasks;
 } else {
-	//var tasks = dv.pages('"'+pages+'"').file.tasks;
 	var tasks = dv.pages(pages).file.tasks;
 };
 
@@ -80,22 +79,25 @@ function getMeta(tasks) {
 			tasks[i].text = tasks[i].text.replace(completionMatch[0], "");
 		};
 		var repeatMatch = taskText.indexOf("🔁");
-		if (repeatMatch>0) {
+		if (repeatMatch>-1) {
 			tasks[i].recurrence = true;
 			tasks[i].text = tasks[i].text.substring(0, repeatMatch)
 		};
 		var lowMatch = taskText.indexOf("🔽");
-		if (lowMatch>0) {
+		if (lowMatch>-1) {
 			tasks[i].priority = "C";
 		};
 		var mediumMatch = taskText.indexOf("🔼");
-		if (mediumMatch>0) {
+		if (mediumMatch>-1) {
 			tasks[i].priority = "B";
 		};
 		var highMatch = taskText.indexOf("⏫");
-		if (highMatch>0) {
+		if (highMatch>-1) {
 			tasks[i].priority = "A";
 		};
+		if (lowMatch<0 && mediumMatch<0 && highMatch<0) {
+			tasks[i].priority = "D"; // set prio D to all tasks don't have a prio
+		}
 		if (globalTaskFilter) { // remove global task filter
 			tasks[i].text = tasks[i].text.replaceAll(globalTaskFilter,"");
 		} else {
@@ -157,14 +159,42 @@ function setTask(obj, type) {
 // Set Task And Append To Content Container
 function setTaskContentContainer(currentDate) {
 	var cellContent = "";
-	if (tToday == currentDate) {for (var t=0; t<overdue.length; t++) {cellContent += setTask(overdue[t], "overdue")}};
-	for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
-	for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
-	for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
-	for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "scheduled")};
-	for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
-	for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
-	for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
+	
+	function compareFn(a, b) {
+		if (a.priority.toUpperCase() < b.priority.toUpperCase()) {
+			return -1;
+		};
+		if (a.priority.toUpperCase() > b.priority.toUpperCase()) {
+			return 1;
+		};
+		if (a.priority == b.priority) {
+			if (a.text.toUpperCase() < b.text.toUpperCase()) {
+				return -1;
+			};
+			if (a.text.toUpperCase() > b.text.toUpperCase()) {
+				return 1;
+			};
+			return 0;
+		};
+	};
+
+	function showTasks(tasksToShow, type) {
+		const sorted = [...tasksToShow].sort(compareFn);
+		for (var t = 0; t < sorted.length; t++) {
+			cellContent += setTask(sorted[t], type)
+		};
+	};
+
+	if (tToday == currentDate) {
+		showTasks(overdue, "overdue");
+	};
+	showTasks(due, "due");
+	showTasks(recurrence, "recurrence");
+	showTasks(start, "start");
+	showTasks(scheduled, "scheduled");
+	showTasks(process, "process");
+	showTasks(done, "done");
+	showTasks(cancelled, "cancelled");
 	return cellContent;
 };
 
@@ -328,17 +358,6 @@ function getAgenda(tasks, week) {
 		};
 	
 		gridContent += cell;
-	};
-	
-	if (options.indexOf("backlog") > 0) {
-		// Backlog
-		var todo = tasks.filter(t=>!t.completed && !t.due && !t.start && !t.scheduled);
-		var todos = "";
-		for (var t=0; t<todo.length; t++) {
-			todos += setTask(todo[t], "backlog " + options);
-		};
-		var ToDoBox = cellTemplate.replace("{{cellName}}", "Backlog").replace("{{cellContent}}", todos).replace("{{weekday}}","7").replace("{{class}}","");
-		gridContent += ToDoBox;
 	};
 
 	// Set Grid Content
