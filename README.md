@@ -35,6 +35,9 @@ Get all tasks from all notes in obsidian.
 pages: "Task Management/Work"
 ```
 Set a custom folder to get tasks from.
+
+The dv.pages command is the same and works exactly the same like in dataview-plugin. For help and instruction take a look here [Dataview Help](https://blacksmithgu.github.io/obsidian-dataview/api/code-reference/#dvpagessource)
+
     
 ---
 ### view:
