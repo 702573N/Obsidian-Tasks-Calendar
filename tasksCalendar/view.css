@@ -329,27 +329,6 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 	grid-column-start: 3;
 	grid-column-end: 5;
 }
-/* backlog class */
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(8) {
-	display: flex;
-	grid-row-start: 7;
-	grid-row-end: 8;
-	grid-column-start: 1;
-	grid-column-end: 5;
-	background: var(--background-primary-alt);
-}
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(1),
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(2),
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(3),
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(4),
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(5),
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(8) {
-	height: 19.2vH;
-}
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(6),
-.tasksCalendar.backlog .grid[data-view='agenda'] .cell:nth-child(7) {
-	height: 9.6vH;
-}
 
 
 
@@ -451,9 +430,6 @@ body.is-mobile .tasksCalendar .grid:not([data-view='agenda']) .cellName strong {
 }
 .tasksCalendar .task.cancelled:before {
 	content: "🚫";
-}
-.tasksCalendar .task.backlog:before {
-	content: "📌";
 }
 .tasksCalendar .task.cancelled {
 	text-decoration: line-through;
