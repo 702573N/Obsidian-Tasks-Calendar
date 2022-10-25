@@ -145,10 +145,12 @@ function setTask(obj, type) {
 	var noteIcon = getIcon(obj);
 	var taskText = obj.text.replace("'", "&apos;");
 	var taskPath = obj.link.path.replace("'", "&apos;");
+	var taskSubpath = obj.header.subpath;
+	var taskLine = taskSubpath ? taskPath+"#"+taskSubpath : taskPath;
 	var style = "";
 	if (noteColor) { style = "color:" + noteColor + ";background:" + noteColor + transparency };
 	if (noteIcon) { taskText =  noteIcon + taskText };
-	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", taskPath).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(taskPath) + ": " + taskText);
+	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(taskPath) + ": " + taskText);
 	return newTask;
 };
 
