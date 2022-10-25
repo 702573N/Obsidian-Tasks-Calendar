@@ -5,7 +5,7 @@ let {pages, view, firstDayOfWeek, globalTaskFilter, options} = input;
 if (pages=="") {
 	var tasks = dv.pages().file.tasks;
 } else {
-	// var tasks = dv.pages('"'+pages+'"').file.tasks;
+	//var tasks = dv.pages('"'+pages+'"').file.tasks;
 	var tasks = dv.pages(pages).file.tasks;
 };
 
@@ -335,14 +335,16 @@ function getAgenda(tasks, week) {
 		gridContent += cell;
 	};
 	
-	// Backlog
-	var todo = tasks.filter(t=>!t.completed && !t.due && !t.start && !t.scheduled);
-	var todos = "";
-	for (var t=0; t<todo.length; t++) {
+	if (options.indexOf("backlog") > 0) {
+		// Backlog
+		var todo = tasks.filter(t=>!t.completed && !t.due && !t.start && !t.scheduled);
+		var todos = "";
+		for (var t=0; t<todo.length; t++) {
 			todos += setTask(todo[t], "backlog " + options);
+		};
+		var ToDoBox = cellTemplate.replace("{{cellName}}", "Backlog").replace("{{cellContent}}", todos).replace("{{weekday}}","7").replace("{{class}}","");
+		gridContent += ToDoBox;
 	};
-	var ToDoBox = cellTemplate.replace("{{cellName}}", "Backlog").replace("{{cellContent}}", todos).replace("{{weekday}}","7").replace("{{class}}","");
-	gridContent += ToDoBox;
 
 	// Set Grid Content
 	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
