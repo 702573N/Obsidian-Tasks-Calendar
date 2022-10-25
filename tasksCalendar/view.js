@@ -166,7 +166,7 @@ function setTaskContentContainer(currentDate) {
 	for (var t=0; t<due.length; t++) {cellContent += setTask(due[t], "due")};
 	for (var t=0; t<recurrence.length; t++) {cellContent += setTask(recurrence[t], "recurrence")};
 	for (var t=0; t<start.length; t++) {cellContent += setTask(start[t], "start")};
-	for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "start")};
+	for (var t=0; t<scheduled.length; t++) {cellContent += setTask(scheduled[t], "scheduled")};
 	for (var t=0; t<process.length; t++) {cellContent += setTask(process[t], "process")};
 	for (var t=0; t<done.length; t++) {cellContent += setTask(done[t], "done")};
 	for (var t=0; t<cancelled.length; t++) {cellContent += setTask(cancelled[t], "cancelled")};
