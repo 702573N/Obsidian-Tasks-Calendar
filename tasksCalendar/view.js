@@ -116,21 +116,13 @@ function getFilename(path) {
 // Get Note Color
 function getColor(task) {
 	var color = dv.pages('"'+task.link.path+'"').color[0];
-	if (color) {
-		return color;
-	} else {
-		return "";
-	};
+	if (color) { return color } else { return "" };
 };
 
 // Get Note Icon
 function getIcon(task) {
 	var icon = dv.pages('"'+task.link.path+'"').icon[0];
-	if (icon) {
-		return icon
-	} else {
-		return ""
-	};
+	if (icon) { return icon } else { return "" };
 };
 
 // Filter Tasks
@@ -151,11 +143,12 @@ function getTasks(date) {
 function setTask(obj, type) {
 	var noteColor = getColor(obj);
 	var noteIcon = getIcon(obj);
-	var taskText = obj.text;
+	var taskText = obj.text.replace("'", "&apos;");
+	var taskPath = obj.link.path.replace("'", "&apos;");
 	var style = "";
 	if (noteColor) { style = "color:" + noteColor + ";background:" + noteColor + transparency };
 	if (noteIcon) { taskText =  noteIcon + taskText };
-	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", obj.header.path+"#"+obj.header.subpath).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(obj.link.path) + ": " + obj.text);
+	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", taskPath).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(taskPath) + ": " + taskText);
 	return newTask;
 };
 
