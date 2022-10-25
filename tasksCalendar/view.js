@@ -5,7 +5,8 @@ let {pages, view, firstDayOfWeek, globalTaskFilter, options} = input;
 if (pages=="") {
 	var tasks = dv.pages().file.tasks;
 } else {
-	var tasks = dv.pages('"'+pages+'"').file.tasks;
+	// var tasks = dv.pages('"'+pages+'"').file.tasks;
+	var tasks = dv.pages(pages).file.tasks;
 };
 
 // Collect Metadata From Tasks
