@@ -99,11 +99,6 @@ options: "horizontal"
 Only supported on agenda calendar view. The sorting order of days is vertical (by column - top to bottom and from left to right) by default and can be switched to horizontal (by row - from left to right and top to bottom).
 
 ```
-options: "backlog"
-```
-Only supported on agenda calendar view. In addition to the weekdays you can show up one additional cell with backlog informations. In this cell all tasks without any date are listed, so that they do not get lost in the hectic daily routine. As soon as a task is assigned any date, this task disappears from the backlog.
-
-```
 options: "noDone noDue noStart noProcess noScheduled noRecurrence"
 ```
 Each task-group (done, due, start, process, scheduled, recurrence) can be hidden on all calendar-views.
@@ -120,10 +115,6 @@ icon: "🧫 "
 ```
     
 The color should be hex in quotation marks to work properly. This color is set for text and as semi-transparent background. The icon itself is placed in front of each task to help identify where this task comes from.
-
-6. The week calendar has an additional information which is not shown in the other calendar views. The last cell lists all uncompleted tasks without date (start, scheduled, due). This "backlog" always remains in the field of view when switching through the individual weeks and is intended to ensure that these tasks are not forgotten.
-
-    ![14](https://user-images.githubusercontent.com/59178587/195046274-b6b9479b-09b0-4dab-bfd5-577977babb5a.png)
 
 ## Filter
 On the upper right corner of each calendar-view is a filter-icon to show or hide all completed/done tasks. The default-filter is set by options. If you have `noDone` inside your options parameter, the filter is enabled by default.
