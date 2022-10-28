@@ -105,7 +105,8 @@ Each task-group (done, due, start, process, scheduled, recurrence) can be hidden
 
 ---
 
-5. In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note.
+## Note color & icon
+In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note.
 
 ```
 ---
