@@ -379,6 +379,10 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 
 
 /* Mini class */
+.tasksCalendar.mini {
+	max-width: 400px;
+	margin: 0 auto;
+}
 .tasksCalendar.mini .grid .gridHead,
 .tasksCalendar.mini .grid .cellName,
 .tasksCalendar.mini .grid .task {
@@ -389,6 +393,18 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 }
 .tasksCalendar.mini .grid[data-view='widget'] .cell {
 	height: 80px !important;
+}
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(1),
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(2),
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(3),
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(4),
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(5),
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(8) {
+	height: 150px !important;
+}
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(6),
+.tasksCalendar.mini .grid[data-view='agenda'] .cell:nth-child(7) {
+	height: 75px !important;
 }
 
 
@@ -433,4 +449,4 @@ body.is-mobile .tasksCalendar .grid:not([data-view='agenda']) .cellName strong {
 }
 .tasksCalendar .task.cancelled {
 	text-decoration: line-through;
-}
+	}
