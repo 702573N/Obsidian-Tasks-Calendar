@@ -111,7 +111,7 @@ In each note file you can define custom "color" and "icon" to show up in the cal
 ```
 ---
 color: "#bf5af2"
-icon: "🧫 "
+icon: "❤️"
 ---
 ```
     
