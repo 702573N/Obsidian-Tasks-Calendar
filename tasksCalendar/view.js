@@ -85,7 +85,7 @@ function getMeta(tasks) {
 		};
 		var lowMatch = taskText.indexOf("🔽");
 		if (lowMatch>-1) {
-			tasks[i].priority = "C";
+			tasks[i].priority = "D";
 		};
 		var mediumMatch = taskText.indexOf("🔼");
 		if (mediumMatch>-1) {
@@ -96,7 +96,7 @@ function getMeta(tasks) {
 			tasks[i].priority = "A";
 		};
 		if (lowMatch<0 && mediumMatch<0 && highMatch<0) {
-			tasks[i].priority = "D"; // set prio D to all tasks don't have a prio
+			tasks[i].priority = "C"; // set prio D to all tasks don't have a prio
 		}
 		if (globalTaskFilter) { // remove global task filter
 			tasks[i].text = tasks[i].text.replaceAll(globalTaskFilter,"");
@@ -405,4 +405,4 @@ function getWidget(tasks, week) {
 	
 	// SetGrid Content
 	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
-};
+	};
