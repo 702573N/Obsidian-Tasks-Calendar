@@ -16,7 +16,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
 
     ````
     ```dataviewjs
-    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, options: ""})
+    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, globalTaskFilter: "#task", options: ""})
     ```
     ````
     
