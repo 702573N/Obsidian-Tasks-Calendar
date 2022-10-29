@@ -23,16 +23,19 @@ var tid = (new Date()).getTime();
 var selectedDate = null;
 
 // Lucide Icons
-var moreIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>';
 var arrowLeftIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
 var filterIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>';
+var monthIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg>';
+var agendaIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M17 14h-6"></path><path d="M13 18H7"></path><path d="M7 14h.01"></path><path d="M17 18h.01"></path></svg>';
+var widgetIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
 
 // Set Root Node
 const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view}});
 
 // Templates
-var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
+// var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
+var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
 var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'>{{taskContent}}</div></a>";
 
 // Switch
@@ -96,14 +99,14 @@ function getMeta(tasks) {
 			tasks[i].priority = "A";
 		};
 		if (lowMatch<0 && mediumMatch<0 && highMatch<0) {
-			tasks[i].priority = "C"; // set prio D to all tasks don't have a prio
+			tasks[i].priority = "C";
 		}
-		if (globalTaskFilter) { // remove global task filter
+		if (globalTaskFilter) {
 			tasks[i].text = tasks[i].text.replaceAll(globalTaskFilter,"");
 		} else {
 			tasks[i].text = tasks[i].text.replaceAll("#task","");
 		};
-		tasks[i].text = tasks[i].text.replace(/(\[).*(\:\:).*(\])/gm,""); // remove inline fields
+		tasks[i].text = tasks[i].text.replace(/(\[).*(\:\:).*(\])/gm,"");
 		tasks[i].text = tasks[i].text.replaceAll("[","");
 		tasks[i].text = tasks[i].text.replaceAll("]","");
 	};
@@ -200,51 +203,75 @@ function setTaskContentContainer(currentDate) {
 
 // Set Buttons
 function setButtons() {
-	var buttons = "<button class='more'>"+moreIcon+"</button><button class='previous'>"+arrowLeftIcon+"</button><button class='current'></button><button class='next'>"+arrowRightIcon+"</button><button class='filter'>"+filterIcon+"</button>";
+	var buttons = "<div class='switch'><button class='monthView' title='Month'>"+monthIcon+"</button><button class='agendaView' title='Agenda'>"+agendaIcon+"</button><button class='widgetView' title='Widget'>"+widgetIcon+"</button></div><button class='current'></button><div class='switch'><button class='previous'>"+arrowLeftIcon+"</button><button class='next'>"+arrowRightIcon+"</button></div><button class='filter'>"+filterIcon+"</button>";
 	rootNode.querySelector("span").appendChild(dv.el("div", buttons, {cls: "buttons", attr: {}}));
+	rootNode.querySelector("button."+view+"View").classList.add("active");
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
+		var activeView = rootNode.querySelector(".grid").getAttribute("data-view");
 		if ( btn.className == "previous" ) {
-			if (view == "month") {
+			if (activeView == "month") {
 				selectedDate = moment(selectedDate).subtract(1, "months");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
-			} else if (view == "agenda" || view == "widget") {
+			} else if (activeView == "agenda") {
 				selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getAgenda(tasks, selectedDate);
+			} else if (activeView == "widget") {
+				selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getWidget(tasks, selectedDate);
 			}
 		} else if ( btn.className == "current") {
-			if (view == "month") {
+			if (activeView == "month") {
 				selectedDate = moment().date(1);
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
-			} else if (view == "agenda") {
+			} else if (activeView == "agenda") {
 				selectedDate = moment().startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getAgenda(tasks, selectedDate);
-			} else if (view == "widget") {
+			} else if (activeView == "widget") {
 				selectedDate = moment().startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getWidget(tasks, selectedDate);
 			}
 		} else if ( btn.className == "next" ) {
-			if (view == "month") {
+			if (activeView == "month") {
 				selectedDate = moment(selectedDate).add(1, "months");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
-			} else if (view == "agenda") {
+			} else if (activeView == "agenda") {
 				selectedDate = moment(selectedDate).add(7, "days").startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getAgenda(tasks, selectedDate);
-			} else if (view == "widget") {
+			} else if (activeView == "widget") {
 				selectedDate = moment(selectedDate).add(7, "days").startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getWidget(tasks, selectedDate);
 			}
 		} else if ( btn.className == "filter" ) {
 			rootNode.classList.toggle("noDone");
-		} else if ( btn.className == "more" ) {
-			alert("Obsidian-Tasks-Calendar ❤️ 702573N");
+		} else if ( btn.className == "filter" ) {
+			rootNode.classList.toggle("noDone");
+		} else if ( btn.className == "monthView" ) {
+			rootNode.querySelector("button.active").classList.remove("active");
+			btn.classList.add("active");
+			selectedDate = moment().date(1);
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getMonth(tasks, selectedDate);
+		} else if ( btn.className == "agendaView" ) {
+			rootNode.querySelector("button.active").classList.remove("active");
+			btn.classList.add("active");
+			selectedDate = moment().startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getAgenda(tasks, selectedDate);
+		} else if ( btn.className == "widgetView" ) {
+			rootNode.querySelector("button.active").classList.remove("active");
+			btn.classList.add("active");
+			selectedDate = moment().startOf("week");
+			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			getWidget(tasks, selectedDate);
 		};
 	})));
 };
@@ -253,7 +280,7 @@ function setButtons() {
 function getMonth(tasks, month) {
 	
 	// Set Month Title
-	rootNode.querySelector('button.current').innerText = moment(month).format("MMMM YYYY");
+	rootNode.querySelector('button.current').innerText = moment(month).format("MMM YYYY");
 
 	// Build Grid
 	var gridContent = "";
@@ -298,10 +325,10 @@ function getMonth(tasks, month) {
 	
 		// Set Cell Name And Weekday
 		if ( moment(month).add(i, "days").format("D") == 1 ) {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
 			cell = cell.replace("{{class}}", "{{class}} newMonth");
 		} else {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", shortDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", shortDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
 		};
 	
 		// Set prevMonth, currentMonth, nextMonth
@@ -319,7 +346,7 @@ function getMonth(tasks, month) {
 	};
 
 	// Set Grid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "month"}}));
 };
 	
 // tasksCalendar: agendaView
@@ -346,7 +373,7 @@ function getAgenda(tasks, week) {
 		var cellContent = setTaskContentContainer(currentDate);
 	
 		// Set Cell Name And Weekday
-		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
+		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
 			
 		// Set Today, Before Today, After Today
 		if (currentDate < tToday) {
@@ -361,7 +388,7 @@ function getAgenda(tasks, week) {
 	};
 
 	// Set Grid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "agenda"}}));
 };
 
 
@@ -369,6 +396,7 @@ function getAgenda(tasks, week) {
 function getWidget(tasks, week) {
 	
 	// Set Week Title
+	//rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY [W]w");
 	rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY [W]w");
 
 	// Build Grid
@@ -389,9 +417,9 @@ function getWidget(tasks, week) {
 		var cellContent = setTaskContentContainer(currentDate);
 	
 		// Set Cell Name And Weekday
-		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay);
+		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
 			
-	// Set Today, Before Today, After Today
+		// Set Today, Before Today, After Today
 		if (currentDate < tToday) {
 			cell = cell.replace("{{class}}", "beforeToday");
 		} else if (currentDate == tToday) {
@@ -404,5 +432,5 @@ function getWidget(tasks, week) {
 	};
 	
 	// SetGrid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': view}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "widget"}}));
 	};
