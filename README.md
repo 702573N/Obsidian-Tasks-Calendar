@@ -103,6 +103,11 @@ options: "noDone noDue noStart noProcess noScheduled noRecurrence"
 ```
 Each task-group (done, due, start, process, scheduled, recurrence) can be hidden on all calendar-views.
 
+```
+options: "noDailyNote"
+```
+Disable clickability of date-headers/cellNames to prevent unwanted jumps into daily-notes
+
 ---
 
 ## Note color & icon
