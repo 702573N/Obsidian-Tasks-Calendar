@@ -77,6 +77,13 @@ dailyNoteFolder: "Inbox/Daily Notes/Work"
 ```
 This parameter must only be specified if this is to be used. Here you can define a custom folder path for the daily notes if they should not be saved in the default folder for new files. Of course, folder structures with several levels can also be defined here. This paramter 
 
+---
+### globalTaskFilter:
+```
+globalTaskFilter: ""
+globalTaskFilter: "#task"
+```
+This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
 
 ---
 ### options:
