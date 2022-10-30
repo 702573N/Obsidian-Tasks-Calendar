@@ -10,13 +10,13 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
 1.  Install "Dataview Plugin" from the external plugins
 2.  Create a new folder called "tasksCalendar" or any other name and paste the files "view.js" and "view.css" into it
 
-    ![11](https://user-images.githubusercontent.com/59178587/195023158-99381088-0cc0-428e-8077-6ea66a388992.png)
+    <img width="259" alt="Bildschirm­foto 2022-10-30 um 10 00 03" src="https://user-images.githubusercontent.com/59178587/198870629-392cb4fe-654a-421c-b8fb-d4b66def329b.png">
 
 3.  Create a new note or edit an existing one and add the following code line:
 
     ````
     ```dataviewjs
-    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, globalTaskFilter: "#task", options: ""})
+    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, globalTaskFilter: "#task", dailyNoteFolder: "", options: ""})
     ```
     ````
     
@@ -145,11 +145,11 @@ On the upper right corner of each calendar-view is a filter-icon to show or hide
 ## How It Works
 This snippet fetch all tasks with a date like due, start, scheduled, done. Tasks with a start and a due date are presented on all days from start to end (due). This way you can show up periods on you calendar like a holiday.
 
-![12](https://user-images.githubusercontent.com/59178587/195025709-ffd2da28-25c9-4010-8637-cdbc5f948c72.png)
+<img width="633" alt="Bildschirm­foto 2022-10-30 um 10 01 11" src="https://user-images.githubusercontent.com/59178587/198870677-be4465fc-017e-4e8f-844e-6c8a751e07e7.png">
 
 Hovering a task let popup a small info about the note and the complete task title.
 
-![13](https://user-images.githubusercontent.com/59178587/195028049-21d46f18-aa87-4bf2-a07c-a1d08ac315ef.png)
+<img width="289" alt="Bildschirm­foto 2022-10-30 um 10 00 33" src="https://user-images.githubusercontent.com/59178587/198870683-f2463c62-3522-4646-9497-19114ba9b220.png">
 
 After a task is completed the start- and scheduled dates are no longer needed and will be hidden. The task is now only displayed on the final completion date.
 
@@ -158,21 +158,14 @@ After a task is completed the start- and scheduled dates are no longer needed an
 ## Impressions
 
 ### Month Calendar
-![15](https://user-images.githubusercontent.com/59178587/195291256-8079668d-cca3-4581-9795-93f9d5df9858.png)
-![7](https://user-images.githubusercontent.com/59178587/195291631-193a3097-0726-4719-bbb5-6bc494a3f5d2.png)
+<img width="500" alt="Bildschirm­foto 2022-10-30 um 09 58 45" src="https://user-images.githubusercontent.com/59178587/198870787-402843d9-6b47-45ae-ace0-dfc0d04baa7b.png">
 
-![18](https://user-images.githubusercontent.com/59178587/195291344-99dac5d7-802b-40a8-8d6b-04a3be17e5d8.png)
-![2](https://user-images.githubusercontent.com/59178587/195291931-571a5801-02ed-4bc0-bdb7-90db67a55fef.png)
-
-
-
+---
 
 ### Agenda Calendar
-![17](https://user-images.githubusercontent.com/59178587/195292199-80ba52ae-0463-480f-9370-ae4688315fad.png)
-![3](https://user-images.githubusercontent.com/59178587/195292211-308f4c52-ae80-475a-a127-c29d7eb6dbfd.png)
+<img width="500" alt="Bildschirm­foto 2022-10-30 um 09 59 30" src="https://user-images.githubusercontent.com/59178587/198870790-f5373624-23aa-4557-b2d0-68b7c183b8d6.png">
 
+---
 
 ### Widget Calendar
-![16](https://user-images.githubusercontent.com/59178587/195292466-db898e24-553c-4434-8b8c-8b1c6f1a47d3.png)
-![5](https://user-images.githubusercontent.com/59178587/195292541-0b7e3bc5-f873-4a64-ab44-50fcc6d3cae3.png)
-
+<img width="500" alt="Bildschirm­foto 2022-10-30 um 09 59 40" src="https://user-images.githubusercontent.com/59178587/198870795-06eb5c00-d45f-43ad-900a-46d142d29984.png">
