@@ -262,20 +262,24 @@ function setButtons() {
 		} else if ( btn.className == "agendaView" ) {
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
-			if (activeView == "month") {
+			if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
 				selectedDate = moment(selectedDate).add(14, "days").startOf("week");
-			} else {
+			} else if (activeView == "widget") {
 				selectedDate = moment(selectedDate).startOf("week");
+			} else {
+				selectedDate = moment().startOf("week");
 			};
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getAgenda(tasks, selectedDate);
 		} else if ( btn.className == "widgetView" ) {
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
-			if (activeView == "month") {
+			if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
 				selectedDate = moment(selectedDate).add(14, "days").startOf("week");
-			} else {
+			} else if (activeView == "agenda") {
 				selectedDate = moment(selectedDate).startOf("week");
+			} else {
+				selectedDate = moment().startOf("week");
 			};
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getWidget(tasks, selectedDate);
