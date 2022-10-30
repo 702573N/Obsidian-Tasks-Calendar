@@ -139,8 +139,12 @@ icon: "❤️"
     
 The color should be hex in quotation marks to work properly. This color is set for text and as semi-transparent background. The icon itself is placed in front of each task to help identify where this task comes from.
 
+---
+
 ## Filter
 On the upper right corner of each calendar-view is a filter-icon to show or hide all completed/done tasks. The default-filter is set by options. If you have `noDone` inside your options parameter, the filter is enabled by default.
+
+---
 
 ## How It Works
 This snippet fetch all tasks with a date like due, start, scheduled, done. Tasks with a start and a due date are presented on all days from start to end (due). This way you can show up periods on you calendar like a holiday.
@@ -153,7 +157,7 @@ Hovering a task let popup a small info about the note and the complete task titl
 
 After a task is completed the start- and scheduled dates are no longer needed and will be hidden. The task is now only displayed on the final completion date.
 
-
+---
 
 ## Impressions
 
