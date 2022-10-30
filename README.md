@@ -69,6 +69,16 @@ firstDayOfWeek: 0
 Set sunday as first day of week
 
 ---
+### dailyNoteFolder:
+```
+dailyNoteFolder: ""
+dailyNoteFolder: "MyCustomFolder"
+dailyNoteFolder: "Inbox/Daily Notes/Work"
+```
+This parameter must only be specified if this is to be used. Here you can define a custom folder path for the daily notes if they should not be saved in the default folder for new files. Of course, folder structures with several levels can also be defined here. This paramter 
+
+
+---
 ### options:
 ##### You can combine all available options
 
