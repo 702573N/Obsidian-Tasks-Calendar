@@ -1,5 +1,5 @@
 // Get Input
-let {pages, view, firstDayOfWeek, globalTaskFilter, options} = input;
+let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, options} = input;
 
 // Get Tasks From Pages
 if (pages=="") {
@@ -34,7 +34,6 @@ var widgetIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
 const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view}});
 
 // Templates
-// var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><div class='cellName'>{{cellName}}</div><div class='cellContent'>{{cellContent}}</div></div>";
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
 var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'>{{taskContent}}</div></a>";
 
@@ -257,19 +256,27 @@ function setButtons() {
 		} else if ( btn.className == "monthView" ) {
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
-			selectedDate = moment().date(1);
+			selectedDate = moment(selectedDate).date(1);
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getMonth(tasks, selectedDate);
 		} else if ( btn.className == "agendaView" ) {
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
-			selectedDate = moment().startOf("week");
+			if (activeView == "month") {
+				selectedDate = moment(selectedDate).add(14, "days").startOf("week");
+			} else {
+				selectedDate = moment(selectedDate).startOf("week");
+			};
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getAgenda(tasks, selectedDate);
 		} else if ( btn.className == "widgetView" ) {
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
-			selectedDate = moment().startOf("week");
+			if (activeView == "month") {
+				selectedDate = moment(selectedDate).add(14, "days").startOf("week");
+			} else {
+				selectedDate = moment(selectedDate).startOf("week");
+			};
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getWidget(tasks, selectedDate);
 		};
@@ -303,10 +310,11 @@ function getMonth(tasks, month) {
 	};
 	
 	for (i=0-firstDayOfMonth+firstDayOfWeek;i<42-firstDayOfMonth+firstDayOfWeek;i++) {
-	
 		var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
+		var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
 		var weekDay = moment(month).add(i, "days").format("d");
 		var weekNr = moment(month).add(i, "days").format("[W]w");
+		var weekNrSpan = "<span class='weekNr'>"+weekNr+"</span>";
 		var shortDayName = moment(currentDate).format("D");
 		var longDayName = moment(currentDate).format("D. MMM");
 		var shortWeekday = moment(currentDate).format("ddd");
@@ -316,19 +324,13 @@ function getMonth(tasks, month) {
 	
 		// Set New Content Container
 		var cellContent = setTaskContentContainer(currentDate);
-		
-		// Add WeekNr To First Day Of Week
-		if (weekDay == firstDayOfWeek) {
-			longDayName = "<strong>" + weekNr + "</strong>" + longDayName;
-			shortDayName = "<strong>" + weekNr + "</strong>" + shortDayName;
-		};
 	
 		// Set Cell Name And Weekday
 		if ( moment(month).add(i, "days").format("D") == 1 ) {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
 			cell = cell.replace("{{class}}", "{{class}} newMonth");
 		} else {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", shortDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+shortDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
 		};
 	
 		// Set prevMonth, currentMonth, nextMonth
@@ -353,7 +355,7 @@ function getMonth(tasks, month) {
 function getAgenda(tasks, week) {
 	
 	// Set Week Title
-	rootNode.querySelector('button.current').innerText = moment(week).format("YYYY [W]w");
+	rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY");
 
 	// Build Grid
 	var gridContent = "";
@@ -361,20 +363,28 @@ function getAgenda(tasks, week) {
 	var currentWeekday = moment(week).format("d");
 	
 	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
-		
 		var currentDate = moment(week).add(i, "days").format("YYYY-MM-DD");
+		var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
 		var weekDay = moment(week).add(i, "days").format("d");
-		var dayName = moment(currentDate).format("ddd, D. MMM")
+		var dayName = moment(currentDate).format("ddd D.");
+		var longDayName = moment(currentDate).format("ddd, D. MMM");
+		var weekNr = moment(currentDate).add(i, "days").format("[W]w");
+		var weekNrSpan = "<span class='weekNr'>"+weekNr+"</span>";
 	
 		// Filter Tasks
 		getTasks(currentDate);
 	
 		// Set New Content Container
 		var cellContent = setTaskContentContainer(currentDate);
-	
+		
 		// Set Cell Name And Weekday
-		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
-			
+		if ( moment(week).add(i, "days").format("D") == 1 ) {
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
+			cell = cell.replace("{{class}}", "{{class}} newMonth");
+		} else {
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
+		};
+		
 		// Set Today, Before Today, After Today
 		if (currentDate < tToday) {
 			cell = cell.replace("{{class}}", "beforeToday");
@@ -396,8 +406,7 @@ function getAgenda(tasks, week) {
 function getWidget(tasks, week) {
 	
 	// Set Week Title
-	//rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY [W]w");
-	rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY [W]w");
+	rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY");
 
 	// Build Grid
 	var gridContent = "";
@@ -405,10 +414,13 @@ function getWidget(tasks, week) {
 	var currentWeekday = moment(week).format("d");
 	
 	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
-		
 		var currentDate = moment(week).add(i, "days").format("YYYY-MM-DD");
+		var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
 		var weekDay = moment(week).add(i, "days").format("d");
-		var dayName = moment(currentDate).format("ddd D.")
+		var dayName = moment(currentDate).format("ddd D.");
+		var longDayName = moment(currentDate).format("ddd, D. MMM");
+		var weekNr = moment(currentDate).add(i, "days").format("[W]w");
+		var weekNrSpan = "<span class='weekNr'>"+weekNr+"</span>";
 	
 		// Filter Tasks
 		getTasks(currentDate);
@@ -417,8 +429,13 @@ function getWidget(tasks, week) {
 		var cellContent = setTaskContentContainer(currentDate);
 	
 		// Set Cell Name And Weekday
-		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", currentDate);
-			
+		if ( moment(week).add(i, "days").format("D") == 1 ) {
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
+			cell = cell.replace("{{class}}", "{{class}} newMonth");
+		} else {
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
+		};
+		
 		// Set Today, Before Today, After Today
 		if (currentDate < tToday) {
 			cell = cell.replace("{{class}}", "beforeToday");
