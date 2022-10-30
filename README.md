@@ -147,13 +147,13 @@ On the upper right corner of each calendar-view is a filter-icon to show or hide
 ---
 
 ## How It Works
-This snippet fetch all tasks with a date like due, start, scheduled, done. Tasks with a start and a due date are presented on all days from start to end (due). This way you can show up periods on you calendar like a holiday.
+This snippet fetch all tasks with a date like due, start, scheduled, done. Tasks with a start and a due date are presented on all days from start to end (due). This way you can show up periods on you calendar like a holiday. This default handling can be disabled in `options` inside the dataviewjs code line by adding `noProcess`.
 
-<img width="633" alt="Bildschirm­foto 2022-10-30 um 10 01 11" src="https://user-images.githubusercontent.com/59178587/198870677-be4465fc-017e-4e8f-844e-6c8a751e07e7.png">
+<img width="1115" alt="Bildschirm­foto 2022-10-30 um 10 23 43" src="https://user-images.githubusercontent.com/59178587/198871481-bd9d4b89-ff99-435c-8c30-625f27f1a4f7.png">
 
-Hovering a task let popup a small info about the note and the complete task title.
+Hovering a task let popup a small info about the note and task (note-title: task-description). In the upper left corner is the calendar switcher, which can be used to switch between three different calendar views (month, agenda, widget). Under `view` in the dataviewjs code line the default calendar view is set. When switching between the views, the calendar remains in the previous month. By clicking on the calendar header, you can return to the current month or week at any time. The arrow keys in the upper right corner can be used to scroll backwards and forwards through the months/weeks. The filter in the upper right corner allows you to hide all finished tasks in the calendar. The filter itself can be switched on by default with `noDone` in the `options` within the dataviewjs code line.
 
-<img width="289" alt="Bildschirm­foto 2022-10-30 um 10 00 33" src="https://user-images.githubusercontent.com/59178587/198870683-f2463c62-3522-4646-9497-19114ba9b220.png">
+<img width="1116" alt="Bildschirm­foto 2022-10-30 um 10 19 22" src="https://user-images.githubusercontent.com/59178587/198871327-7eb684f4-04ee-4155-83be-7016889b2fee.png">
 
 After a task is completed the start- and scheduled dates are no longer needed and will be hidden. The task is now only displayed on the final completion date.
 
@@ -162,14 +162,14 @@ After a task is completed the start- and scheduled dates are no longer needed an
 ## Impressions
 
 ### Month Calendar
-<img width="500" alt="Bildschirm­foto 2022-10-30 um 09 58 45" src="https://user-images.githubusercontent.com/59178587/198870787-402843d9-6b47-45ae-ace0-dfc0d04baa7b.png">
+<img width="1112" alt="Bildschirm­foto 2022-10-30 um 10 21 49" src="https://user-images.githubusercontent.com/59178587/198871431-78b3bebb-0c85-4eb6-89d7-bb07ece7429b.png">
 
 ---
 
 ### Agenda Calendar
-<img width="500" alt="Bildschirm­foto 2022-10-30 um 09 59 30" src="https://user-images.githubusercontent.com/59178587/198870790-f5373624-23aa-4557-b2d0-68b7c183b8d6.png">
+<img width="1116" alt="Bildschirm­foto 2022-10-30 um 10 22 07" src="https://user-images.githubusercontent.com/59178587/198871434-145b10a8-1551-4b60-a4a2-4212021c1c3d.png">
 
 ---
 
 ### Widget Calendar
-<img width="500" alt="Bildschirm­foto 2022-10-30 um 09 59 40" src="https://user-images.githubusercontent.com/59178587/198870795-06eb5c00-d45f-43ad-900a-46d142d29984.png">
+<img width="1114" alt="Bildschirm­foto 2022-10-30 um 10 22 18" src="https://user-images.githubusercontent.com/59178587/198871435-21712fd8-8946-462d-b28c-b7a971c4caac.png">
