@@ -387,7 +387,7 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='widget'].largeText .task {
 	display: none !important;
 }
 /* noWeekNr class */
-.tasksCalendar.noWeekNr .grid .cellName strong {
+.tasksCalendar.noWeekNr .grid .weekNr {
 	display: none !important;
 }
 /* Done tasks */
@@ -500,4 +500,4 @@ body.is-mobile .tasksCalendar .grid:not([data-view='agenda']) .cellName strong {
 }
 .tasksCalendar .task.cancelled {
 	text-decoration: line-through;
-}
+	}
