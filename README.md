@@ -5,6 +5,9 @@ Dataview snippet to show tasks in different calendar views
 ## Story
 All Obsidian and Task Plugin users love the program. What has been set up with the Task Plugin is just great and helps so many people to organize their work. However, just listing tasks according to certain criteria is sometimes a bit boring. To get a quick visual impression of one's workday/workweek/workmonth, a calendar view would be ideal. To be honest, I'm too stupid to program my own plugins for Obsidian, but I know some Javascript, so I programmed this Dataview snippet. I hope to offer many people a good addition to the Task Plugin and hope for an integration into the Task Plugin someday. But I'm sure there are better programmers out there, who can make my code, which is probably horrible for professionals, much better.
 
+## Update 1.2.0
+The concept of Obsidian Task Calendar has been fundamentally revised. The goal is to provide the user with two different calendar views. **By selecting a week in the month view, the user should be able to jump directly to the week view**. However, if several different week views exist, it has to be defined somehow which one should be displayed when selected. For this reason I decided to **remove the third calendar view** (widget). So now there is a month view to big overview and a week based detail view. But don't worry, the display of the week view can be customized to the user's needs with different styles. **With this approach, the calendar perspectives could be reduced to two, but at the same time the possible styles of the week view could be multiplied.** Thus, the Obsidian Task Calendar is customizable like never before and more week view styles are to follow in the future.
+Likewise, users kept asking me about the daily notes. Originally, Obsidian-Task-Calendar was intended exclusively for the **[Obsidian-Task-Plugin](https://github.com/obsidian-tasks-group/obsidian-tasks)** with its own syntax and shall continue to be the main focus. Nevertheless, with this update there is now also the option to **display all tasks from daily notes in the calendar**, even if they have not been assigned any date (due, start, scheduled, etc.). In this case, the tasks are assigned to the date from the file name of the daily note and displayed accordingly in the calendar. Only the standard Obsidian nomenclature `YYYY-MM-DD` is supported here. **For the reasons mentioned above, I do not plan to allow customization here.**
 
 ## Setup
 1.  Install "Dataview Plugin" from the external plugins
@@ -16,7 +19,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
 
     ````
     ```dataviewjs
-    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, globalTaskFilter: "#task", dailyNoteFolder: "", options: ""})
+    dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, globalTaskFilter: "#task", dailyNoteFolder: "", options: "style1"})
     ```
     ````
     
@@ -43,30 +46,17 @@ The dv.pages command is the same and works exactly the same like in dataview-plu
 ### view:
 ```
 view: "month"
+view: "week"
 ```
-Month calendar
-
-```
-view: "agenda"
-```
-Agenda calendar
-
-```
-view: "widget"
-```
-Widget calendar
-    
+With the view parameter you can set the default selected calendar
+  
 ---
 ### firstDayOfWeek:
 ```
 firstDayOfWeek: 1
-```
-Set monday as first day of week
-
-```
 firstDayOfWeek: 0
 ```
-Set sunday as first day of week
+Set monday (1) or sunday (0) as first day of week
 
 ---
 ### dailyNoteFolder:
@@ -100,9 +90,9 @@ options: "noProcess"
 The tasks with a start-date and a due-date are not displayed on all days between them
 
 ```
-options: "noWeekNr"
+options: "noDailyNote"
 ```
-Hide the week number in the first cell of each week
+Disable clickability of cell names to prevent unwanted jumps into daily-notes and hide daily notes inside calendar views
 
 ```
 options: "mini"
@@ -110,20 +100,22 @@ options: "mini"
 Set smaller text on tasks, cell names and grid heads and reduces the height of the calendar grid.
 On mobile devices, the font size is automatically reduced on month and widget calendar, because the limited screen size.
 
-```
-options: "horizontal"
-```
-Only supported on agenda calendar view. The sorting order of days is vertical (by column - top to bottom and from left to right) by default and can be switched to horizontal (by row - from left to right and top to bottom).
+
+---
+
+## Style options
 
 ```
-options: "noDone noDue noStart noProcess noScheduled noRecurrence"
+options: "style1"
+options: "style2"
+options: "style3"
+options: "style4"
+options: "style5"
+options: "style6"
 ```
-Each task-group (done, due, start, process, scheduled, recurrence) can be hidden on all calendar-views.
+There are different style options to change to look of the second calendar view (week)
 
-```
-options: "noDailyNote"
-```
-Disable clickability of date-headers/cellNames to prevent unwanted jumps into daily-notes
+![styles](https://user-images.githubusercontent.com/59178587/198985206-91e59b28-ee63-48c7-b998-b59db1f4f46e.png)
 
 ---
 
@@ -151,7 +143,7 @@ This snippet fetch all tasks with a date like due, start, scheduled, done. Tasks
 
 <img width="1115" alt="Bildschirm­foto 2022-10-30 um 10 23 43" src="https://user-images.githubusercontent.com/59178587/198871481-bd9d4b89-ff99-435c-8c30-625f27f1a4f7.png">
 
-Hovering a task let popup a small info about the note and task (note-title: task-description). In the upper left corner is the calendar switcher, which can be used to switch between three different calendar views (month, agenda, widget). Under `view` in the dataviewjs code line the default calendar view is set. When switching between the views, the calendar remains in the previous month. By clicking on the calendar header, you can return to the current month or week at any time. The arrow keys in the upper right corner can be used to scroll backwards and forwards through the months/weeks. The filter in the upper right corner allows you to hide all finished tasks in the calendar. The filter itself can be switched on by default with `noDone` in the `options` within the dataviewjs code line.
+Hovering a task let popup a small info about the note and task (note-title: task-description). In the upper left corner is the calendar switcher, which can be used to switch between two different calendar views (month/week). Under `view` in the dataviewjs code line the default calendar view is set. When switching between the views, the calendar remains in the previous month. By clicking on the calendar header, you can return to today (the current month or week) at any time. The arrow keys in the upper right corner can be used to scroll backwards and forwards through the months/weeks. The filter in the upper right corner allows you to hide all finished tasks in the calendar. The filter itself can be switched on by default with `noDone` in the `options` within the dataviewjs code line.
 
 <img width="1116" alt="Bildschirm­foto 2022-10-30 um 10 19 22" src="https://user-images.githubusercontent.com/59178587/198871327-7eb684f4-04ee-4155-83be-7016889b2fee.png">
 
@@ -166,10 +158,5 @@ After a task is completed the start- and scheduled dates are no longer needed an
 
 ---
 
-### Agenda Calendar
+### Week Calendar
 <img width="1116" alt="Bildschirm­foto 2022-10-30 um 10 22 07" src="https://user-images.githubusercontent.com/59178587/198871434-145b10a8-1551-4b60-a4a2-4212021c1c3d.png">
-
----
-
-### Widget Calendar
-<img width="1114" alt="Bildschirm­foto 2022-10-30 um 10 22 18" src="https://user-images.githubusercontent.com/59178587/198871435-21712fd8-8946-462d-b28c-b7a971c4caac.png">
