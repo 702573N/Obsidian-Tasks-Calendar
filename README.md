@@ -97,9 +97,7 @@ Disable clickability of cell names to prevent unwanted jumps into daily-notes an
 ```
 options: "mini"
 ```
-Set smaller text on tasks, cell names and grid heads and reduces the height of the calendar grid.
-On mobile devices, the font size is automatically reduced on month and widget calendar, because the limited screen size.
-
+Set smaller text on tasks, cell names and grid heads. On mobile devices, the font size is automatically reduced because the limited screen size.
 
 ---
 
@@ -107,13 +105,8 @@ On mobile devices, the font size is automatically reduced on month and widget ca
 
 ```
 options: "style1"
-options: "style2"
-options: "style3"
-options: "style4"
-options: "style5"
-options: "style6"
 ```
-There are different style options to change to look of the second calendar view (week)
+There are different style options (style1, style2, style3, ...) to change the look of the weekly calendar view
 
 ![styles](https://user-images.githubusercontent.com/59178587/198985206-91e59b28-ee63-48c7-b998-b59db1f4f46e.png)
 
@@ -154,10 +147,24 @@ After a task is completed the start- and scheduled dates are no longer needed an
 ## Impressions
 
 ### Month Calendar
-![Month](https://user-images.githubusercontent.com/59178587/198986791-85c1a346-fc53-4688-8764-72681c5834e7.png)
+<img width="1147" alt="Bildschirm­foto 2022-10-31 um 20 39 02" src="https://user-images.githubusercontent.com/59178587/199096052-6744ddad-56b9-4d28-9a2f-2ef560b40981.png">
 
 ---
 
-### Week Calendar (style6)
-![Week (Style6)](https://user-images.githubusercontent.com/59178587/198986823-c2a7a9a2-4002-4394-a575-e2ad9cc388a8.png)
+### Week Calendar (style1)
+<img width="1143" alt="Bildschirm­foto 2022-10-31 um 20 39 48" src="https://user-images.githubusercontent.com/59178587/199096096-3bc4db34-41be-460d-a7bd-a34deeb60876.png">
 
+---
+
+### Week Calendar (style3)
+<img width="1146" alt="Bildschirm­foto 2022-10-31 um 20 40 07" src="https://user-images.githubusercontent.com/59178587/199096180-7191adb1-631d-4ddb-ade9-794f79dbf719.png">
+
+---
+
+### Week Calendar (style4)
+<img width="1146" alt="Bildschirm­foto 2022-10-31 um 20 40 26" src="https://user-images.githubusercontent.com/59178587/199096248-87dd2d9a-0924-4caa-b5fa-e98466ed48be.png">
+
+---
+
+### Week Calendar (style5)
+<img width="1143" alt="Bildschirm­foto 2022-10-31 um 20 40 46" src="https://user-images.githubusercontent.com/59178587/199096293-cd5aa2e6-e5f4-418b-a947-c3f67cb1a1ab.png">
