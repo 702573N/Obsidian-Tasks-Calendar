@@ -9,25 +9,25 @@
 	grid-template-columns: 70px 1fr 70px 35px;
 	overflow: hidden;
 	cursor: default;
-	padding: 5px 0px;
+	margin: 3px 0px;
 	width: 100%;
 	gap: 5px;
 }
-.switch button.active {
+.tasksCalendar .switch {
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 1fr 1fr;
+	overflow: hidden;
+	border-radius: 5px;
+}
+.tasksCalendar .switch button.active {
 	background: rgba(125,125,125,0.75);
 	color: white;
 }
-.switch button:first-child {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-	border-top-left-radius: 5px;
-	border-bottom-left-radius: 5px;
-}
-.switch button:last-child {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
+.tasksCalendar .switch button {
+	box-sizing: border-box;
+	width: 100%;
+	border-radius: 0;
 }
 .tasksCalendar button {
 	padding: 2px 5px;
@@ -45,9 +45,10 @@
 	margin: 0;
 	height: 22px;
 	background: rgba(125,125,125,0.25);
+	color: var(--text-normal);
 }
-.tasksCalendar .switch button {
-	width: 35px;
+.tasksCalendar button svg {
+	stroke: var(--text-normal);
 }
 .tasksCalendar.noDone .filter {
 	background: #ff375f !important;
@@ -73,17 +74,15 @@
 	grid-template-rows: auto 1fr;
 	grid-template-columns: 1fr;
 	overflow: hidden;
-	margin: 0;
-	border-bottom: 1px solid rgba(125,125,125,0.25);
-	background-color: var(--background-primary);
+	margin: 1px 0;
 }
 .tasksCalendar .cellContent {
-	display: inline-block;
-	height: auto;
+	display: grid;
 	overflow-x: hidden;
 	overflow-y: auto;
-	flex-shrink: 1;
-	flex-grow: 1;
+	/*align-content: stretch;*/
+	align-content: start;
+	padding: 1px 0;
 }
 .tasksCalendar .cellContent::-webkit-scrollbar {
 	display: none;
@@ -91,17 +90,13 @@
 .tasksCalendar .gridHead {
 	display: inline;
 	box-sizing: border-box;
-	border-right: 1px solid rgba(125,125,125,0.25);
-	border-bottom: 1px solid rgba(125,125,125,0.25);
 	overflow: hidden;
-	height: 22px;
 	text-align: center;
 	font-weight: bold;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	margin: 0;
 	font-size: 14px;
-	background: var(--background-primary-alt);
 }
 .tasksCalendar .cellName {
 	display: block;
@@ -121,17 +116,20 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
-	-webkit-line-clamp: 1;
+	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
-	margin: 1px 1px 2px 1px;
 	padding: 0 2px;
 	text-decoration: none;
 	color: var(--text-normal);
-	word-break: break-all;
+	/*word-break: break-all;*/
+	word-break: break-word;
 	line-height: 1.5;
 	background: rgba(125,125,125,0.25);
 	text-decoration: none !important;
 	font-size: 14px;
+	border-radius: 3px;
+	overflow: hidden;
+	margin: 2px;
 }
 .tasksCalendar a {
 	text-decoration: none !important;
@@ -139,13 +137,16 @@
 
 
 /* Today & Weekends */
+.tasksCalendar .cell.today {
+	border: 1px solid #0a84ff !important;
+}
 .tasksCalendar .cell.today .cellName {
 	font-weight: bold;
+	background: #0a84ff !important;
+	color: white;
 }
-.tasksCalendar .cell.today {
-	background-color: #0a84ff26;
-	box-shadow: inset 0 0 0 1px #0a84ff80;
-	border-radius: 5px;
+.tasksCalendar .cell.today .cellContent {
+	background: #0a84ff1a !important;
 }
 .tasksCalendar .cell[data-weekday="0"] .cellName,
 .tasksCalendar .gridHead[data-weekday="0"] {
@@ -162,13 +163,35 @@
 	display: grid;
 	grid-template-rows: auto 1fr;
 	grid-template-columns: 1fr;
+	gap: 3px;
 }
-.tasksCalendar .grid[data-view='month'] .gridHeads,
+.tasksCalendar .grid[data-view='month'] .gridHeads {
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 20px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	width: 100%;
+	border: 1px solid var(--nav-item-background-active);
+	border-radius: 5px;
+}
+.tasksCalendar .grid[data-view='month'] .gridHead {
+	height: 20px;
+	line-height: 20px;
+	font-size: 10px;
+}
+.tasksCalendar .grid[data-view='month'] .wrappers {
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr;
+	gap: 3px;
+}
 .tasksCalendar .grid[data-view='month'] .wrapper {
 	display: grid;
 	grid-template-rows: 1fr;
 	grid-template-columns: 22px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	width: 100%;
+	border: 1px solid var(--nav-item-background-active);
+	border-radius: 5px;
+	overflow: hidden;
 }
 .tasksCalendar .grid[data-view='month'] .wrapper .wrapperButton {
 	display: flex;
@@ -181,15 +204,10 @@
 	font-size: 10px;
 	font-weight: bold;
 	color: var(--text-normal);
-	border-left: 1px solid rgba(125,125,125,0.25);
-	border-top: 1px solid rgba(125,125,125,0.25);
 	cursor: pointer;
-	background: var(--background-primary-alt);
-	width: 22px;
+	width: 20px;
 	overflow: hidden;
-}
-body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .wrapper:hover .cell {
-	/* background: #0a84ff26; */
+	background: var(--nav-item-background-active);
 }
 .tasksCalendar .grid[data-view='month'] .cell {
 	height: 12.5vH;
@@ -197,56 +215,60 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .wrapper:hover .cel
 }
 .tasksCalendar .grid[data-view='month'] .prevMonth,
 .tasksCalendar .grid[data-view='month'] .nextMonth {
-	background: var(--background-primary-alt);
+	background: var(--background-secondary);
 }
 .tasksCalendar .grid[data-view='month'] .newMonth {
-	border-left: 1px solid rgba(125,125,125,0.25);
-	/* box-shadow: inset 20px 1px 20px -20px rgba(125,125,125,0.25); */
+	/* border-left: 1px solid rgba(125,125,125,0.25); */
 }
 
 
 /* Week view */
-.tasksCalendar .grid[data-view='week'] {
-	display: grid;
-	border-top: 1px solid rgba(125,125,125,0.25);
+.tasksCalendar .grid[data-view='week'] .cell {
+	border: 1px solid var(--nav-item-background-active);
+	border-radius: 5px;
+	overflow: hidden;
 }
-.tasksCalendar .grid[data-view='week'] .newMonth {
-	/* box-shadow: inset 1px 20px 20px -20px rgba(125,125,125,0.25); */
-}
-.tasksCalendar.horizontal .grid[data-view='week'] .newMonth {
-	border-left: 1px solid rgba(125,125,125,0.25);
-	/* box-shadow: inset 20px 1px 20px -20px rgba(125,125,125,0.25); */
+.tasksCalendar .grid[data-view='week'] .cellName {
+	/*background: var(--nav-item-background-active);*/
 }
 
-/* Default Vertical Agenda Style */
+
+/* Vertical Agenda Style */
 .tasksCalendar.style1 .grid[data-view='week'] {
+	display: grid;
+	gap: 2px 4px;
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: repeat(6, 1fr);
 }
-.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(1)  { grid-area: 1 / 1 / 3 / 3; height: 25.6vH; border-right: 1px solid rgba(125,125,125,0.25); }
-.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(2)  { grid-area: 3 / 1 / 5 / 3; height: 25.6vH; border-right: 1px solid rgba(125,125,125,0.25); }
-.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(3)  { grid-area: 5 / 1 / 7 / 3; height: 25.6vH; border-right: 1px solid rgba(125,125,125,0.25); }
+.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(1)  { grid-area: 1 / 1 / 3 / 3; height: 25.6vH; }
+.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(2)  { grid-area: 3 / 1 / 5 / 3; height: 25.6vH; }
+.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(3)  { grid-area: 5 / 1 / 7 / 3; height: 25.6vH; }
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(4)  { grid-area: 1 / 3 / 3 / 5; height: 25.6vH; }
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(5)  { grid-area: 3 / 3 / 5 / 5; height: 25.6vH; }
-.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(6)  { grid-area: 5 / 3 / 6 / 5; height: 12.8vH; }
-.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(7)  { grid-area: 6 / 3 / 7 / 5; height: 12.8vH; }
+.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(6)  { grid-area: 5 / 3 / 6 / 5; }
+.tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(7)  { grid-area: 6 / 3 / 7 / 5; }
 
 
 /* Horizontal Agenda Style */
 .tasksCalendar.style2 .grid[data-view='week'] {
+	display: grid;
+	gap: 2px 4px;
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: repeat(6, 1fr);
 }
-.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(1)  { grid-area: 1 / 1 / 3 / 3; height: 25.6vH; border-right: 1px solid rgba(125,125,125,0.25); }
-.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(3)  { grid-area: 3 / 1 / 5 / 3; height: 25.6vH; border-right: 1px solid rgba(125,125,125,0.25); }
-.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(5)  { grid-area: 5 / 1 / 7 / 3; height: 25.6vH; border-right: 1px solid rgba(125,125,125,0.25); }
+.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(1)  { grid-area: 1 / 1 / 3 / 3; height: 25.6vH; }
+.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(3)  { grid-area: 3 / 1 / 5 / 3; height: 25.6vH; }
+.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(5)  { grid-area: 5 / 1 / 7 / 3; height: 25.6vH; }
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(2)  { grid-area: 1 / 3 / 3 / 5; height: 25.6vH; }
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(4)  { grid-area: 3 / 3 / 5 / 5; height: 25.6vH; }
-.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(6)  { grid-area: 5 / 3 / 6 / 5; height: 12.8vH; }
-.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(7)  { grid-area: 6 / 3 / 7 / 5; height: 12.8vH; }
+.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(6)  { grid-area: 5 / 3 / 6 / 5; }
+.tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(7)  { grid-area: 6 / 3 / 7 / 5; }
+
 
 /* List Style */
 .tasksCalendar.style3 .grid[data-view='week'] {
+	display: grid;
+	gap: 2px 4px;
 	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	grid-template-columns: 1fr;
 }
@@ -254,17 +276,23 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .wrapper:hover .cel
 	height: 11vH;
 }
 
+
 /* Widget Style */
 .tasksCalendar.style4 .grid[data-view='week'] {
+	display: grid;
+	gap: 2px 4px;
 	grid-template-rows: 1fr;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .tasksCalendar.style4 .grid[data-view='week'] .cell {
-	height: 11vH;
+	height: 15vH;
 }
+
 
 /* 5x2 Style */
 .tasksCalendar.style5 .grid[data-view='week'] {
+	display: grid;
+	gap: 2px 4px;
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(10, 1fr);
 }
@@ -273,11 +301,14 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .wrapper:hover .cel
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 5 / 1 / 7 / 2; height: 15.3vH; }
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(4) { grid-area: 7 / 1 / 9 / 2; height: 15.3vH; }
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(5) { grid-area: 9 / 1 / 11 / 2; height: 15.3vH; }
-.tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 1 / 2 / 6 / 3; height: 38.25vH; border-left: 1px solid rgba(125,125,125,0.25); }
-.tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 6 / 2 / 11 / 3; height: 38.25vH; border-left: 1px solid rgba(125,125,125,0.25); }
+.tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 1 / 2 / 6 / 3; }
+.tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 6 / 2 / 11 / 3; }
+
 
 /* 5x2 (smaller weekends) Style */
 .tasksCalendar.style6 .grid[data-view='week'] {
+	display: grid;
+	gap: 2px 4px;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(10, 1fr);
 }
@@ -286,8 +317,8 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .wrapper:hover .cel
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 5 / 1 / 7 / 3; height: 15.3vH; }
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(4) { grid-area: 7 / 1 / 9 / 3; height: 15.3vH; }
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(5) { grid-area: 9 / 1 / 11 / 3; height: 15.3vH; }
-.tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 1 / 3 / 6 / 4; height: 38.25vH; border-left: 1px solid rgba(125,125,125,0.25); }
-.tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 6 / 3 / 11 / 4; height: 38.25vH; border-left: 1px solid rgba(125,125,125,0.25); }
+.tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 1 / 3 / 6 / 4; }
+.tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 6 / 3 / 11 / 4; }
 
 
 /* noIcons class */
@@ -337,46 +368,19 @@ body:not(.is-mobile) .tasksCalendar .grid[data-view='month'] .wrapper:hover .cel
 .tasksCalendar.noDailyNote .grid .cellName {
 	pointer-events: none !important;
 }
-
-
-/* Mini class */
-.tasksCalendar.mini {
-	max-width: 400px;
-	margin: 0 auto;
-}
-.tasksCalendar.mini .grid .gridHead,
-.tasksCalendar.mini .grid .cellName,
-.tasksCalendar.mini .grid .task {
+/* mini class */
+.tasksCalendar.mini .gridHead,
+.tasksCalendar.mini .cellName,
+.tasksCalendar.mini .task {
 	font-size: 10px !important;
-}
-.tasksCalendar.mini .grid[data-view='month'] .cell {
-	height: 60px !important;
-}
-.tasksCalendar.mini .grid[data-view='widget'] .cell {
-	height: 80px !important;
-}
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(1),
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(2),
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(3),
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(4),
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(5),
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(8) {
-	height: 150px !important;
-}
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(6),
-.tasksCalendar.mini .grid[data-view='week'] .cell:nth-child(7) {
-	height: 75px !important;
 }
 
 
 /* Mobile */
-body.is-mobile .tasksCalendar .grid:not([data-view='week']) .gridHead,
-body.is-mobile .tasksCalendar .grid:not([data-view='week']) .cellName,
-body.is-mobile .tasksCalendar .grid:not([data-view='week']) .task {
+body.is-mobile .tasksCalendar .gridHead,
+body.is-mobile .tasksCalendar .cellName,
+body.is-mobile .tasksCalendar .task {
 	font-size: 10px !important;
-}
-body.is-mobile .tasksCalendar .grid:not([data-view='week']) .cellName strong {
-	font-size: 8px !important;
 }
 
 
@@ -413,4 +417,4 @@ body.is-mobile .tasksCalendar .grid:not([data-view='week']) .cellName strong {
 }
 .tasksCalendar .task.dailyNote:before {
 	content: "📄";
-}
+	}
