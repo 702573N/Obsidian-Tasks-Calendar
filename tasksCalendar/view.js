@@ -1,65 +1,45 @@
-// Get Input
 let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, options} = input;
 
-// Get Tasks From Pages
-if (pages=="") {
-	var tasks = dv.pages().file.tasks;
-} else {
-	var tasks = dv.pages(pages).file.tasks;
-};
-
-// Collect Metadata From Tasks
-getMeta(tasks);
+if (pages=="") {var tasks = dv.pages().file.tasks} else {var tasks = dv.pages(pages).file.tasks};
 
 // Variables
+var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled, dailyNote;
 var tToday = moment().format("YYYY-MM-DD");
 var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
 var transparency = "33";
-var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled;
 var tid = (new Date()).getTime();
 var selectedDate = null;
-
-// Lucide Icons
+var selectedMonth = moment().date(1);
+var selectedWeek = moment().startOf("week");
+var selectedDate = eval("selected"+capitalize(view));
 var arrowLeftIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
 var filterIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>';
 var monthIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg>';
-var agendaIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M17 14h-6"></path><path d="M13 18H7"></path><path d="M7 14h.01"></path><path d="M17 18h.01"></path></svg>';
-var widgetIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
-
-// Set Root Node
-const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view}});
-
-// Templates
+var weekIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M17 14h-6"></path><path d="M13 18H7"></path><path d="M7 14h.01"></path><path d="M17 18h.01"></path></svg>';
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
 var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'>{{taskContent}}</div></a>";
+const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view}});
 
-// Switch
-switch(view) {
-	case "month":
-		setButtons();
-		selectedDate = moment().startOf("month");
-		getMonth(tasks, selectedDate);
-	break;
-	case "widget":
-		setButtons();
-		selectedDate = moment().startOf("week");
-		getWidget(tasks, selectedDate);
-	break;
-	case "agenda":
-		setButtons();
-		selectedDate = moment().startOf("week");
-		getAgenda(tasks, selectedDate);
-	break;
-};
+// Initialze
+getMeta(tasks);
+setButtons();
+eval("get"+capitalize(view))(tasks, selectedDate);
 
-// Get Meta
 function getMeta(tasks) {
 	for (i=0;i<tasks.length;i++) {
 		var taskText = tasks[i].text;
+		var taskFile = getFilename(tasks[i].path);
+		var dailyNoteMatch = taskFile.match(/(\d{4}\-\d{2}\-\d{2})/);
+		var dailyTaskMatch = taskText.match(/(\d{4}\-\d{2}\-\d{2})/);
+		if (dailyNoteMatch) {
+			if(!dailyTaskMatch) {
+				tasks[i].dailyNote = dailyNoteMatch[1];
+			};
+		};
 		var dueMatch = taskText.match(/\📅\W(\d{4}\-\d{2}\-\d{2})/);
 		if (dueMatch) {
 			tasks[i].due = dueMatch[1];
@@ -111,39 +91,39 @@ function getMeta(tasks) {
 	};
 };
 
-// Get Filename From Task
 function getFilename(path) {
 	var filename = path.match(/^(?:.*\/)?([^\/]+?|)(?=(?:\.[^\/.]*)?$)/)[1];
 	return filename;
 };
 
-// Get Note Color
+function capitalize(str) {
+	return str[0].toUpperCase() + str.slice(1);
+};
+
 function getColor(task) {
 	var color = dv.pages('"'+task.link.path+'"').color[0];
 	if (color) { return color } else { return "" };
 };
 
-// Get Note Icon
 function getIcon(task) {
 	var icon = dv.pages('"'+task.link.path+'"').icon[0];
 	if (icon) { return icon } else { return "" };
 };
 
-// Filter Tasks
 function getTasks(date) {
-	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.priority && t.completion);
+	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
 	doneWithoutCompletionDate = tasks.filter(t=>t.completed && t.checked && !t.completion && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
 	done = done.concat(doneWithoutCompletionDate);
-	due = tasks.filter(t=>!t.completed && !t.checked && !t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.priority && t.due);
-	recurrence = tasks.filter(t=>!t.completed && !t.checked && t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.priority && t.due);
-	overdue = tasks.filter(t=>!t.completed && !t.checked && t.due && moment(t.due.toString()).isBefore(date)).sort(t=>t.priority && t.due);
-	start = tasks.filter(t=>!t.completed && !t.checked && t.start && moment(t.start.toString()).isSame(date)).sort(t=>t.priority && t.start);
-	scheduled = tasks.filter(t=>!t.completed && !t.checked && t.scheduled && moment(t.scheduled.toString()).isSame(date)).sort(t=>t.priority && t.scheduled);
+	due = tasks.filter(t=>!t.completed && !t.checked && !t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
+	recurrence = tasks.filter(t=>!t.completed && !t.checked && t.recurrence && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
+	overdue = tasks.filter(t=>!t.completed && !t.checked && t.due && moment(t.due.toString()).isBefore(date)).sort(t=>t.due);
+	start = tasks.filter(t=>!t.completed && !t.checked && t.start && moment(t.start.toString()).isSame(date)).sort(t=>t.start);
+	scheduled = tasks.filter(t=>!t.completed && !t.checked && t.scheduled && moment(t.scheduled.toString()).isSame(date)).sort(t=>t.scheduled);
 	process = tasks.filter(t=>!t.completed && !t.checked && t.due && t.start && moment(t.due.toString()).isAfter(date) && moment(t.start.toString()).isBefore(date) );
-	cancelled = tasks.filter(t=>!t.completed && t.checked && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.priority && t.due);
-}
+	cancelled = tasks.filter(t=>!t.completed && t.checked && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
+	dailyNote = tasks.filter(t=>!t.completed && !t.checked && t.dailyNote && moment(t.dailyNote.toString()).isSame(date)).sort(t=>t.dailyNote);
+};
 
-// Set Task
 function setTask(obj, type) {
 	var noteColor = getColor(obj);
 	var noteIcon = getIcon(obj);
@@ -158,7 +138,6 @@ function setTask(obj, type) {
 	return newTask;
 };
 
-// Set Task And Append To Content Container
 function setTaskContentContainer(currentDate) {
 	var cellContent = "";
 	
@@ -197,14 +176,18 @@ function setTaskContentContainer(currentDate) {
 	showTasks(process, "process");
 	showTasks(done, "done");
 	showTasks(cancelled, "cancelled");
+	showTasks(dailyNote, "dailyNote");
 	return cellContent;
 };
 
-// Set Buttons
 function setButtons() {
-	var buttons = "<div class='switch'><button class='monthView' title='Month'>"+monthIcon+"</button><button class='agendaView' title='Agenda'>"+agendaIcon+"</button><button class='widgetView' title='Widget'>"+widgetIcon+"</button></div><button class='current'></button><div class='switch'><button class='previous'>"+arrowLeftIcon+"</button><button class='next'>"+arrowRightIcon+"</button></div><button class='filter'>"+filterIcon+"</button>";
+	var buttons = "<div class='switch'><button class='monthView' title='Month'>"+monthIcon+"</button><button class='weekView' title='Week'>"+weekIcon+"</button></div><button class='current'></button><div class='switch'><button class='previous'>"+arrowLeftIcon+"</button><button class='next'>"+arrowRightIcon+"</button></div><button class='filter'>"+filterIcon+"</button>";
 	rootNode.querySelector("span").appendChild(dv.el("div", buttons, {cls: "buttons", attr: {}}));
 	rootNode.querySelector("button."+view+"View").classList.add("active");
+	setButtonEvents();
+};
+
+function setButtonEvents() {
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
 		var activeView = rootNode.querySelector(".grid").getAttribute("data-view");
 		if ( btn.className == "previous" ) {
@@ -212,43 +195,31 @@ function setButtons() {
 				selectedDate = moment(selectedDate).subtract(1, "months");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
-			} else if (activeView == "agenda") {
+			} else if (activeView == "week") {
 				selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-				getAgenda(tasks, selectedDate);
-			} else if (activeView == "widget") {
-				selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-				getWidget(tasks, selectedDate);
-			}
+				getWeek(tasks, selectedDate);
+			};
 		} else if ( btn.className == "current") {
 			if (activeView == "month") {
 				selectedDate = moment().date(1);
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
-			} else if (activeView == "agenda") {
+			} else if (activeView == "week") {
 				selectedDate = moment().startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-				getAgenda(tasks, selectedDate);
-			} else if (activeView == "widget") {
-				selectedDate = moment().startOf("week");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-				getWidget(tasks, selectedDate);
-			}
+				getWeek(tasks, selectedDate);
+			};
 		} else if ( btn.className == "next" ) {
 			if (activeView == "month") {
 				selectedDate = moment(selectedDate).add(1, "months");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
-			} else if (activeView == "agenda") {
+			} else if (activeView == "week") {
 				selectedDate = moment(selectedDate).add(7, "days").startOf("week");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-				getAgenda(tasks, selectedDate);
-			} else if (activeView == "widget") {
-				selectedDate = moment(selectedDate).add(7, "days").startOf("week");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-				getWidget(tasks, selectedDate);
-			}
+				getWeek(tasks, selectedDate);
+			};
 		} else if ( btn.className == "filter" ) {
 			rootNode.classList.toggle("noDone");
 		} else if ( btn.className == "filter" ) {
@@ -259,43 +230,35 @@ function setButtons() {
 			selectedDate = moment(selectedDate).date(1);
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getMonth(tasks, selectedDate);
-		} else if ( btn.className == "agendaView" ) {
+		} else if ( btn.className == "weekView" ) {
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
 			if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
 				selectedDate = moment(selectedDate).add(14, "days").startOf("week");
-			} else if (activeView == "widget") {
-				selectedDate = moment(selectedDate).startOf("week");
 			} else {
 				selectedDate = moment().startOf("week");
 			};
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getAgenda(tasks, selectedDate);
-		} else if ( btn.className == "widgetView" ) {
-			rootNode.querySelector("button.active").classList.remove("active");
-			btn.classList.add("active");
-			if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
-				selectedDate = moment(selectedDate).add(14, "days").startOf("week");
-			} else if (activeView == "agenda") {
-				selectedDate = moment(selectedDate).startOf("week");
-			} else {
-				selectedDate = moment().startOf("week");
-			};
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getWidget(tasks, selectedDate);
+			getWeek(tasks, selectedDate);
 		};
 	})));
 };
 
-// tasksCalendar: monthView
-function getMonth(tasks, month) {
-	
-	// Set Month Title
-	rootNode.querySelector('button.current').innerText = moment(month).format("MMM YYYY");
+function setWrapperEvents() {
+	rootNode.querySelectorAll('.wrapperButton').forEach(wBtn => wBtn.addEventListener('click', (() => {
+		var week = wBtn.getAttribute("data-week");
+		var year = wBtn.getAttribute("data-year");
+		selectedDate = moment(moment(year).add(week, "weeks")).startOf("week");
+		rootNode.querySelector("button.active").classList.remove("active");
+		rootNode.querySelector(".weekView").classList.add("active");
+		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+		getWeek(tasks, selectedDate);
+	})));
+};
 
-	// Build Grid
+function getMonth(tasks, month) {
+	rootNode.querySelector('button.current').innerText = moment(month).format("MMMM YYYY");
 	var gridContent = "";
-	
 	var firstDayOfMonth = moment(month).format("d");
 	var lastDayOfMonth = moment(month).endOf("month").format("D");
 	
@@ -303,69 +266,75 @@ function getMonth(tasks, month) {
 	if (firstDayOfMonth == 0) { firstDayOfMonth = 7};
 	
 	// Set Grid Heads
+	var gridHeads = "";
 	for (h=0-firstDayOfMonth+firstDayOfWeek;h<7-firstDayOfMonth+firstDayOfWeek;h++) {
 		var weekDayNr = moment(month).add(h, "days").format("d");
-		var weekDayName = moment(month).add(h, "days").format("ddd");
+		var weekDayName = moment(month).add(h, "days").format("dd").substring(0,1);
 		if ( tDay == weekDayNr && tMonth == moment(month).format("M") && tYear == moment(month).format("YYYY") ) {
-			gridContent += "<div class='gridHead today' data-weekday='" + weekDayNr + "'>" + weekDayName + "</div>";
+			gridHeads += "<div class='gridHead today' data-weekday='" + weekDayNr + "'>" + weekDayName + "</div>";
 		} else {
-			gridContent += "<div class='gridHead' data-weekday='" + weekDayNr + "'>" + weekDayName + "</div>";
+			gridHeads += "<div class='gridHead' data-weekday='" + weekDayNr + "'>" + weekDayName + "</div>";
 		};
 	};
+	gridContent += "<div class='gridHeads'><div class='gridHead'></div>"+gridHeads+"</div>";
 	
-	for (i=0-firstDayOfMonth+firstDayOfWeek;i<42-firstDayOfMonth+firstDayOfWeek;i++) {
-		var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
-		var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
-		var weekDay = moment(month).add(i, "days").format("d");
-		var weekNr = moment(month).add(i, "days").format("[W]w");
-		var weekNrSpan = "<span class='weekNr'>"+weekNr+"</span>";
-		var shortDayName = moment(currentDate).format("D");
-		var longDayName = moment(currentDate).format("D. MMM");
-		var shortWeekday = moment(currentDate).format("ddd");
-	
-		// Filter Tasks
-		getTasks(currentDate);
-	
-		// Set New Content Container
-		var cellContent = setTaskContentContainer(currentDate);
-	
-		// Set Cell Name And Weekday
-		if ( moment(month).add(i, "days").format("D") == 1 ) {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
-			cell = cell.replace("{{class}}", "{{class}} newMonth");
-		} else {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+shortDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
-		};
-	
-		// Set prevMonth, currentMonth, nextMonth
-		if (i < 0) {
-			cell = cell.replace("{{class}}", "prevMonth");
-		} else if (i >= 0 && i < lastDayOfMonth && tToday !== currentDate) {
-			cell = cell.replace("{{class}}", "currentMonth");
-		} else if ( i >= 0 && i< lastDayOfMonth && tToday == currentDate) {
-			cell = cell.replace("{{class}}", "currentMonth today");
-		} else if (i >= lastDayOfMonth) {
-			cell = cell.replace("{{class}}", "nextMonth");
-		};
-	
-		gridContent += cell;
-	};
+	// Set Wrappers
+	var wrappers = "";
+	var start = 0-firstDayOfMonth+firstDayOfWeek;
+	for (w=1; w<7; w++) {
+		var wrapper = "";
+		var weekNr = "";
+		var year = "";
+		for (i=start;i<start+7;i++) {
+			if (i==start) {
+				weekNr = moment(month).add(i, "days").format("w");
+				year = moment(month).add(i, "days").format("YYYY");
+			};
+			var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
+			var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
+			var weekDay = moment(month).add(i, "days").format("d");
+			var shortDayName = moment(month).add(i, "days").format("D");
+			var longDayName = moment(month).add(i, "days").format("D. MMM");
+			var shortWeekday = moment(month).add(i, "days").format("ddd");
 
-	// Set Grid Content
+			// Filter Tasks
+			getTasks(currentDate);
+		
+			// Set New Content Container
+			var cellContent = setTaskContentContainer(currentDate);
+		
+			// Set Cell Name And Weekday
+			if ( moment(month).add(i, "days").format("D") == 1 ) {
+				var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
+				cell = cell.replace("{{class}}", "{{class}} newMonth");
+			} else {
+				var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", shortDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
+			};
+		
+			// Set prevMonth, currentMonth, nextMonth
+			if (i < 0) {
+				cell = cell.replace("{{class}}", "prevMonth");
+			} else if (i >= 0 && i < lastDayOfMonth && tToday !== currentDate) {
+				cell = cell.replace("{{class}}", "currentMonth");
+			} else if ( i >= 0 && i< lastDayOfMonth && tToday == currentDate) {
+				cell = cell.replace("{{class}}", "currentMonth today");
+			} else if (i >= lastDayOfMonth) {
+				cell = cell.replace("{{class}}", "nextMonth");
+			};
+			wrapper += cell;
+		};
+		wrappers += "<div class='wrapper'><div class='wrapperButton' data-week='"+weekNr+"' data-year='"+year+"'>W"+weekNr+"</div>"+wrapper+"</div>";
+		start += 7;
+	};
+	gridContent += "<div class='wrappers'>"+wrappers+"</div>";
 	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "month"}}));
+	setWrapperEvents();
 };
-	
-// tasksCalendar: agendaView
-function getAgenda(tasks, week) {
-	
-	// Set Week Title
-	rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY");
 
-	// Build Grid
+function getWeek(tasks, week) {
+	rootNode.querySelector('button.current').innerText = moment(week).format("YYYY [W]w");
 	var gridContent = "";
-	
 	var currentWeekday = moment(week).format("d");
-	
 	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
 		var currentDate = moment(week).add(i, "days").format("YYYY-MM-DD");
 		var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
@@ -373,7 +342,6 @@ function getAgenda(tasks, week) {
 		var dayName = moment(currentDate).format("ddd D.");
 		var longDayName = moment(currentDate).format("ddd, D. MMM");
 		var weekNr = moment(currentDate).add(i, "days").format("[W]w");
-		var weekNrSpan = "<span class='weekNr'>"+weekNr+"</span>";
 	
 		// Filter Tasks
 		getTasks(currentDate);
@@ -382,64 +350,15 @@ function getAgenda(tasks, week) {
 		var cellContent = setTaskContentContainer(currentDate);
 		
 		// Set Cell Name And Weekday
-		if ( moment(week).add(i, "days").format("D") == 1 ) {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
-			cell = cell.replace("{{class}}", "{{class}} newMonth");
-		} else {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
-		};
-		
-		// Set Today, Before Today, After Today
-		if (currentDate < tToday) {
-			cell = cell.replace("{{class}}", "beforeToday");
-		} else if (currentDate == tToday) {
-			cell = cell.replace("{{class}}", "today");
-		} else if (currentDate > tToday) {
-			cell = cell.replace("{{class}}", "afterToday");
-		};
-	
-		gridContent += cell;
-	};
+		var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
 
-	// Set Grid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "agenda"}}));
-};
-
-
-// tasksCalendar: widgetView
-function getWidget(tasks, week) {
-	
-	// Set Week Title
-	rootNode.querySelector('button.current').innerText = moment(week).format("MMM YYYY");
-
-	// Build Grid
-	var gridContent = "";
-	
-	var currentWeekday = moment(week).format("d");
-	
-	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
-		var currentDate = moment(week).add(i, "days").format("YYYY-MM-DD");
-		var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
-		var weekDay = moment(week).add(i, "days").format("d");
-		var dayName = moment(currentDate).format("ddd D.");
-		var longDayName = moment(currentDate).format("ddd, D. MMM");
-		var weekNr = moment(currentDate).add(i, "days").format("[W]w");
-		var weekNrSpan = "<span class='weekNr'>"+weekNr+"</span>";
-	
-		// Filter Tasks
-		getTasks(currentDate);
-	
-		// Set New Content Container
-		var cellContent = setTaskContentContainer(currentDate);
-	
 		// Set Cell Name And Weekday
 		if ( moment(week).add(i, "days").format("D") == 1 ) {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
-			cell = cell.replace("{{class}}", "{{class}} newMonth");
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", longDayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
 		} else {
-			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", weekNrSpan+dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
+			var cell = cellTemplate.replace("{{date}}", currentDate).replace("{{cellName}}", dayName).replace("{{cellContent}}", cellContent).replace("{{weekday}}", weekDay).replace("{{dailyNote}}", dailyNote);
 		};
-		
+			
 		// Set Today, Before Today, After Today
 		if (currentDate < tToday) {
 			cell = cell.replace("{{class}}", "beforeToday");
@@ -448,10 +367,7 @@ function getWidget(tasks, week) {
 		} else if (currentDate > tToday) {
 			cell = cell.replace("{{class}}", "afterToday");
 		};
-		
 		gridContent += cell;
 	};
-	
-	// SetGrid Content
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "widget"}}));
-	};
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "week"}}));
+};
