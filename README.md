@@ -154,9 +154,10 @@ After a task is completed the start- and scheduled dates are no longer needed an
 ## Impressions
 
 ### Month Calendar
-<img width="1112" alt="Bildschirm­foto 2022-10-30 um 10 21 49" src="https://user-images.githubusercontent.com/59178587/198871431-78b3bebb-0c85-4eb6-89d7-bb07ece7429b.png">
+![Month](https://user-images.githubusercontent.com/59178587/198986791-85c1a346-fc53-4688-8764-72681c5834e7.png)
 
 ---
 
-### Week Calendar
-<img width="1116" alt="Bildschirm­foto 2022-10-30 um 10 22 07" src="https://user-images.githubusercontent.com/59178587/198871434-145b10a8-1551-4b60-a4a2-4212021c1c3d.png">
+### Week Calendar (style6)
+![Week (Style6)](https://user-images.githubusercontent.com/59178587/198986823-c2a7a9a2-4002-4394-a575-e2ad9cc388a8.png)
+
