@@ -92,12 +92,27 @@ The tasks with a start-date and a due-date are not displayed on all days between
 ```
 options: "noDailyNote"
 ```
-Disable clickability of cell names to prevent unwanted jumps into daily-notes and hide daily notes inside calendar views
+Hide daily notes inside calendar
+
+```
+options: "noCellNameEvent"
+```
+Disable pointer events on cell names to prevent unintentional execution
 
 ```
 options: "mini"
 ```
 Set smaller text on tasks, cell names and grid heads. On mobile devices, the font size is automatically reduced because the limited screen size.
+
+```
+options: "noWeekNr"
+```
+Hide the week number in front of each wrapper/row/week inside the month calendar
+
+```
+options: "noTransparency"
+```
+Disable transparency of tasks backgrounds
 
 ---
 
