@@ -120,16 +120,21 @@
 	-webkit-box-orient: vertical;
 	padding: 0 2px;
 	text-decoration: none;
-	color: var(--text-normal);
 	/*word-break: break-all;*/
 	word-break: break-word;
-	line-height: 1.5;
-	background: rgba(125,125,125,0.25);
+	line-height: 1.3;
+	background: var(--task-background);
+	color: var(--task-color);
 	text-decoration: none !important;
 	font-size: 14px;
 	border-radius: 3px;
 	overflow: hidden;
 	margin: 2px;
+}
+.tasksCalendar .task.done {
+	text-decoration: line-through !important;
+	color: var(--task-color) !important;
+	background: none !important;
 }
 .tasksCalendar a {
 	text-decoration: none !important;
@@ -322,65 +327,96 @@
 
 
 /* noIcons class */
-.tasksCalendar.noIcons .grid .task {
-	border-left: 2px solid currentColor;
+.tasksCalendar.noIcons .task {
+	/*border-left: 2px solid currentColor;*/
 }
-.tasksCalendar.noIcons .grid .task:before {
+.tasksCalendar.noIcons .task:before {
 	display: none !important;
 }
-/* Done tasks */
-.tasksCalendar.noIcons .grid .task.done {
-	text-decoration: line-through !important;
-	color: var(--text-faint) !important;
+/* noTransparency */
+.tasksCalendar.noTransparency .task {
+	background: var(--task-color) ;
+	color: black;
+}
+.tasksCalendar.noTransparency .task.done {
+	color: var(--task-color) !important;
+	background: none !important;
 }
 /* noDone class */
-.tasksCalendar.noDone .grid .task.done {
+.tasksCalendar.noDone .task.done {
 	display: none !important;
 }
 /* noScheduled class */
-.tasksCalendar.noScheduled .grid .task.scheduled {
+.tasksCalendar.noScheduled .task.scheduled {
 	display: none !important;
 }
 /* noStart class */
-.tasksCalendar.noStart .grid .task.start {
+.tasksCalendar.noStart .task.start {
 	display: none !important;
 }
 /* noDue class */
-.tasksCalendar.noDue .grid .task.due {
+.tasksCalendar.noDue .task.due {
 	display: none !important;
 }
 /* noProcess class */
-.tasksCalendar.noProcess .grid .task.process {
+.tasksCalendar.noProcess .task.process {
 	display: none !important;
 }
 /* noRecurrence class */
-.tasksCalendar.noRecurrence .grid .task.recurrence {
+.tasksCalendar.noRecurrence .task.recurrence {
 	display: none !important;
 }
 /* noOverdue class */
-.tasksCalendar.noOverdue .grid .task.overdue {
+.tasksCalendar.noOverdue .task.overdue {
 	display: none !important;
 }
 /* noDailyNote class */
-.tasksCalendar.noDailyNote .grid .task.dailyNote {
+.tasksCalendar.noDailyNote .task.dailyNote {
 	display: none !important;
 }
-.tasksCalendar.noDailyNote .grid .cellName {
+.tasksCalendar.noDailyNote .cellName {
 	pointer-events: none !important;
 }
 /* mini class */
 .tasksCalendar.mini .gridHead,
 .tasksCalendar.mini .cellName,
 .tasksCalendar.mini .task {
-	font-size: 10px !important;
+	font-size: 9px !important;
+}
+/* noWeekNr */
+.tasksCalendar.noWeekNr .grid[data-view='month'] .wrapper .wrapperButton {
+	visibility: hidden !important;
+	width: 0 !important;
+}
+.tasksCalendar.noWeekNr .grid[data-view='month'] .gridHead:first-child {
+	visibility: hidden !important;
+	width: 0 !important;
+}
+.tasksCalendar.noWeekNr .grid[data-view='month'] .wrapper {
+	grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
+}
+.tasksCalendar.noWeekNr .grid[data-view='month'] .gridHeads {
+	grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
 }
 
 
-/* Mobile */
-body.is-mobile .tasksCalendar .gridHead,
-body.is-mobile .tasksCalendar .cellName,
-body.is-mobile .tasksCalendar .task {
-	font-size: 10px !important;
+/* Mobile Month View */
+body.is-mobile .tasksCalendar .grid[data-view='month'] .gridHead,
+body.is-mobile .tasksCalendar .grid[data-view='month'] .cellName,
+body.is-mobile .tasksCalendar .grid[data-view='month'] .task {
+	font-size: 9px !important;
+}
+/* Mobile Week Views */
+body.is-mobile .tasksCalendar.style4 .grid[data-view='week'] .gridHead,
+body.is-mobile .tasksCalendar.style4 .grid[data-view='week'] .cellName,
+body.is-mobile .tasksCalendar.style4 .grid[data-view='week'] .task {
+	font-size: 9px !important;
+}
+/* Mobile Week Views */
+body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .gridHead,
+body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .cellName,
+body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .task {
+	font-size: 12px !important;
 }
 
 
