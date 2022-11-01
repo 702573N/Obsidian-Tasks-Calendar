@@ -9,7 +9,6 @@ var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
-var transparency = "33";
 var tid = (new Date()).getTime();
 var selectedDate = null;
 var selectedMonth = moment().date(1);
@@ -132,7 +131,12 @@ function setTask(obj, type) {
 	var taskSubpath = obj.header.subpath;
 	var taskLine = taskSubpath ? taskPath+"#"+taskSubpath : taskPath;
 	var style = "";
-	if (noteColor) { style = "color:" + noteColor + ";background:" + noteColor + transparency };
+	// if (noteColor) { style = "color:" + noteColor + ";background:" + noteColor + transparency };
+	if (noteColor) {
+		style = "--task-background:"+noteColor+"33;--task-color:"+noteColor;
+	} else {
+		style = "--task-background:#7D7D7D33;--task-color:#7D7D7D";
+	};
 	if (noteIcon) { taskText =  noteIcon + taskText };
 	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(taskPath) + ": " + taskText);
 	return newTask;
