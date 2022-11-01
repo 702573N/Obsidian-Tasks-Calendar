@@ -102,7 +102,8 @@ Disable pointer events on cell names to prevent unintentional execution
 ```
 options: "mini"
 ```
-Set smaller text on tasks, cell names and grid heads. On mobile devices, the font size is automatically reduced because the limited screen size.
+Set smaller text on tasks, cell names and grid heads. Reduces the calendar width and height to a more compact format.
+On mobile devices, the font size is automatically reduced because the limited screen size.
 
 ```
 options: "noWeekNr"
@@ -114,6 +115,18 @@ options: "noTransparency"
 ```
 Disable transparency of tasks backgrounds
 
+```
+options: "noBackground"
+```
+Disable background color of tasks. The task text remains coloured if a colour has been stored in the note
+
+```
+options: "lineClamp1"
+options: "lineClamp2"
+options: "lineClamp3"
+```
+Set a line clamp from 1-3 inside your displayed tasks. By default 1 line is set.
+
 ---
 
 ## Style options
@@ -121,9 +134,9 @@ Disable transparency of tasks backgrounds
 ```
 options: "style1"
 ```
-There are different style options (style1, style2, style3, ...) to change the look of the weekly calendar view
+There are different style options (style1, style2, ...) to change the look of the weekly calendar view
 
-![styles](https://user-images.githubusercontent.com/59178587/198985206-91e59b28-ee63-48c7-b998-b59db1f4f46e.png)
+<img width="708" alt="Bildschirm­foto 2022-11-01 um 12 22 09" src="https://user-images.githubusercontent.com/59178587/199222206-e5e65da6-20a9-4ee9-9b2e-3b100b0f5d51.png">
 
 ---
 
