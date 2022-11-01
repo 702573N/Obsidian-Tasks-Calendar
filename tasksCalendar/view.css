@@ -374,7 +374,8 @@
 .tasksCalendar.noDailyNote .task.dailyNote {
 	display: none !important;
 }
-.tasksCalendar.noDailyNote .cellName {
+/* noCellNameEvent class */
+.tasksCalendar.noCellNameEvent .cellName {
 	pointer-events: none !important;
 }
 /* mini class */
