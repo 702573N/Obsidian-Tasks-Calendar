@@ -266,7 +266,8 @@ function setWrapperEvents() {
 };
 
 function getMonth(tasks, month) {
-	rootNode.querySelector('button.current').innerText = moment(month).format("MMMM YYYY");
+	var currentTitle = "<span>"+moment(month).format("MMMM")+"</span><span> "+moment(month).format("YYYY");
+	rootNode.querySelector('button.current').innerHTML = currentTitle;
 	var gridContent = "";
 	var firstDayOfMonth = moment(month).format("d");
 	var lastDayOfMonth = moment(month).endOf("month").format("D");
@@ -341,7 +342,8 @@ function getMonth(tasks, month) {
 };
 
 function getWeek(tasks, week) {
-	rootNode.querySelector('button.current').innerText = moment(week).format("YYYY [W]w");
+	var currentTitle = "<span>"+moment(week).format("YYYY")+"</span><span> "+moment(week).format("[W]w");
+	rootNode.querySelector('button.current').innerHTML = currentTitle
 	var gridContent = "";
 	var currentWeekday = moment(week).format("d");
 	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
