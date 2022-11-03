@@ -16,10 +16,16 @@
 	flex-wrap: nowrap;
 	flex-direction: row;
 }
-.tasksCalendar button.active {
+.tasksCalendar button.active,
+.tasksCalendar.noDone .filter,
+.tasksCalendar.noDone .filter:hover{
 	background: var(--background-modifier-active-hover);
 }
-.tasksCalendar button.active svg {
+.tasksCalendar button:not(.active):hover {
+	background: var(--background-modifier-hover);
+}
+.tasksCalendar button.active svg,
+.tasksCalendar.noDone .filter svg {
 	stroke: var(--icon-color-active) !important;
 }
 .tasksCalendar button {
@@ -60,7 +66,14 @@
 .tasksCalendar .current {
 	margin: 0 5px;
 	flex: 1;
+}
+.tasksCalendar .current span:first-child {
 	font-weight: bold;
+	color: var(--icon-color);
+}
+.tasksCalendar .current span:last-child {
+	font-weight: normal;
+	color: var(--icon-color-active);
 }
 .tasksCalendar .filter {
 	margin-left: 5px;
@@ -70,21 +83,7 @@
 	width: var(--icon-size);
 	stroke-width: var(--icon-stroke);
 }
-.tasksCalendar button:not(.active):hover {
-	background: var(--background-modifier-hover) !important;
-}
-.tasksCalendar.noDone .filter {
-	/* background: var(--background-modifier-active-hover) !important; */
-	background: hsla(348, 100%, 61%, 0.15) !important;
-}
-.tasksCalendar.noDone .filter:hover {
-	/* background: var(--background-modifier-active-hover) !important; */
-	background: hsla(348, 100%, 61%, 0.15) !important;
-}
-.tasksCalendar.noDone .filter svg {
-	/* stroke: var(--icon-color-active) !important; */
-	stroke: hsl(348, 100%, 61%) !important;
-}
+
 
 /* Main Calendar Grid */
 .tasksCalendar .grid {
@@ -172,9 +171,6 @@
 
 
 /* Today & Weekends */
-.tasksCalendar .cell.today {
-	border: 1px solid var(--icon-color-active) !important;
-}
 .tasksCalendar .cell.today .cellName {
 	font-weight: bold;
 	background: var(--icon-color-active);
@@ -185,11 +181,7 @@
 }
 .tasksCalendar .cell[data-weekday="0"] .cellName,
 .tasksCalendar .gridHead[data-weekday="0"] {
-	color: #ff443a;
-}
-.tasksCalendar .cell[data-weekday="6"] .cellName,
-.tasksCalendar .gridHead[data-weekday="6"] {
-	color: #0a84ff;
+	color: var(--icon-color-active);
 }
 
 
@@ -244,6 +236,7 @@
 	font-size: 10px;
 	font-weight: normal;
 	color: var(--text-normal);
+	color: var(--icon-color-active);
 	cursor: pointer;
 	width: 100%;
 	overflow: hidden;
@@ -491,7 +484,7 @@ body.is-mobile .tasksCalendar.style4 .grid[data-view='week'] .task {
 body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .gridHead,
 body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .cellName,
 body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .task {
-	font-size: 12px !important;
+	font-size: 13px !important;
 }
 
 
