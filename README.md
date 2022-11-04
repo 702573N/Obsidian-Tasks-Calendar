@@ -28,7 +28,12 @@ Likewise, users kept asking me about the daily notes. Originally, Obsidian-Task-
  4. There are 4 different variables to set path/location as "pages", calendar view style as "view", first day of the week (0 or 1) as "firstDayOfWeek" and some style classes as "options"
 
 ---
+## Required parameters
+
 ### pages:
+
+For help and instruction take a look here [Dataview Help](https://blacksmithgu.github.io/obsidian-dataview/api/code-reference/#dvpagessource)
+
 ```
 pages: ""
 ```
@@ -39,10 +44,14 @@ pages: '"Task Management/Work"'
 ```
 Set a custom folder to get tasks from.
 
-The dv.pages command is the same and works exactly the same like in dataview-plugin. For help and instruction take a look here [Dataview Help](https://blacksmithgu.github.io/obsidian-dataview/api/code-reference/#dvpagessource)
+The dv.pages command is the same and works exactly the same like in dataview-plugin.
 
+```
+pages: "dv.pages().file.tasks.where(t => t.tags.includes('#Pierre'))"
+```
+It is also possible to define complex DQL (Dataview Query Language) queries. These must start with `dv.pages` and output tasks as a result.
     
----
+
 ### view:
 ```
 view: "month"
@@ -50,7 +59,7 @@ view: "week"
 ```
 With the view parameter you can set the default selected calendar
   
----
+
 ### firstDayOfWeek:
 ```
 firstDayOfWeek: 1
@@ -59,6 +68,8 @@ firstDayOfWeek: 0
 Set monday (1) or sunday (0) as first day of week
 
 ---
+## Optional parameters
+
 ### dailyNoteFolder:
 ```
 dailyNoteFolder: ""
@@ -67,7 +78,13 @@ dailyNoteFolder: "Inbox/Daily Notes/Work"
 ```
 This parameter must only be specified if this is to be used. Here you can define a custom folder path for the daily notes if they should not be saved in the default folder for new files. Of course, folder structures with several levels can also be defined here. This paramter 
 
----
+### startPosition:
+```
+startPosition: ""
+startPosition: "2024-06-01"
+```
+This parameter can be used to set a date to give focus an month or week view (set with `view:` parameter). On month calendar every date between the first and the last day of the month will be shown the right month. On the week calendar all dates between the first day and the last day of that week will be shown the right week. The input format must look like this `YYYY-MM-DD`.
+
 ### globalTaskFilter:
 ```
 globalTaskFilter: ""
@@ -76,8 +93,8 @@ globalTaskFilter: "#task"
 This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
 
 ---
-### options:
-##### You can combine all available options
+## options:
+### You can combine all available options
 
 ```
 options: "noIcons"
@@ -127,9 +144,14 @@ options: "lineClamp3"
 ```
 Set a line clamp from 1-3 inside your displayed tasks. By default 1 line is set.
 
+```
+options: "noLayer"
+```
+The back layer of the grid with the month or week information can be hidden with this.
+
 ---
 
-## Style options
+### Style options
 
 ```
 options: "style1"
