@@ -19,7 +19,7 @@ Likewise, users kept asking me about the daily notes. Originally, Obsidian-Task-
 
     ````
     ```dataviewjs
-    await dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, globalTaskFilter: "#task", dailyNoteFolder: "", options: "style2"})
+    await dv.view("tasksCalendar", {pages: "", view: "month", firstDayOfWeek: 1, options: "style1"})
     ```
     ````
     
