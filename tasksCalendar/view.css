@@ -92,12 +92,13 @@
 	width: 100%;
 }
 .tasksCalendar .cell {
+	z-index: 1;
 	display: grid;
 	grid-template-rows: auto 1fr;
 	grid-template-columns: 1fr;
 	overflow: hidden;
 	margin: 1px 0;
-	background: var(--background-primary);
+	/* background: var(--background-primary); */
 }
 .tasksCalendar .cellContent {
 	display: grid;
@@ -173,11 +174,16 @@
 /* Today & Weekends */
 .tasksCalendar .cell.today .cellName {
 	font-weight: bold;
-	background: var(--icon-color-active);
 	color: white;
 }
-.tasksCalendar .cell.today .cellContent {
+.tasksCalendar .grid[data-view='month'] .cell.today {
 	background: var(--background-modifier-active-hover) !important;
+	box-shadow: inset 0 0 0 1px hsla(var(--interactive-accent-hsl), 0.25);
+	border-radius: 5px;
+}
+.tasksCalendar .grid[data-view='week'] .cell.today {
+	background: var(--background-modifier-active-hover) !important;
+	border: 1px solid hsla(var(--interactive-accent-hsl), 0.25) !important;
 }
 .tasksCalendar .cell[data-weekday="0"] .cellName,
 .tasksCalendar .gridHead[data-weekday="0"] {
@@ -215,7 +221,29 @@
 	height: calc(100% - 20px);
 	gap: 4px 4px;
 }
+.tasksCalendar .grid[data-view='month'] .wrappers,
+.tasksCalendar .grid[data-view='week'] {
+	position: relative;
+}
+.tasksCalendar .grid[data-view='month'] .wrappers:before,
+.tasksCalendar .grid[data-view='week']:before {
+	z-index: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 120px;
+	font-weight: bold;
+	color: var(--background-modifier-active-hover);
+}
+.tasksCalendar .grid[data-view='month'] .wrappers:before {
+	content: attr(data-month);
+}
+.tasksCalendar .grid[data-view='week']:before {
+	content: attr(data-week);
+}
 .tasksCalendar .grid[data-view='month'] .wrapper {
+	z-index: 1;
 	display: grid;
 	grid-template-rows: 1fr !important;
 	grid-template-columns: 22px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
@@ -425,6 +453,11 @@
 /* noCellNameEvent class */
 .tasksCalendar.noCellNameEvent .cellName {
 	pointer-events: none !important;
+}
+/* noLayer */
+.tasksCalendar.noLayer .grid[data-view='month'] .wrappers:before,
+.tasksCalendar.noLayer .grid[data-view='week']:before {
+	display: none !important;
 }
 /* mini class */
 .tasksCalendar.mini {
