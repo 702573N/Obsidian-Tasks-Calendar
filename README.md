@@ -93,8 +93,7 @@ globalTaskFilter: "#task"
 This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
 
 ---
-## options:
-### You can combine all available options
+## Options parameter
 
 ```
 options: "noIcons"
