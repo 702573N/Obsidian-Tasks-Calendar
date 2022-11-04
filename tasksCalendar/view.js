@@ -1,6 +1,14 @@
-let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, options} = input;
+let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, startPosition, dql, options} = input;
 
-if (pages=="") {var tasks = dv.pages().file.tasks} else {var tasks = dv.pages(pages).file.tasks};
+if (pages=="") {
+	var tasks = dv.pages().file.tasks;
+} else {
+	if (pages.startsWith("dv.pages")) {
+		var tasks = eval(pages);
+	} else {
+		var tasks = dv.pages(pages).file.tasks;
+	};
+};
 
 // Variables
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled, dailyNote;
@@ -11,8 +19,9 @@ var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
 var tid = (new Date()).getTime();
 var selectedDate = null;
-var selectedMonth = moment().date(1);
-var selectedWeek = moment().startOf("week");
+startPosition == null ? "" : startPosition;
+var selectedMonth = moment(startOn).date(1);
+var selectedWeek = moment(startOn).startOf("week");
 var selectedDate = eval("selected"+capitalize(view));
 var arrowLeftIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
@@ -294,11 +303,11 @@ function getMonth(tasks, month) {
 	for (w=1; w<7; w++) {
 		var wrapper = "";
 		var weekNr = "";
-		var year = "";
+		var monthName = moment(month).format("MMM").replace(".","").substring(0,3);
+		var yearNr = moment(month).format("YYYY");
 		for (i=start;i<start+7;i++) {
 			if (i==start) {
 				weekNr = moment(month).add(i, "days").format("w");
-				year = moment(month).add(i, "days").format("YYYY");
 			};
 			var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
 			var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
@@ -333,10 +342,10 @@ function getMonth(tasks, month) {
 			};
 			wrapper += cell;
 		};
-		wrappers += "<div class='wrapper'><div class='wrapperButton' data-week='"+weekNr+"' data-year='"+year+"'>W"+weekNr+"</div>"+wrapper+"</div>";
+		wrappers += "<div class='wrapper'><div class='wrapperButton' data-week='"+weekNr+"' data-year='"+yearNr+"'>W"+weekNr+"</div>"+wrapper+"</div>";
 		start += 7;
 	};
-	gridContent += "<div class='wrappers'>"+wrappers+"</div>";
+	gridContent += "<div class='wrappers' data-month='"+monthName+"'>"+wrappers+"</div>";
 	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "month"}}));
 	setWrapperEvents();
 };
@@ -346,13 +355,13 @@ function getWeek(tasks, week) {
 	rootNode.querySelector('button.current').innerHTML = currentTitle
 	var gridContent = "";
 	var currentWeekday = moment(week).format("d");
+	var weekNr = moment(week).format("[W]w");
 	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
 		var currentDate = moment(week).add(i, "days").format("YYYY-MM-DD");
 		var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
 		var weekDay = moment(week).add(i, "days").format("d");
 		var dayName = moment(currentDate).format("ddd D.");
 		var longDayName = moment(currentDate).format("ddd, D. MMM");
-		var weekNr = moment(currentDate).add(i, "days").format("[W]w");
 	
 		// Filter Tasks
 		getTasks(currentDate);
@@ -380,5 +389,5 @@ function getWeek(tasks, week) {
 		};
 		gridContent += cell;
 	};
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "week"}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "week", 'data-week': weekNr}}));
 };
