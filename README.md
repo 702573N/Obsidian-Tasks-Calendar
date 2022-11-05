@@ -1,6 +1,7 @@
 # Obsidian-Tasks-Calendar
 Dataview snippet to show tasks in different calendar views
 
+![Mockup](https://user-images.githubusercontent.com/59178587/200115332-382ecaed-845a-479b-a363-fa9c136b3342.png)
 
 ## Story
 All Obsidian and Task Plugin users love the program. What has been set up with the Task Plugin is just great and helps so many people to organize their work. However, just listing tasks according to certain criteria is sometimes a bit boring. To get a quick visual impression of one's workday/workweek/workmonth, a calendar view would be ideal. To be honest, I'm too stupid to program my own plugins for Obsidian, but I know some Javascript, so I programmed this Dataview snippet. I hope to offer many people a good addition to the Task Plugin and hope for an integration into the Task Plugin someday. But I'm sure there are better programmers out there, who can make my code, which is probably horrible for professionals, much better.
@@ -190,30 +191,3 @@ Hovering a task let popup a small info about the note and task (note-title: task
 <img width="1116" alt="Bildschirm­foto 2022-10-30 um 10 19 22" src="https://user-images.githubusercontent.com/59178587/198871327-7eb684f4-04ee-4155-83be-7016889b2fee.png">
 
 After a task is completed the start- and scheduled dates are no longer needed and will be hidden. The task is now only displayed on the final completion date.
-
----
-
-## Impressions
-
-### Month Calendar
-<img width="1147" alt="Bildschirm­foto 2022-10-31 um 20 39 02" src="https://user-images.githubusercontent.com/59178587/199096052-6744ddad-56b9-4d28-9a2f-2ef560b40981.png">
-
----
-
-### Week Calendar (style1)
-<img width="1143" alt="Bildschirm­foto 2022-10-31 um 20 39 48" src="https://user-images.githubusercontent.com/59178587/199096096-3bc4db34-41be-460d-a7bd-a34deeb60876.png">
-
----
-
-### Week Calendar (style3)
-<img width="1146" alt="Bildschirm­foto 2022-10-31 um 20 40 07" src="https://user-images.githubusercontent.com/59178587/199096180-7191adb1-631d-4ddb-ade9-794f79dbf719.png">
-
----
-
-### Week Calendar (style4)
-<img width="1146" alt="Bildschirm­foto 2022-10-31 um 20 40 26" src="https://user-images.githubusercontent.com/59178587/199096248-87dd2d9a-0924-4caa-b5fa-e98466ed48be.png">
-
----
-
-### Week Calendar (style5)
-<img width="1143" alt="Bildschirm­foto 2022-10-31 um 20 40 46" src="https://user-images.githubusercontent.com/59178587/199096293-cd5aa2e6-e5f4-418b-a947-c3f67cb1a1ab.png">
