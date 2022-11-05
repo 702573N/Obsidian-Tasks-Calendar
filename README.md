@@ -1,5 +1,5 @@
 # Obsidian-Tasks-Calendar
-#### [Obsidian-Dataview](https://github.com/blacksmithgu/obsidian-dataview) snippet to display tasks from [Obsidian-Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) and from your daily notes in a highly customisable calendar with a wide variety of views
+#### A custom view build with [Obsidian-Dataview](https://github.com/blacksmithgu/obsidian-dataview) to display tasks from [Obsidian-Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) and from your daily notes in a highly customisable calendar with a wide variety of views
 
 ![Mockup](https://user-images.githubusercontent.com/59178587/200115332-382ecaed-845a-479b-a363-fa9c136b3342.png)
 
