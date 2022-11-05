@@ -1,5 +1,6 @@
 let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, startPosition, dql, options} = input;
 
+// Get, Set, Eval Pages
 if (pages=="") {
 	var tasks = dv.pages().file.tasks;
 } else {
@@ -18,7 +19,6 @@ var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var dateformat = "ddd, D. MMM";
 var tid = (new Date()).getTime();
-var selectedDate = null;
 startPosition == null ? "" : startPosition;
 var selectedMonth = moment(startPosition).date(1);
 var selectedWeek = moment(startPosition).startOf("week");
@@ -187,9 +187,9 @@ function setTaskContentContainer(currentDate) {
 	showTasks(start, "start");
 	showTasks(scheduled, "scheduled");
 	showTasks(process, "process");
+	showTasks(dailyNote, "dailyNote");
 	showTasks(done, "done");
 	showTasks(cancelled, "cancelled");
-	showTasks(dailyNote, "dailyNote");
 	return cellContent;
 };
 
@@ -303,11 +303,12 @@ function getMonth(tasks, month) {
 	for (w=1; w<7; w++) {
 		var wrapper = "";
 		var weekNr = "";
+		var yearNr = "";
 		var monthName = moment(month).format("MMM").replace(".","").substring(0,3);
-		var yearNr = moment(month).format("YYYY");
 		for (i=start;i<start+7;i++) {
 			if (i==start) {
 				weekNr = moment(month).add(i, "days").format("w");
+				yearNr = moment(month).add(i, "days").format("YYYY");
 			};
 			var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
 			var dailyNote = dailyNoteFolder ? dailyNoteFolder+"/"+currentDate : currentDate;
@@ -362,7 +363,7 @@ function getWeek(tasks, week) {
 		var weekDay = moment(week).add(i, "days").format("d");
 		var dayName = moment(currentDate).format("ddd D.");
 		var longDayName = moment(currentDate).format("ddd, D. MMM");
-	
+		
 		// Filter Tasks
 		getTasks(currentDate);
 	
