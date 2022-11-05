@@ -1,14 +1,10 @@
 # Obsidian-Tasks-Calendar
-Dataview snippet to show tasks in different calendar views
+#### [Obsidian-Dataview](https://github.com/blacksmithgu/obsidian-dataview) snippet to display tasks from [Obsidian-Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) and from your daily notes in a highly customisable calendar with a wide variety of views
 
 ![Mockup](https://user-images.githubusercontent.com/59178587/200115332-382ecaed-845a-479b-a363-fa9c136b3342.png)
 
 ## Story
 All Obsidian and Task Plugin users love the program. What has been set up with the Task Plugin is just great and helps so many people to organize their work. However, just listing tasks according to certain criteria is sometimes a bit boring. To get a quick visual impression of one's workday/workweek/workmonth, a calendar view would be ideal. To be honest, I'm too stupid to program my own plugins for Obsidian, but I know some Javascript, so I programmed this Dataview snippet. I hope to offer many people a good addition to the Task Plugin and hope for an integration into the Task Plugin someday. But I'm sure there are better programmers out there, who can make my code, which is probably horrible for professionals, much better.
-
-## Update 1.2.0
-The concept of Obsidian Task Calendar has been fundamentally revised. The goal is to provide the user with two different calendar views. **By selecting a week in the month view, the user should be able to jump directly to the week view**. However, if several different week views exist, it has to be defined somehow which one should be displayed when selected. For this reason I decided to **remove the third calendar view** (widget). So now there is a month view to big overview and a week based detail view. But don't worry, the display of the week view can be customized to the user's needs with different styles. **With this approach, the calendar perspectives could be reduced to two, but at the same time the possible styles of the week view could be multiplied.** Thus, the Obsidian Task Calendar is customizable like never before and more week view styles are to follow in the future.
-Likewise, users kept asking me about the daily notes. Originally, Obsidian-Task-Calendar was intended exclusively for the **[Obsidian-Task-Plugin](https://github.com/obsidian-tasks-group/obsidian-tasks)** with its own syntax and shall continue to be the main focus. Nevertheless, with this update there is now also the option to **display all tasks from daily notes in the calendar**, even if they have not been assigned any date (due, start, scheduled, etc.). In this case, the tasks are assigned to the date from the file name of the daily note and displayed accordingly in the calendar. Only the standard Obsidian nomenclature `YYYY-MM-DD` is supported here. **For the reasons mentioned above, I do not plan to allow customization here.**
 
 ## Setup
 1.  Install "Dataview Plugin" from the external plugins
