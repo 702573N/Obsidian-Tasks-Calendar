@@ -2,7 +2,7 @@
 	user-select: none !important;
 	-webkit-user-select: none !important;
 	-webkit-touch-callout: none !important;
-	overflow: hidden:
+	overflow: hidden;
 }
 .tasksCalendar span {
 	display: contents;
@@ -83,6 +83,34 @@
 	height: var(--icon-size);
 	width: var(--icon-size);
 	stroke-width: var(--icon-stroke);
+}
+.tasksCalendar .counter {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	border-radius: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	font-size: 10px;
+	padding: 2px 5px;
+	margin-top: 4px;
+	border: 1px solid var(--nav-item-background-active);
+	background: var(--background-secondary);
+}
+.tasksCalendar .counter .progress {
+	display: inline-block;
+	height: 13px;
+	width: 13px;
+	border-radius: 50%;
+	margin: auto 5px auto 0;
+	border: 1px solid var(--nav-item-background-active);
+	background: #ffd60a; /* yellow */
+}
+.tasksCalendar .counter .progress[value="0"] {
+	background: #ff375f; /* pink */
+}
+.tasksCalendar .counter .progress[value="100"] {
+	background: #30d158; /* green */
 }
 
 
@@ -183,7 +211,7 @@
 .tasksCalendar .grid[data-view='month'] {
 	display: grid;
 	gap: 4px;
-	height: 76vH;
+	height: 72vH; /* 76 */
 	grid-template-rows: 20px 1fr !important;
 	grid-template-columns: 1fr !important;
 }
@@ -283,7 +311,7 @@
 .tasksCalendar .grid[data-view='week'] {
 	display: grid;
 	gap: 2px 4px;
-	height: 76vH;
+	height: 72vH;
 }
 .tasksCalendar .grid[data-view='week'] .cell {
 	border: 1px solid var(--nav-item-background-active);
@@ -483,6 +511,14 @@
 .tasksCalendar.noLayer .grid[data-view='week']:before {
 	display: none !important;
 }
+/* noCounter */
+.tasksCalendar.noCounter .counter {
+	display: none !important;
+}
+.tasksCalendar.noCounter .grid[data-view='month'],
+.tasksCalendar.noCounter .grid[data-view='week'] {
+	height: 75vH !important;
+}
 /* mini class */
 .tasksCalendar.mini {
 	max-width: 500px !important;
@@ -551,22 +587,14 @@
 }
 
 
-/* Mobile Month View */
-body.is-mobile .tasksCalendar .grid[data-view='month'] .gridHead,
-body.is-mobile .tasksCalendar .grid[data-view='month'] .cellName,
-body.is-mobile .tasksCalendar .grid[data-view='month'] .task {
-	font-size: 9px !important;
+/* Mobile View */
+body.is-mobile .tasksCalendar .gridHead,
+body.is-mobile .tasksCalendar .cellName,
+body.is-mobile .tasksCalendar .task {
+	font-size: 9px;
 }
-/* Mobile Week Views */
-body.is-mobile .tasksCalendar.style4 .grid[data-view='week'] .gridHead,
-body.is-mobile .tasksCalendar.style4 .grid[data-view='week'] .cellName,
-body.is-mobile .tasksCalendar.style4 .grid[data-view='week'] .task {
-	font-size: 9px !important;
-}
-/* Mobile Week Views */
-body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .gridHead,
-body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .cellName,
-body.is-mobile .tasksCalendar:not(.style4) .grid[data-view='week'] .task {
+body.is-mobile .tasksCalendar:not(.style4, .style9, .style10) .grid[data-view='week'] .cellName,
+body.is-mobile .tasksCalendar:not(.style4, .style9, .style10) .grid[data-view='week'] .task {
 	font-size: 13px !important;
 }
 
