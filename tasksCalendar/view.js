@@ -124,6 +124,11 @@ function getIcon(task) {
 	if (icon) { return icon } else { return "" };
 };
 
+function getTextColor(task) {
+	var textcolor = dv.pages('"'+task.link.path+'"').textcolor[0];
+	if (textcolor) { return textcolor } else { return "" };
+};
+
 function getTasks(date) {
 	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
 	doneWithoutCompletionDate = tasks.filter(t=>t.completed && t.checked && !t.completion && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
@@ -141,16 +146,22 @@ function getTasks(date) {
 function setTask(obj, type) {
 	var noteColor = getColor(obj);
 	var noteIcon = getIcon(obj);
+	var textColor = getTextColor(obj);
 	var taskText = obj.text.replace("'", "&apos;");
 	var taskPath = obj.link.path.replace("'", "&apos;");
 	var taskSubpath = obj.header.subpath;
 	var taskLine = taskSubpath ? taskPath+"#"+taskSubpath : taskPath;
 	var style = "";
+	console.log(textColor);
 	// if (noteColor) { style = "color:" + noteColor + ";background:" + noteColor + transparency };
-	if (noteColor) {
-		style = "--task-background:"+noteColor+"33;--task-color:"+noteColor;
+	if (noteColor && textColor) {
+		style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--task-text-color:"+textColor;
+	} else if (noteColor && textColor == ""){
+		style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--task-text-color:#000000";
+	} else if (noteColor == "" && textColor ){
+		style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--task-text-color:"+textColor;
 	} else {
-		style = "--task-background:#7D7D7D33;--task-color:#7D7D7D";
+		style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--task-text-color:#000000";
 	};
 	if (noteIcon) { taskText =  noteIcon + taskText };
 	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(taskPath) + ": " + taskText);
