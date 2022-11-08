@@ -92,9 +92,11 @@
 	background: var(--icon-color);
 	margin: 0 !important;
 	list-style: none;
-	padding: 5px !important;
+	padding: 10px !important;
 	z-index: 99;
 	box-shadow: 0px 0px 10px 0px var(--nav-item-background-active);
+	cursor: default;
+	background: var(--background-secondary);
 }
 .tasksCalendar .statisticPopup:before {
 	content: "";
@@ -103,7 +105,7 @@
 	-webkit-transform:rotate(360deg);
 	border-style: solid;
 	border-width: 0 10px 10px 10px;
-	border-color: transparent transparent var(--icon-color) transparent;
+	border-color: transparent transparent var(--background-secondary) transparent;
 	position: absolute;
 	top: -10px;
 	right: 5px;
@@ -116,13 +118,12 @@
 	line-height: 30px;
 	padding: auto 0;
 	font-size: 14px;
-	color: var(--background-primary);
 	list-style: none;
+	color: var(--text-normal);
 }
 .tasksCalendar .statisticPopup li.break {
 	height: 1px !important;
-	background: var(--background-primary);
-	background: var(--text-faint);
+	background: var(--nav-item-background-active);
 	margin: 4px 0;
 }
 .tasksCalendar .statisticPopup > div {
@@ -141,18 +142,19 @@
 .tasksCalendar button.statistic:after {
 	content: attr(data-remaining);
 	position: absolute;
-	height: 12px;
-	width: 12px;
-	top: -6.875px;
-	right: -6.875px;
-	background: var(--background-secondary);
+	height: 14px;
+	width: 14px;
+	top: -8px;
+	right: -8px;
 	border-radius: 50%;
 	text-align: center;
-	line-height: 12px;
-	font-size: 8px;
-	border: 1.75px solid var(--nav-item-background-active);
+	line-height: 14px;
+	font-size: 9px;
+	font-weight: bold;
+	border: 1px solid var(--nav-item-background-active);
 	overflow: hidden;
 	color: var(--icon-color);
+	background: var(--background-secondary);
 }
 
 
