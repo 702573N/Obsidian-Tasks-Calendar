@@ -15,7 +15,7 @@
 .tasksCalendar.noDone .filter:hover {
 	background: var(--background-modifier-active-hover);
 }
-.tasksCalendar button:not(.active):hover {
+body:not(.is-mobile) .tasksCalendar button:not(.active):hover {
 	background: var(--background-modifier-hover);
 }
 .tasksCalendar button.active svg,
@@ -92,7 +92,7 @@
 	background: var(--icon-color);
 	margin: 0 !important;
 	list-style: none;
-	padding: 10px !important;
+	padding: 2px !important;
 	z-index: 99;
 	box-shadow: 0px 0px 10px 0px var(--nav-item-background-active);
 	cursor: default;
@@ -114,17 +114,26 @@
 	display: block;
 }
 .tasksCalendar .statisticPopup li {
-	height: 25px;
-	line-height: 30px;
-	padding: auto 0;
+	height: auto;
 	font-size: 14px;
 	list-style: none;
 	color: var(--text-normal);
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+.tasksCalendar .statisticPopup li.active {
+	background: var(--background-modifier-active-hover);
+	color: var(--icon-color-active) !important;
+}
+body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
+	background: var(--background-modifier-hover);
 }
 .tasksCalendar .statisticPopup li.break {
 	height: 1px !important;
 	background: var(--nav-item-background-active);
-	margin: 4px 0;
+	margin: 2px 5px !important;
+	border-radius: 0 !important;
+	padding: 0 !important;
 }
 .tasksCalendar .statisticPopup > div {
 	height: 13px;
@@ -205,6 +214,10 @@
 	overflow: hidden;
 	margin: 1px;
 	font-size: 14px;
+}
+.tasksCalendar .task.hide {
+	/* display: none !important; */
+	opacity: 0.25;
 }
 .tasksCalendar .task .inner {
 	overflow: hidden;
