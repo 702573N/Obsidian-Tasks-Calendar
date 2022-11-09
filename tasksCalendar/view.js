@@ -114,15 +114,10 @@ function capitalize(str) {
 	return str[0].toUpperCase() + str.slice(1);
 };
 
-function getColor(task) {
-	var color = dv.pages('"'+task.link.path+'"').color[0];
-	if (color) { return color } else { return "" };
-};
-
-function getIcon(task) {
-	var icon = dv.pages('"'+task.link.path+'"').icon[0];
-	if (icon) { return icon } else { return "" };
-};
+function getMetaFromNote(task, metaName) {
+	var meta = dv.pages('"'+task.link.path+'"')[metaName][0];
+	if (meta) { return meta } else { return "" };
+}
 
 function getTasks(date) {
 	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
@@ -139,19 +134,22 @@ function getTasks(date) {
 };
 
 function setTask(obj, type) {
-	var noteColor = getColor(obj);
-	var noteIcon = getIcon(obj);
+	var noteColor = getMetaFromNote(obj, "color");
+	var textColor = getMetaFromNote(obj, "textColor");
+	var noteIcon = getMetaFromNote(obj, "icon");
 	var taskText = obj.text.replace("'", "&apos;");
 	var taskPath = obj.link.path.replace("'", "&apos;");
 	var taskSubpath = obj.header.subpath;
 	var taskLine = taskSubpath ? taskPath+"#"+taskSubpath : taskPath;
-	var style = "";
-	// if (noteColor) { style = "color:" + noteColor + ";background:" + noteColor + transparency };
-	if (noteColor) {
-		style = "--task-background:"+noteColor+"33;--task-color:"+noteColor;
-	} else {
-		style = "--task-background:#7D7D7D33;--task-color:#7D7D7D";
-	};
+ 	if (noteColor && textColor) {
+ 		var style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--task-text-color:"+textColor;
+ 	} else if (noteColor && !textColor){
+ 		var style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--task-text-color:"+noteColor;
+ 	} else if (!noteColor && textColor ){
+ 		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--task-text-color:"+textColor;
+ 	} else {
+ 		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--task-text-color:#7D7D7D";
+ 	};
 	if (noteIcon) { taskText =  noteIcon + taskText };
 	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(taskPath) + ": " + taskText);
 	return newTask;
