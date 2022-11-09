@@ -209,7 +209,7 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 	overflow: hidden;
 	padding: 1px;
 	background: var(--task-background);
-	color: var(--task-color);
+	color: var(--task-text-color);
 	border-radius: 3px;
 	overflow: hidden;
 	margin: 1px;
