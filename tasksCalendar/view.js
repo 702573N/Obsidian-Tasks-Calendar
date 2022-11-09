@@ -210,7 +210,6 @@ function setButtonEvents() {
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
 		var activeView = rootNode.querySelector(".grid").getAttribute("data-view");
 		if ( btn.className == "previous" ) {
-			resetPopupActives()
 			if (activeView == "month") {
 				selectedDate = moment(selectedDate).subtract(1, "months");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
@@ -221,7 +220,6 @@ function setButtonEvents() {
 				getWeek(tasks, selectedDate);
 			};
 		} else if ( btn.className == "current") {
-			resetPopupActives()
 			if (activeView == "month") {
 				selectedDate = moment().date(1);
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
@@ -232,7 +230,6 @@ function setButtonEvents() {
 				getWeek(tasks, selectedDate);
 			};
 		} else if ( btn.className == "next" ) {
-			resetPopupActives()
 			if (activeView == "month") {
 				selectedDate = moment(selectedDate).add(1, "months");
 				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
@@ -247,7 +244,6 @@ function setButtonEvents() {
 		} else if ( btn.className == "filter" ) {
 			rootNode.classList.toggle("noDone");
 		} else if ( btn.className == "monthView" ) {
-			resetPopupActives()
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
 			if ( moment().format("ww-YYYY") == moment(selectedDate).format("ww-YYYY") ) {
@@ -258,7 +254,6 @@ function setButtonEvents() {
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getMonth(tasks, selectedDate);
 		} else if ( btn.className == "weekView" ) {
-			resetPopupActives()
 			rootNode.querySelector("button.active").classList.remove("active");
 			btn.classList.add("active");
 			if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
@@ -269,22 +264,10 @@ function setButtonEvents() {
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getWeek(tasks, selectedDate);
 		} else if ( btn.className == "statistic" ) {
-			resetPopupActives();
 			rootNode.querySelector(".statisticPopup").classList.toggle("active");
 		};
 		btn.blur();
 	})));
-};
-
-function resetPopupActives() {
-	const liElements = rootNode.querySelectorAll('.statisticPopup li');
-	for (const liElement of liElements) {
-		liElement.classList.remove('active');
-	};
-	const taskElements = rootNode.querySelectorAll('.task');
-	for (const taskElement of taskElements) {
-		taskElement.classList.remove('hide');
-	};
 };
 
 function setWrapperEvents() {
@@ -303,27 +286,19 @@ function setStatisticEvents() {
 	rootNode.querySelectorAll('.statisticPopup li').forEach(li => li.addEventListener('click', (() => {
 		var group = li.getAttribute("data-group");
 		const liElements = rootNode.querySelectorAll('.statisticPopup li');
-		const taskElements = rootNode.querySelectorAll('.task');
 		if (li.classList.contains("active")) {
 			const liElements = rootNode.querySelectorAll('.statisticPopup li');
 			for (const liElement of liElements) {
 				liElement.classList.remove('active');
 			};
-			for (const taskElement of taskElements) {
-				taskElement.classList.remove('hide');
-			};
+			rootNode.classList.remove("focus"+capitalize(group));
 		} else {
 			for (const liElement of liElements) {
 				liElement.classList.remove('active');
 			};
 			li.classList.add("active");
-			for (const taskElement of taskElements) {
-				if (taskElement.classList.contains(group)) {
-					taskElement.classList.remove('hide');
-				} else {
-					taskElement.classList.add('hide');
-				};
-			};
+			rootNode.classList.remove.apply(rootNode.classList, Array.from(rootNode.classList).filter(v=>v.startsWith("focus")));
+			rootNode.classList.add("focus"+capitalize(group));
 		};
 	})));
 };
