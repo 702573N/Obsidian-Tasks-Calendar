@@ -169,11 +169,12 @@ There are different style options (style1, style2, ...) to change the look of th
 ---
 
 ## Note color & icon
-In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note.
+In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note. By default the note-color is used for the dimmed background and as text-color. If you would like to give your tasks a completely different color then the note-color itself, then use the textColor meta.
 
 ```
 ---
 color: "#bf5af2"
+textColor: "#000000"
 icon: "❤️"
 ---
 ```
