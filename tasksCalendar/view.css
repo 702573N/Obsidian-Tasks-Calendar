@@ -95,7 +95,6 @@ body:not(.is-mobile) .tasksCalendar button:not(.active):hover {
 	padding: 2px !important;
 	z-index: 99;
 	box-shadow: 0px 0px 10px 0px var(--nav-item-background-active);
-	cursor: default;
 	background: var(--background-secondary);
 }
 .tasksCalendar .statisticPopup:before {
@@ -120,6 +119,7 @@ body:not(.is-mobile) .tasksCalendar button:not(.active):hover {
 	color: var(--text-normal);
 	padding: 5px 10px;
 	border-radius: 5px;
+	cursor: pointer;
 }
 .tasksCalendar .statisticPopup li.active {
 	background: var(--background-modifier-active-hover);
@@ -502,72 +502,38 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style10 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 3 / 9 / 4 / 11; } 
 
 
-/* noIcons class */
-.tasksCalendar.noIcons .task {
-	/*border-left: 2px solid currentColor;*/
-}
-.tasksCalendar.noIcons .task:before {
-	display: none !important;
-}
-/* noTransparency */
-.tasksCalendar.noTransparency .task {
-	background: var(--task-color) ;
-	color: black;
-}
-.tasksCalendar.noTransparency .task.done {
-	color: var(--text-faint) !important;
-	background: none !important;
-}
-/* noBackground */
-.tasksCalendar.noBackground .task {
-	color: var(--task-color) !important;
-	background: none !important;
-}
-.tasksCalendar.noBackground .task.done {
-	color: var(--text-faint) !important;
-	background: none !important;
-}
-/* noDone class */
-.tasksCalendar.noDone .task.done {
-	display: none !important;
-}
-/* noScheduled class */
-.tasksCalendar.noScheduled .task.scheduled {
-	display: none !important;
-}
-/* noStart class */
-.tasksCalendar.noStart .task.start {
-	display: none !important;
-}
-/* noDue class */
-.tasksCalendar.noDue .task.due {
-	display: none !important;
-}
-/* noProcess class */
-.tasksCalendar.noProcess .task.process {
-	display: none !important;
-}
-/* noRecurrence class */
-.tasksCalendar.noRecurrence .task.recurrence {
-	display: none !important;
-}
-/* noOverdue class */
-.tasksCalendar.noOverdue .task.overdue {
-	display: none !important;
-}
-/* noDailyNote class */
-.tasksCalendar.noDailyNote .task.dailyNote {
-	display: none !important;
-}
-/* noCellNameEvent class */
-.tasksCalendar.noCellNameEvent .cellName {
-	pointer-events: none !important;
-}
-/* noLayer */
+/* Options classes */
+.tasksCalendar.noIcons .task:before { display: none !important; }
+.tasksCalendar.noTransparency .task { background: var(--task-color); color: black; }
+.tasksCalendar.noTransparency .task.done { color: var(--text-faint) !important; background: none !important; }
+.tasksCalendar.noBackground .task { color: var(--task-color) !important; background: none !important; }
+.tasksCalendar.noBackground .task.done { color: var(--text-faint) !important; background: none !important; }
+.tasksCalendar.noDone .task.done { display: none !important; }
+.tasksCalendar.noScheduled .task.scheduled { display: none !important; }
+.tasksCalendar.noStart .task.start { display: none !important; }
+.tasksCalendar.noDue .task.due { display: none !important; }
+.tasksCalendar.noProcess .task.process { display: none !important; }
+.tasksCalendar.noRecurrence .task.recurrence { display: none !important; }
+.tasksCalendar.noOverdue .task.overdue { display: none !important; }
+.tasksCalendar.noDailyNote .task.dailyNote { display: none !important; }
+.tasksCalendar.noCellNameEvent .cellName { pointer-events: none !important; }
 .tasksCalendar.noLayer .grid[data-view='month'] .wrappers:before,
-.tasksCalendar.noLayer .grid[data-view='week']:before {
-	display: none !important;
-}
+.tasksCalendar.noLayer .grid[data-view='week']:before { display: none !important;}
+
+.tasksCalendar.focusDone .task { opacity: 0.25; }
+.tasksCalendar.focusDone .task.done { opacity: 1 !important; }
+.tasksCalendar.focusDue .task { opacity: 0.25; }
+.tasksCalendar.focusDue .task.due { opacity: 1 !important; }
+.tasksCalendar.focusOverdue .task { opacity: 0.25; }
+.tasksCalendar.focusOverdue .task.overdue { opacity: 1 !important; }
+.tasksCalendar.focusStart .task { opacity: 0.25; }
+.tasksCalendar.focusStart .task.start { opacity: 1 !important; }
+.tasksCalendar.focusScheduled .task { opacity: 0.25; }
+.tasksCalendar.focusScheduled .task.scheduled { opacity: 1 !important; }
+.tasksCalendar.focusRecurrence .task { opacity: 0.25; }
+.tasksCalendar.focusRecurrence .task.recurrence { opacity: 1 !important; }
+.tasksCalendar.focusDailyNote .task { opacity: 0.25; }
+.tasksCalendar.focusDailyNote .task.dailyNote { opacity: 1 !important; }
 
 
 /* mini class */
@@ -651,37 +617,14 @@ body.is-mobile .tasksCalendar .statisticPopup li {
 
 
 /* Task Icons */
-.tasksCalendar .task:before {
-	margin-right: 3px;
-	float: left;
-}
-.tasksCalendar .task.overdue:before {
-	content: "⚠️";
-}
-.tasksCalendar .task.start:before {
-	content: "🛫";
-}
-.tasksCalendar .task.due:before {
-	content: "📅";
-}
-.tasksCalendar .task.process:before {
-	content: "⏺️";
-}
-.tasksCalendar .task.scheduled:before {
-	content: "⏳";
-}
-.tasksCalendar .task.done:before {
-	content: "✅";
-}
-.tasksCalendar .task.recurrence:before {
-	content: "🔁";
-}
-.tasksCalendar .task.cancelled:before {
-	content: "🚫";
-}
-.tasksCalendar .task.cancelled {
-	text-decoration: line-through;
-}
-.tasksCalendar .task.dailyNote:before {
-	content: "📄";
-}
+.tasksCalendar .task:before { margin-right: 3px; float: left; }
+.tasksCalendar .task.overdue:before { content: "⚠️"; }
+.tasksCalendar .task.start:before { content: "🛫"; }
+.tasksCalendar .task.due:before { content: "📅"; }
+.tasksCalendar .task.process:before { content: "⏺️"; }
+.tasksCalendar .task.scheduled:before { content: "⏳"; }
+.tasksCalendar .task.done:before { content: "✅"; }
+.tasksCalendar .task.recurrence:before { content: "🔁"; }
+.tasksCalendar .task.cancelled:before { content: "🚫"; }
+.tasksCalendar .task.cancelled { text-decoration: line-through; }
+.tasksCalendar .task.dailyNote:before { content: "📄"; }
