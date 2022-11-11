@@ -146,10 +146,6 @@ options: "noLayer"
 ```
 The back layer of the grid with the month or week information can be hidden with this.
 
-```
-options: "noCounter"
-```
-Hides the counter line below the calendar.
 
 ---
 
