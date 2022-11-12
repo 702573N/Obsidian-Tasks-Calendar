@@ -247,7 +247,11 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 /* Today & Weekends */
 .tasksCalendar .cell.today .cellName {
 	font-weight: bold;
-	color: white;
+	color: var(--text-normal);
+}
+.tasksCalendar .cell[data-weekday="0"].today .cellName {
+	font-weight: bold;
+	color: var(--icon-color-active);
 }
 .tasksCalendar .grid[data-view='month'] .cell.today {
 	background: var(--background-modifier-active-hover) !important;
