@@ -156,11 +156,7 @@ options: "style1"
 ```
 There are different style options (style1, style2, ...) to change the look of the weekly calendar view
 
-<img width="276" alt="1-3" src="https://user-images.githubusercontent.com/59178587/200121233-245a80ed-3f3d-477a-9dd3-ffce28df65a2.png">
-<img width="265" alt="4-6" src="https://user-images.githubusercontent.com/59178587/200121237-36fc6588-cc8a-4d25-8c82-c7561a80cce4.png">
-<img width="277" alt="7-9" src="https://user-images.githubusercontent.com/59178587/200121241-9f6cebbd-7970-461b-9543-839c8cef0833.png">
-<img width="273" alt="10" src="https://user-images.githubusercontent.com/59178587/200121242-7ba4d615-7623-43fe-b161-22bfff8248ba.png">
-
+![Styles_Preview](https://user-images.githubusercontent.com/59178587/201508941-35f50ebf-bc94-40fd-a523-f07f7c9d9c07.png)
 
 ---
 
