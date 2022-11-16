@@ -47,7 +47,7 @@ The dv.pages command is the same and works exactly the same like in dataview-plu
 pages: "dv.pages().file.tasks.where(t => t.tags.includes('#Pierre'))"
 pages: "dv.pages().file.tasks.where(t=>!t.checked && t.header.subpath != 'Log')"
 ```
-It is also possible to define complex DQL (Dataview Query Language) queries. These must start with `dv.pages` and output tasks as a result.
+It is also possible to define complex queries. These must start with `dv.pages` and output tasks as a result.
     
 
 ### view:
