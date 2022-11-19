@@ -138,8 +138,9 @@ Disable background color of tasks. The task text remains coloured if a colour ha
 options: "lineClamp1"
 options: "lineClamp2"
 options: "lineClamp3"
+options: "noLineClamp"
 ```
-Set a line clamp from 1-3 inside your displayed tasks. By default 1 line is set.
+Set a line clamp from 1-3 inside your displayed tasks. By default 1 line is set. Alternative you can disable line clamp and show full task description text.
 
 ```
 options: "noLayer"
