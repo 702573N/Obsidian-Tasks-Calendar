@@ -215,6 +215,17 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 	margin: 1px;
 	font-size: 14px;
 }
+body:not(.is-mobile) .tasksCalendar .task:hover {
+	background: var(--task-color) !important;
+	color: black !important;
+}
+body:not(.is-mobile) .tasksCalendar.noTransparency .task:hover {
+	background: var(--task-background) !important;
+	color: var(--task-color) !important;
+}
+body:not(.is-mobile) .tasksCalendar.noBackground .task:hover {
+	background: var(--task-background) !important;
+}
 .tasksCalendar .task.hide {
 	/* display: none !important; */
 	opacity: 0.25;
@@ -380,11 +391,9 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 	overflow: hidden;
 }
 
-/* 3+4 Vertical Agenda Style */
-.tasksCalendar.style1 .grid[data-view='week'] {
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(6, 1fr);
-}
+
+/* Style classes */
+.tasksCalendar.style1 .grid[data-view='week'] { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(6, 1fr); }
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(1)  { grid-area: 1 / 1 / 3 / 3; }
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(2)  { grid-area: 3 / 1 / 5 / 3; }
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(3)  { grid-area: 5 / 1 / 7 / 3; }
@@ -392,13 +401,7 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(5)  { grid-area: 3 / 3 / 5 / 5; }
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(6)  { grid-area: 5 / 3 / 6 / 5; }
 .tasksCalendar.style1 .grid[data-view='week'] .cell:nth-child(7)  { grid-area: 6 / 3 / 7 / 5; }
-
-
-/* 3+4 Horizontal Agenda Style */
-.tasksCalendar.style2 .grid[data-view='week'] {
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(6, 1fr);
-}
+.tasksCalendar.style2 .grid[data-view='week'] { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(6, 1fr); }
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(1)  { grid-area: 1 / 1 / 3 / 3; }
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(3)  { grid-area: 3 / 1 / 5 / 3; }
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(5)  { grid-area: 5 / 1 / 7 / 3; }
@@ -406,27 +409,9 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(4)  { grid-area: 3 / 3 / 5 / 5; }
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(6)  { grid-area: 5 / 3 / 6 / 5; }
 .tasksCalendar.style2 .grid[data-view='week'] .cell:nth-child(7)  { grid-area: 6 / 3 / 7 / 5; }
-
-
-/* 7x1 List Style */
-.tasksCalendar.style3 .grid[data-view='week'] {
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-columns: 1fr;
-}
-
-
-/* 7x1 Widget Style */
-.tasksCalendar.style4 .grid[data-view='week'] {
-	grid-template-rows: 1fr;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-}
-
-
-/* 5+2 Style */
-.tasksCalendar.style5 .grid[data-view='week'] {
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(10, 1fr);
-}
+.tasksCalendar.style3 .grid[data-view='week'] { grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; grid-template-columns: 1fr; }
+.tasksCalendar.style4 .grid[data-view='week'] { grid-template-rows: 1fr; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; }
+.tasksCalendar.style5 .grid[data-view='week'] { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(10, 1fr); }
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(1) { grid-area: 1 / 1 / 3 / 2; }
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(2) { grid-area: 3 / 1 / 5 / 2; }
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 5 / 1 / 7 / 2; }
@@ -434,13 +419,7 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(5) { grid-area: 9 / 1 / 11 / 2; }
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 1 / 2 / 6 / 3; }
 .tasksCalendar.style5 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 6 / 2 / 11 / 3; }
-
-
-/* 5+2 (smaller weekends) Style */
-.tasksCalendar.style6 .grid[data-view='week'] {
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(10, 1fr);
-}
+.tasksCalendar.style6 .grid[data-view='week'] { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(10, 1fr); }
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(1) { grid-area: 1 / 1 / 3 / 3; }
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(2) { grid-area: 3 / 1 / 5 / 3; }
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 5 / 1 / 7 / 3; }
@@ -448,13 +427,7 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(5) { grid-area: 9 / 1 / 11 / 3; }
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 1 / 3 / 6 / 4; }
 .tasksCalendar.style6 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 6 / 3 / 11 / 4; }
-
-
-/* 4+3 Style */
-.tasksCalendar.style7 .grid[data-view='week'] {
-	grid-template-columns: repeat(2, 1fr); 
-	grid-template-rows: repeat(8, 1fr);	
-}
+.tasksCalendar.style7 .grid[data-view='week'] { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(8, 1fr); }
 .tasksCalendar.style7 .grid[data-view='week'] .cell:nth-child(1) { grid-area: 1 / 1 / 3 / 2; }
 .tasksCalendar.style7 .grid[data-view='week'] .cell:nth-child(2) { grid-area: 3 / 1 / 5 / 2; }
 .tasksCalendar.style7 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 5 / 1 / 7 / 2; }
@@ -462,13 +435,7 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style7 .grid[data-view='week'] .cell:nth-child(5) { grid-area: 1 / 2 / 3 / 3; } 
 .tasksCalendar.style7 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 3 / 2 / 6 / 3; } 
 .tasksCalendar.style7 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 6 / 2 / 9 / 3; } 
-
-
-/* 2x3+1 Style */
-.tasksCalendar.style8 .grid[data-view='week'] {
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(5, 1fr);
-}
+.tasksCalendar.style8 .grid[data-view='week'] { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(5, 1fr); }
 .tasksCalendar.style8 .grid[data-view='week'] .cell:nth-child(1) { grid-area: 1 / 1 / 3 / 2; }
 .tasksCalendar.style8 .grid[data-view='week'] .cell:nth-child(2) { grid-area: 1 / 2 / 3 / 3; }
 .tasksCalendar.style8 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 1 / 3 / 3 / 4; }
@@ -476,13 +443,7 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style8 .grid[data-view='week'] .cell:nth-child(5) { grid-area: 3 / 2 / 5 / 3; }
 .tasksCalendar.style8 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 3 / 3 / 5 / 4; }
 .tasksCalendar.style8 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 5 / 1 / 6 / 4; }
-
-
-/* 5x1+2 Style */
-.tasksCalendar.style9 .grid[data-view='week'] {
-	grid-template-columns: repeat(10, 1fr); 
-	grid-template-rows: repeat(3, 1fr); 
-}
+.tasksCalendar.style9 .grid[data-view='week'] { grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(3, 1fr); }
 .tasksCalendar.style9 .grid[data-view='week'] .cell:nth-child(1) { grid-area: 1 / 1 / 3 / 3; } 
 .tasksCalendar.style9 .grid[data-view='week'] .cell:nth-child(2) { grid-area: 1 / 3 / 3 / 5; } 
 .tasksCalendar.style9 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 1 / 5 / 3 / 7; } 
@@ -490,13 +451,7 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style9 .grid[data-view='week'] .cell:nth-child(5) { grid-area: 1 / 9 / 3 / 11; } 
 .tasksCalendar.style9 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 3 / 1 / 4 / 6; } 
 .tasksCalendar.style9 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 3 / 6 / 4 / 11; } 
-
-
-/* 5x1 + 2x1 Style */
-.tasksCalendar.style10 .grid[data-view='week'] {
-	grid-template-columns: repeat(10, 1fr); 
-	grid-template-rows: repeat(3, 1fr); 
-}
+.tasksCalendar.style10 .grid[data-view='week'] { grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(3, 1fr); }
 .tasksCalendar.style10 .grid[data-view='week'] .cell:nth-child(1) { grid-area: 1 / 1 / 4 / 3; } 
 .tasksCalendar.style10 .grid[data-view='week'] .cell:nth-child(2) { grid-area: 1 / 3 / 4 / 5; } 
 .tasksCalendar.style10 .grid[data-view='week'] .cell:nth-child(3) { grid-area: 1 / 5 / 4 / 7; } 
@@ -505,25 +460,25 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.style10 .grid[data-view='week'] .cell:nth-child(6) { grid-area: 3 / 7 / 4 / 9; } 
 .tasksCalendar.style10 .grid[data-view='week'] .cell:nth-child(7) { grid-area: 3 / 9 / 4 / 11; } 
 
-
 /* Options classes */
 .tasksCalendar.noIcons .task:before { display: none !important; }
 .tasksCalendar.noTransparency .task { background: var(--task-color); color: black; }
-.tasksCalendar.noTransparency .task.done { color: var(--text-faint) !important; background: none !important; }
+.tasksCalendar.noTransparency .task.done, .tasksCalendar.noTransparency .task.cancelled { color: var(--text-faint) !important; background: none !important; }
 .tasksCalendar.noBackground .task { color: var(--task-color) !important; background: none !important; }
-.tasksCalendar.noBackground .task.done { color: var(--text-faint) !important; background: none !important; }
+.tasksCalendar.noBackground .task.done, .tasksCalendar.noBackground .task.cancelled { color: var(--text-faint) !important; background: none !important; }
 .tasksCalendar.noDone .task.done { display: none !important; }
+.tasksCalendar.noDone #statisticDone { pointer-events: none !important; color: var(--text-faint) !important; }
 .tasksCalendar.noScheduled .task.scheduled { display: none !important; }
 .tasksCalendar.noStart .task.start { display: none !important; }
 .tasksCalendar.noDue .task.due { display: none !important; }
 .tasksCalendar.noProcess .task.process { display: none !important; }
 .tasksCalendar.noRecurrence .task.recurrence { display: none !important; }
 .tasksCalendar.noOverdue .task.overdue { display: none !important; }
+.tasksCalendar.noCancelled .task.cancelled { display: none !important; }
 .tasksCalendar.noDailyNote .task.dailyNote { display: none !important; }
 .tasksCalendar.noCellNameEvent .cellName { pointer-events: none !important; }
 .tasksCalendar.noLayer .grid[data-view='month'] .wrappers:before,
 .tasksCalendar.noLayer .grid[data-view='week']:before { display: none !important;}
-
 .tasksCalendar.focusDone .task { opacity: 0.25; }
 .tasksCalendar.focusDone .task.done { opacity: 1 !important; }
 .tasksCalendar.focusDue .task { opacity: 0.25; }
@@ -538,89 +493,34 @@ body:not(.is-mobile) .tasksCalendar .statisticPopup li:not(.active):hover {
 .tasksCalendar.focusRecurrence .task.recurrence { opacity: 1 !important; }
 .tasksCalendar.focusDailyNote .task { opacity: 0.25; }
 .tasksCalendar.focusDailyNote .task.dailyNote { opacity: 1 !important; }
-
-
-/* mini class */
-.tasksCalendar.mini {
-	max-width: 500px !important;
-	margin: 0 auto;
-}
-.tasksCalendar.mini .grid[data-view='month'],
-.tasksCalendar.mini .grid[data-view='week'] {
-	height: 400px !important;
-}
-.tasksCalendar.mini .gridHead,
-.tasksCalendar.mini .cellName,
-.tasksCalendar.mini .task,
-.tasksCalendar.mini .wrapperButton {
-	font-size: 9px !important;
-}
-.tasksCalendar.mini .grid[data-view='month'] .wrappers:before,
-.tasksCalendar.mini .grid[data-view='week']:before {
-	font-size: 70px !important;
-}
-.tasksCalendar.mini .statisticPopup li {
-	font-size: 9px !important;
-}
-/* preview class (for development only) */
-.tasksCalendar.preview {
-	max-width: 250px !important;
-	margin: 0 auto;
-}
-.tasksCalendar.preview .buttons,
-.tasksCalendar.preview .cellName,
-.tasksCalendar.preview .cellContent {
-	display: none !important;
-}
-.tasksCalendar.preview .cell:after {
-	content: attr(data-weekday);
-	text-align: center;
-}
-.tasksCalendar.preview .grid[data-view='month'],
-.tasksCalendar.preview .grid[data-view='week'] {
-	height: 200px !important;
-}
-.tasksCalendar.preview .grid[data-view='month'] .wrappers:before,
-.tasksCalendar.preview .grid[data-view='week']:before {
-	display: none !important;
-}
-/* noWeekNr */
-.tasksCalendar.noWeekNr .grid[data-view='month'] .wrapper .wrapperButton {
-	visibility: hidden !important;
-	width: 0 !important;
-}
-.tasksCalendar.noWeekNr .grid[data-view='month'] .gridHead:first-child {
-	visibility: hidden !important;
-	width: 0 !important;
-}
-.tasksCalendar.noWeekNr .grid[data-view='month'] .wrapper {
-	grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
-}
-.tasksCalendar.noWeekNr .grid[data-view='month'] .gridHeads {
-	grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important;
-}
-/* Line Clamps classes */
+.tasksCalendar.mini { max-width: 500px !important; margin: 0 auto; }
+.tasksCalendar.mini .grid[data-view='month'], .tasksCalendar.mini .grid[data-view='week'] { height: 400px !important; }
+.tasksCalendar.mini .gridHead, .tasksCalendar.mini .cellName, .tasksCalendar.mini .task, .tasksCalendar.mini .wrapperButton { font-size: 9px !important; }
+.tasksCalendar.mini .grid[data-view='month'] .wrappers:before, .tasksCalendar.mini .grid[data-view='week']:before { font-size: 70px !important; }
+.tasksCalendar.mini .statisticPopup li { font-size: 9px !important; }
+.tasksCalendar.preview { max-width: 250px !important; margin: 0 auto; }
+.tasksCalendar.preview .buttons, .tasksCalendar.preview .cellName, .tasksCalendar.preview .cellContent { display: none !important; }
+.tasksCalendar.preview .cell { border: 1px solid var(--text-normal) !important; }
+.tasksCalendar.preview .cell:after { content: attr(data-weekday); text-align: center; }
+.tasksCalendar.preview .grid[data-view='month'], .tasksCalendar.preview .grid[data-view='week'] { height: 200px !important; }
+.tasksCalendar.preview .grid[data-view='month'] .wrappers:before, .tasksCalendar.preview .grid[data-view='week']:before { display: none !important; }
+.tasksCalendar.noWeekNr .grid[data-view='month'] .wrapper .wrapperButton { visibility: hidden !important; width: 0 !important; }
+.tasksCalendar.noWeekNr .grid[data-view='month'] .gridHead:first-child { visibility: hidden !important; width: 0 !important; }
+.tasksCalendar.noWeekNr .grid[data-view='month'] .wrapper { grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important; }
+.tasksCalendar.noWeekNr .grid[data-view='month'] .gridHeads { grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important; }
 .tasksCalendar.lineClamp1 .task .inner { -webkit-line-clamp: 1 !important; }
 .tasksCalendar.lineClamp2 .task .inner { -webkit-line-clamp: 2 !important; }
 .tasksCalendar.lineClamp3 .task .inner { -webkit-line-clamp: 3 !important; }
-
+.tasksCalendar.noLineClamp .task .inner { display: block !important; }
 
 /* Mobile View */
-body.is-mobile .tasksCalendar .gridHead,
-body.is-mobile .tasksCalendar .cellName,
-body.is-mobile .tasksCalendar .task {
-	font-size: 9px;
-}
+body.is-mobile .tasksCalendar .gridHead, body.is-mobile .tasksCalendar .cellName, body.is-mobile .tasksCalendar .task { font-size: 9px; }
 body.is-mobile .tasksCalendar:not(.style4, .style9, .style10) .grid[data-view='week'] .cellName,
-body.is-mobile .tasksCalendar:not(.style4, .style9, .style10) .grid[data-view='week'] .task {
-	font-size: 13px !important;
-}
-body.is-mobile .tasksCalendar .statisticPopup li {
-	font-size: 13px !important;
-}
-
+body.is-mobile .tasksCalendar:not(.style4, .style9, .style10) .grid[data-view='week'] .task { font-size: 13px !important; }
+body.is-mobile .tasksCalendar .statisticPopup li { font-size: 13px !important; }
 
 /* Task Icons */
+.tasksCalendar .task.cancelled { text-decoration: line-through !important; background: none !important; color: var(--text-faint) !important; }
 .tasksCalendar .task:before { margin-right: 3px; float: left; }
 .tasksCalendar .task.overdue:before { content: "⚠️"; }
 .tasksCalendar .task.start:before { content: "🛫"; }
@@ -630,5 +530,4 @@ body.is-mobile .tasksCalendar .statisticPopup li {
 .tasksCalendar .task.done:before { content: "✅"; }
 .tasksCalendar .task.recurrence:before { content: "🔁"; }
 .tasksCalendar .task.cancelled:before { content: "🚫"; }
-.tasksCalendar .task.cancelled { text-decoration: line-through; }
 .tasksCalendar .task.dailyNote:before { content: "📄"; }
