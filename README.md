@@ -182,7 +182,7 @@ The color should be hex in quotation marks to work properly. This color is set f
 ---
 
 ## Filter
-On the upper right corner of each calendar-view is a filter-icon to show or hide all completed/done tasks. The default-filter is set by options. If you have `noDone` inside your options parameter, the filter is enabled by default.
+On the upper left corner of each calendar-view is a filter-icon to show or hide all done and cancelled tasks. The default-filter is set by options. If you have `filter` inside your options parameter, the filter is enabled by default.
 
 ---
 
