@@ -1,23 +1,13 @@
 let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, startPosition, dql, options} = input;
 
+// Error Handling
+if (!pages && pages!="") { dv.span('> [!ERROR] Missing pages parameter\n> \n> Please set the pages parameter like\n> \n> `pages: ""`'); return false };
+if (!options.includes("style")) { dv.span('> [!ERROR] Missing style parameter\n> \n> Please set a style inside options parameter like\n> \n> `options: "style1"`'); return false };
+if (!view) { dv.span('> [!ERROR] Missing view parameter\n> \n> Please set a default view inside view parameter like\n> \n> `view: "month"`'); return false };
+if (!firstDayOfWeek) { dv.span('> [!ERROR] Missing firstDayOfWeek parameter\n> \n> Please set the first day of the week inside firstDayOfWeek parameter like\n> \n> `firstDayOfWeek: 1`'); return false };
+
 // Get, Set, Eval Pages
-if (pages=="") {
-	console.log("1")
-	var tasks = dv.pages().file.tasks;
-} else {
-	console.log("2")
-	if (pages.startsWith("dv.pages")) {
-		console.log("3")
-		console.log(pages);
-		
-		var tasks = eval(pages);
-		
-		console.log(tasks);
-	} else {
-		console.log("4")
-		var tasks = dv.pages(pages).file.tasks;
-	};
-};
+if (pages=="") { var tasks = dv.pages().file.tasks } else { if (pages.startsWith("dv.pages")) { var tasks = eval(pages) } else { var tasks = dv.pages(pages).file.tasks } };
 
 // Variables
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled, dailyNote;
@@ -39,10 +29,28 @@ var weekIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" v
 var calendarClockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h5"></path><path d="M17.5 17.5 16 16.25V14"></path><path d="M22 16a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z"></path></svg>';
 var calendarCheckIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg>';
 var calendarHeartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h7"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path><path d="M21.29 14.7a2.43 2.43 0 0 0-2.65-.52c-.3.12-.57.3-.8.53l-.34.34-.35-.34a2.43 2.43 0 0 0-2.65-.53c-.3.12-.56.3-.79.53-.95.94-1 2.53.2 3.74L17.5 22l3.6-3.55c1.2-1.21 1.14-2.8.19-3.74Z"></path></svg>';
-
+var taskDoneIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+var taskDueIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
+var taskScheduledIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>';
+var taskRecurrenceIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>';
+var taskOverdueIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
+var taskProcessIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="1"></circle></svg>';
+var taskCancelledIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>';
+var taskStartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg>';
+var taskDailyNoteIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>';
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
-var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'>{{taskContent}}</div></div></a>";
+var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'><div class='note'>{{note}}</div><div class='icon'>{{icon}}</div><div class='description'>{{taskContent}}</div></div></div></a>";
 const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view, style: 'position:relative;-webkit-user-select:none!important'}});
+var taskDoneIcon = "✅";
+var taskDueIcon = "📅";
+var taskScheduledIcon = "⏳";
+var taskRecurrenceIcon = "🔁";
+var taskOverdueIcon = "⚠️";
+var taskProcessIcon = "⏺️";
+var taskCancelledIcon = "🚫";
+var taskStartIcon = "🛫";
+var taskDailyNoteIcon = "📄";
+
 
 // Initialze
 getMeta(tasks);
@@ -81,24 +89,24 @@ function getMeta(tasks) {
 			tasks[i].completion = completionMatch[1];
 			tasks[i].text = tasks[i].text.replace(completionMatch[0], "");
 		};
-		var repeatMatch = taskText.indexOf("🔁");
-		if (repeatMatch>-1) {
+		var repeatMatch = taskText.includes("🔁");
+		if (repeatMatch) {
 			tasks[i].recurrence = true;
-			tasks[i].text = tasks[i].text.substring(0, repeatMatch)
+			tasks[i].text = tasks[i].text.substring(0, taskText.indexOf("🔁"))
 		};
-		var lowMatch = taskText.indexOf("🔽");
-		if (lowMatch>-1) {
+		var lowMatch = taskText.includes("🔽");
+		if (lowMatch) {
 			tasks[i].priority = "D";
 		};
-		var mediumMatch = taskText.indexOf("🔼");
-		if (mediumMatch>-1) {
+		var mediumMatch = taskText.includes("🔼");
+		if (mediumMatch) {
 			tasks[i].priority = "B";
 		};
-		var highMatch = taskText.indexOf("⏫");
-		if (highMatch>-1) {
+		var highMatch = taskText.includes("⏫");
+		if (highMatch) {
 			tasks[i].priority = "A";
 		};
-		if (lowMatch<0 && mediumMatch<0 && highMatch<0) {
+		if (!lowMatch && !mediumMatch && !highMatch) {
 			tasks[i].priority = "C";
 		}
 		if (globalTaskFilter) {
@@ -140,12 +148,15 @@ function getTasks(date) {
 	dailyNote = tasks.filter(t=>!t.completed && !t.checked && t.dailyNote && moment(t.dailyNote.toString()).isSame(date)).sort(t=>t.dailyNote);
 };
 
-function setTask(obj, type) {
+function setTask(obj, cls) {
 	var noteColor = getMetaFromNote(obj, "color");
 	var textColor = getMetaFromNote(obj, "textColor");
 	var noteIcon = getMetaFromNote(obj, "icon");
 	var taskText = obj.text.replace("'", "&apos;");
 	var taskPath = obj.link.path.replace("'", "&apos;");
+	var taskIcon = eval("task"+capitalize(cls)+"Icon");
+	var noteFilename = getFilename(taskPath);
+	if (noteIcon) { noteFilename = noteIcon+"&nbsp;"+noteFilename } else { noteFilename = taskIcon+"&nbsp;"+noteFilename; cls += " noNoteIcon" };
 	var taskSubpath = obj.header.subpath;
 	var taskLine = taskSubpath ? taskPath+"#"+taskSubpath : taskPath;
  	if (noteColor && textColor) {
@@ -157,8 +168,7 @@ function setTask(obj, type) {
  	} else {
  		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--task-text-color:#7D7D7D";
  	};
-	if (noteIcon) { taskText =  noteIcon + taskText };
-	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", type).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", getFilename(taskPath) + ": " + taskText);
+	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", cls).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", noteFilename + ": " + taskText).replace("{{note}}",noteFilename).replace("{{icon}}",taskIcon);
 	return newTask;
 };
 
@@ -245,8 +255,7 @@ function setButtonEvents() {
 				getWeek(tasks, selectedDate);
 			};
 		} else if ( btn.className == "filter" ) {
-			rootNode.classList.toggle("noDone");
-			rootNode.classList.toggle("noCancelled");
+			rootNode.classList.toggle("filter");
 			rootNode.querySelector('#statisticDone').classList.remove("active");
 			rootNode.classList.remove("focusDone");
 		} else if ( btn.className == "monthView" ) {
