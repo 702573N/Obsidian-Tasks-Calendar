@@ -135,6 +135,11 @@ options: "noBackground"
 Disable background color of tasks. The task text remains coloured if a colour has been stored in the note
 
 ```
+options: "noFilename"
+```
+Hides the task header line with the note file name
+
+```
 options: "lineClamp1"
 options: "lineClamp2"
 options: "lineClamp3"
