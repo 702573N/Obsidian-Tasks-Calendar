@@ -125,16 +125,6 @@ options: "noWeekNr"
 Hide the week number in front of each wrapper/row/week inside the month calendar
 
 ```
-options: "noTransparency"
-```
-Disable transparency of tasks backgrounds
-
-```
-options: "noBackground"
-```
-Disable background color of tasks. The task text remains coloured if a colour has been stored in the note
-
-```
 options: "noFilename"
 ```
 Hides the task header line with the note file name
