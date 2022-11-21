@@ -134,6 +134,11 @@ function getMetaFromNote(task, metaName) {
 	if (meta) { return meta } else { return "" };
 }
 
+function transColor(color, percent) {
+	var num = parseInt(color.replace("#",""),16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, B = (num >> 8 & 0x00FF) + amt, G = (num & 0x0000FF) + amt;
+	return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (B<255?B<1?0:B:255)*0x100 + (G<255?G<1?0:G:255)).toString(16).slice(1);
+};
+
 function getTasks(date) {
 	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
 	doneWithoutCompletionDate = tasks.filter(t=>t.completed && t.checked && !t.completion && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
@@ -149,6 +154,8 @@ function getTasks(date) {
 };
 
 function setTask(obj, cls) {
+	var lighter = 25;
+	var darker = -40;
 	var noteColor = getMetaFromNote(obj, "color");
 	var textColor = getMetaFromNote(obj, "textColor");
 	var noteIcon = getMetaFromNote(obj, "icon");
@@ -160,13 +167,14 @@ function setTask(obj, cls) {
 	var taskSubpath = obj.header.subpath;
 	var taskLine = taskSubpath ? taskPath+"#"+taskSubpath : taskPath;
  	if (noteColor && textColor) {
- 		var style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--task-text-color:"+textColor;
+ 		var style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--dark-task-text-color:"+textColor+";--light-task-text-color:"+textColor;
  	} else if (noteColor && !textColor){
- 		var style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--task-text-color:"+noteColor;
+ 		var style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--dark-task-text-color:"+transColor(noteColor, darker)+";--light-task-text-color:"+transColor(noteColor, lighter);
+		var style = "--task-background:"+noteColor+"33;--task-color:"+noteColor+";--dark-task-text-color:"+transColor(noteColor, darker)+";--light-task-text-color:"+transColor(noteColor, lighter);
  	} else if (!noteColor && textColor ){
- 		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--task-text-color:"+textColor;
+ 		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--dark-task-text-color:"+transColor(textColor, darker)+";--light-task-text-color:"+transColor(textColor, lighter);
  	} else {
- 		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--task-text-color:#7D7D7D";
+ 		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--dark-task-text-color:"+transColor("#7D7D7D", darker)+";--light-task-text-color:"+transColor("#7D7D7D", lighter);
  	};
 	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", cls).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", noteFilename + ": " + taskText).replace("{{note}}",noteFilename).replace("{{icon}}",taskIcon);
 	return newTask;
