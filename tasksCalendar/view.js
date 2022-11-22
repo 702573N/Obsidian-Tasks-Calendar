@@ -114,9 +114,9 @@ function getMeta(tasks) {
 		} else {
 			tasks[i].text = tasks[i].text.replaceAll("#task","");
 		};
-		tasks[i].text = tasks[i].text.replace(/(\[).*(\:\:).*(\])/gm,"");
-		tasks[i].text = tasks[i].text.replaceAll("[","");
-		tasks[i].text = tasks[i].text.replaceAll("]","");
+		tasks[i].text = tasks[i].text.replaceAll("[[","");
+		tasks[i].text = tasks[i].text.replaceAll("]]","");
+		tasks[i].text = tasks[i].text.replace(/\[.*?\]/gm,"");
 	};
 };
 
