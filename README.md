@@ -150,9 +150,9 @@ The back layer of the grid with the month or week information can be hidden with
 ```
 options: "style1"
 ```
-There are different style options (style1, style2, ...) to change the look of the weekly calendar view
+There are different style options (style1, style2, ...) to change the look of the weekly calendar view. The style inside the dataviewjs code block is set as default. However, you can switch between the individual styles at any time in the calendar itself by clicking the Week View button again.
 
-![Styles_Preview](https://user-images.githubusercontent.com/59178587/201508941-35f50ebf-bc94-40fd-a523-f07f7c9d9c07.png)
+![Style_Switcher](https://user-images.githubusercontent.com/59178587/203377096-d4e03471-007a-4d9f-86c3-9274a2329f7c.png)
 
 ---
 
