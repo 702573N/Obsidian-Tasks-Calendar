@@ -183,6 +183,8 @@ On the upper left corner of each calendar-view is a filter-icon to show or hide 
 
 On the upper right corner is statistic button which opens a detailed list of all your tasks for the currently selected month/week. By selecting a task type you can focusing this tasks and dimm out all others. This way you can find the tasks you are looking for more easily.
 
+Through a meaningful icon and a counter, you can quickly get an overview of incompleted tasks within the selected month/week without opening the pop-up window.
+
 <img width="171" alt="Bildschirm­foto 2022-11-22 um 18 47 24" src="https://user-images.githubusercontent.com/59178587/203385685-a2fa0d24-9bee-46e8-82a4-d342955dcb2f.png">
 
 ---
