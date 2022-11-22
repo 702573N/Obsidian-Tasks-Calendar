@@ -174,6 +174,17 @@ The color should be hex in quotation marks to work properly. This color is set f
 ## Filter
 On the upper left corner of each calendar-view is a filter-icon to show or hide all done and cancelled tasks. The default-filter is set by options. If you have `filter` inside your options parameter, the filter is enabled by default.
 
+<img width="144" alt="Bildschirm­foto 2022-11-22 um 18 54 39" src="https://user-images.githubusercontent.com/59178587/203386541-fde8e574-87dc-4cb5-9271-3c791356f73e.png">
+
+
+---
+
+## Statistic and focus
+
+On the upper right corner is statistic button which opens a detailed list of all your tasks for the currently selected month/week. By selecting a task type you can focusing this tasks and dimm out all others. This way you can find the tasks you are looking for more easily.
+
+<img width="171" alt="Bildschirm­foto 2022-11-22 um 18 47 24" src="https://user-images.githubusercontent.com/59178587/203385685-a2fa0d24-9bee-46e8-82a4-d342955dcb2f.png">
+
 ---
 
 ## How It Works
