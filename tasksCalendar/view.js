@@ -29,15 +29,6 @@ var weekIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" v
 var calendarClockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h5"></path><path d="M17.5 17.5 16 16.25V14"></path><path d="M22 16a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z"></path></svg>';
 var calendarCheckIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg>';
 var calendarHeartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h7"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path><path d="M21.29 14.7a2.43 2.43 0 0 0-2.65-.52c-.3.12-.57.3-.8.53l-.34.34-.35-.34a2.43 2.43 0 0 0-2.65-.53c-.3.12-.56.3-.79.53-.95.94-1 2.53.2 3.74L17.5 22l3.6-3.55c1.2-1.21 1.14-2.8.19-3.74Z"></path></svg>';
-var taskDoneIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-var taskDueIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
-var taskScheduledIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>';
-var taskRecurrenceIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg>';
-var taskOverdueIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>';
-var taskProcessIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="1"></circle></svg>';
-var taskCancelledIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>';
-var taskStartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg>';
-var taskDailyNoteIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>';
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
 var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'><div class='note'>{{note}}</div><div class='icon'>{{icon}}</div><div class='description'>{{taskContent}}</div></div></div></a>";
 const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view, style: 'position:relative;-webkit-user-select:none!important'}});
@@ -56,6 +47,7 @@ var taskDailyNoteIcon = "📄";
 getMeta(tasks);
 setButtons();
 setStatisticPopUp();
+setWeekViewContext();
 eval("get"+capitalize(view))(tasks, selectedDate);
 
 function getMeta(tasks) {
@@ -225,13 +217,12 @@ function setTaskContentContainer(currentDate) {
 function setButtons() {
 	var buttons = "<button class='filter'>"+filterIcon+"</button><button class='monthView' title='Month'>"+monthIcon+"</button><button class='weekView' title='Week'>"+weekIcon+"</button><button class='current'></button><button class='previous'>"+arrowLeftIcon+"</button><button class='next'>"+arrowRightIcon+"</button><button class='statistic' percentage=''></button>";
 	rootNode.querySelector("span").appendChild(dv.el("div", buttons, {cls: "buttons", attr: {}}));
-	rootNode.querySelector("button."+view+"View").classList.add("active");
 	setButtonEvents();
 };
 
 function setButtonEvents() {
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
-		var activeView = rootNode.querySelector(".grid").getAttribute("data-view");
+		var activeView = rootNode.getAttribute("view");
 		if ( btn.className == "previous" ) {
 			if (activeView == "month") {
 				selectedDate = moment(selectedDate).subtract(1, "months");
@@ -267,8 +258,6 @@ function setButtonEvents() {
 			rootNode.querySelector('#statisticDone').classList.remove("active");
 			rootNode.classList.remove("focusDone");
 		} else if ( btn.className == "monthView" ) {
-			rootNode.querySelector("button.active").classList.remove("active");
-			btn.classList.add("active");
 			if ( moment().format("ww-YYYY") == moment(selectedDate).format("ww-YYYY") ) {
 				selectedDate = moment().date(1);
 			} else {
@@ -277,20 +266,36 @@ function setButtonEvents() {
 			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getMonth(tasks, selectedDate);
 		} else if ( btn.className == "weekView" ) {
-			rootNode.querySelector("button.active").classList.remove("active");
-			btn.classList.add("active");
-			if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
-				selectedDate = moment(selectedDate).startOf("month").startOf("week");
+			if (rootNode.getAttribute("view") == "week") {
+				var leftPos = rootNode.querySelector("button.weekView").offsetLeft;
+				rootNode.querySelector(".weekViewContext").style.left = leftPos+"px";
+				rootNode.querySelector(".weekViewContext").classList.toggle("active");
+				if (rootNode.querySelector(".weekViewContext").classList.contains("active")) {
+					var closeContextListener = function() {
+						rootNode.querySelector(".weekViewContext").classList.remove("active");
+						rootNode.removeEventListener("click", closeContextListener, false);
+					};
+					setTimeout(function() {
+						rootNode.addEventListener("click", closeContextListener, false);
+					}, 100);
+				};
 			} else {
-				selectedDate = moment().startOf("week");
+				if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
+					selectedDate = moment(selectedDate).startOf("month").startOf("week");
+				} else {
+					selectedDate = moment().startOf("week");
+				};
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+				getWeek(tasks, selectedDate);
 			};
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			getWeek(tasks, selectedDate);
 		} else if ( btn.className == "statistic" ) {
 			rootNode.querySelector(".statisticPopup").classList.toggle("active");
 		};
 		btn.blur();
 	})));
+	rootNode.addEventListener('contextmenu', function(event) {
+		event.preventDefault();
+	});
 };
 
 function setWrapperEvents() {
@@ -298,14 +303,12 @@ function setWrapperEvents() {
 		var week = wBtn.getAttribute("data-week");
 		var year = wBtn.getAttribute("data-year");
 		selectedDate = moment(moment(year).add(week, "weeks")).startOf("week");
-		rootNode.querySelector("button.active").classList.remove("active");
-		rootNode.querySelector(".weekView").classList.add("active");
 		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 		getWeek(tasks, selectedDate);
 	})));
 };
 
-function setStatisticEvents() {
+function setStatisticPopUpEvents() {
 	rootNode.querySelectorAll('.statisticPopup li').forEach(li => li.addEventListener('click', (() => {
 		var group = li.getAttribute("data-group");
 		const liElements = rootNode.querySelectorAll('.statisticPopup li');
@@ -337,7 +340,36 @@ function setStatisticPopUp() {
 	statistic += "<li class='break'></li>";
 	statistic += "<li id='statisticDailyNote' data-group='dailyNote'></li>";
 	rootNode.querySelector("span").appendChild(dv.el("ul", statistic, {cls: "statisticPopup"}));
-	setStatisticEvents();
+	setStatisticPopUpEvents();
+};
+
+function setWeekViewContextEvents() {
+	rootNode.querySelectorAll('.weekViewContext li').forEach(li => li.addEventListener('click', (() => {
+		var selectedStyle = li.getAttribute("data-style");
+		const liElements = rootNode.querySelectorAll('.weekViewContext li');
+		if (!li.classList.contains("active")) {
+			for (const liElement of liElements) {
+				liElement.classList.remove('active');
+			};
+			li.classList.add("active");
+			rootNode.classList.remove.apply(rootNode.classList, Array.from(rootNode.classList).filter(v=>v.startsWith("style")));
+			rootNode.classList.add(selectedStyle);
+		};
+		rootNode.querySelector(".weekViewContext").classList.toggle("active");
+	})));
+};
+
+function setWeekViewContext() {
+	var activeStyle = Array.from(rootNode.classList).filter(v=>v.startsWith("style"));
+	var liElements = "";
+	var styles = 10;
+	for (i=1;i<styles+1;i++) {
+		var liIcon = "<div class='liIcon iconStyle"+i+"'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div>";
+		liElements += "<li data-style='style"+i+"'>"+liIcon+"Style "+i+"</li>";
+	};
+	rootNode.querySelector("span").appendChild(dv.el("ul", liElements, {cls: "weekViewContext"}));
+	rootNode.querySelector(".weekViewContext li[data-style="+activeStyle+"]").classList.add("active");
+	setWeekViewContextEvents();
 };
 
 function setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounter, scheduledCounter, recurrenceCounter, dailyNoteCounter) {
@@ -463,9 +495,10 @@ function getMonth(tasks, month) {
 	};
 	gridContent += "<div class='gridHeads'><div class='gridHead'></div>"+gridHeads+"</div>";
 	gridContent += "<div class='wrappers' data-month='"+monthName+"'>"+wrappers+"</div>";
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "month"}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid"}));
 	setWrapperEvents();
 	setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounter, scheduledCounter, recurrenceCounter, dailyNoteCounter);
+	rootNode.setAttribute("view", "month");
 };
 
 function getWeek(tasks, week) {
@@ -529,6 +562,7 @@ function getWeek(tasks, week) {
 		};
 		gridContent += cell;
 	};
-	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-view': "week", 'data-week': weekNr}}));
+	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-week': weekNr}}));
 	setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounter, scheduledCounter, recurrenceCounter, dailyNoteCounter);
-	};
+	rootNode.setAttribute("view", "week");
+};
