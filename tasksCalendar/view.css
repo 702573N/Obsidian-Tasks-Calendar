@@ -266,6 +266,7 @@ body.theme-light .tasksCalendar .task .note { color: var(--dark-task-text-color)
 }
 .tasksCalendar .task .description {
 	display: inline;
+	padding: 1px;
 }
 .tasksCalendar .task.cancelled .note,
 .tasksCalendar .task.done .note {
@@ -281,7 +282,7 @@ body.theme-light .tasksCalendar .task .note { color: var(--dark-task-text-color)
 .tasksCalendar .task.done {
 	background: none !important;
 }
-.tasksCalendar .task.overdue .description {
+.tasksCalendar .task.overdue .inner {
 	background: repeating-linear-gradient(45deg, var(--task-background), var(--task-background) 5px, transparent 5px, transparent 10px) !important;
 }
 
