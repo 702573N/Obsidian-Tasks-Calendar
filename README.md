@@ -70,7 +70,6 @@ Set monday (1) or sunday (0) as first day of week
 
 ### dailyNoteFolder:
 ```
-dailyNoteFolder: ""
 dailyNoteFolder: "MyCustomFolder"
 dailyNoteFolder: "Inbox/Daily Notes/Work"
 ```
@@ -78,14 +77,12 @@ This parameter must only be specified if this is to be used. Here you can define
 
 ### startPosition:
 ```
-startPosition: ""
 startPosition: "2024-06-01"
 ```
-This parameter can be used to set a date to give focus an month or week view (set with `view:` parameter). On month calendar every date between the first and the last day of the month will be shown the right month. On the week calendar all dates between the first day and the last day of that week will be shown the right week. The input format must look like this `YYYY-MM-DD`.
+This parameter is optional and can be used to set a date to give focus on a custom month/week after load. On month calendar every date between the first and the last day of the month will be shown the right month. On the week calendar all dates between the first day and the last day of that week will be shown the right week. The input format must look like this `YYYY-MM-DD`.
 
 ### globalTaskFilter:
 ```
-globalTaskFilter: ""
 globalTaskFilter: "#task"
 ```
 This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
@@ -101,7 +98,7 @@ Hide Task plugin Icons in front of each task
 ```
 options: "noProcess"
 ```
-The tasks with a start-date and a due-date are not displayed on all days between them
+The tasks with a start- and due-date are not displayed on all days between them
 
 ```
 options: "noDailyNote"
@@ -111,18 +108,18 @@ Hide daily notes inside calendar
 ```
 options: "noCellNameEvent"
 ```
-Disable pointer events on cell names to prevent unintentional execution
+Disable pointer events for cell names to prevent unintentional execution and thus opening of a daily note.
 
 ```
 options: "mini"
 ```
-Set smaller text on tasks, cell names and grid heads. Reduces the calendar width and height to a more compact format.
-On mobile devices, the font size is automatically reduced because the limited screen size.
+Reduces the calendar width, height and font sizes to a more compact format
+On mobile devices, the font size is automatically reduced (on some views) because the limited screen size.
 
 ```
 options: "noWeekNr"
 ```
-Hide the week number in front of each wrapper/row/week inside the month calendar
+Hide the week number in front of each week-wrapper inside the month calendar. After deactivation, it is unfortunately no longer possible to jump directly to a desired week.
 
 ```
 options: "noFilename"
