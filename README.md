@@ -1,7 +1,7 @@
 # Obsidian-Tasks-Calendar
 #### A custom view build with [Obsidian-Dataview](https://github.com/blacksmithgu/obsidian-dataview) to display tasks from [Obsidian-Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) and from your daily notes in a highly customisable calendar with a wide variety of views
 
-![Mockup](https://user-images.githubusercontent.com/59178587/203779113-753a84d1-7614-421c-b0d5-8786b2f15bc4.png)
+![Mockup](https://user-images.githubusercontent.com/59178587/203780672-dad50549-3ef8-47c8-a891-b75a30e6d395.png)
 
 ## Story
 All Obsidian and Task Plugin users love the program. What has been set up with the Task Plugin is just great and helps so many people to organize their work. However, just listing tasks according to certain criteria is sometimes a bit boring. To get a quick visual impression of one's workday/workweek/workmonth, a calendar view would be ideal. To be honest, I'm too stupid to program my own plugins for Obsidian, but I know some Javascript, so I programmed this Dataview snippet. I hope to offer many people a good addition to the Task Plugin and hope for an integration into the Task Plugin someday. But I'm sure there are better programmers out there, who can make my code, which is probably horrible for professionals, much better.
