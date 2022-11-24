@@ -46,6 +46,7 @@ The dv.pages command is the same and works exactly the same like in dataview-plu
 ```
 pages: "dv.pages().file.tasks.where(t => t.tags.includes('#Pierre'))"
 pages: "dv.pages().file.tasks.where(t=>!t.checked && t.header.subpath != 'Log')"
+pages: "dv.pages().file.where(f=>f.tags.includes('#ToDo') || f.tags.includes('#Task')).where(f=>f.folder != 'Inbox').tasks"
 ```
 It is also possible to define complex queries. These must start with `dv.pages` and output tasks as a result.
     
