@@ -1,7 +1,7 @@
 # Obsidian-Tasks-Calendar
 #### A custom view build with [Obsidian-Dataview](https://github.com/blacksmithgu/obsidian-dataview) to display tasks from [Obsidian-Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks) and from your daily notes in a highly customisable calendar with a wide variety of views
 
-![Mockup](https://user-images.githubusercontent.com/59178587/203780672-dad50549-3ef8-47c8-a891-b75a30e6d395.png)
+![light](https://user-images.githubusercontent.com/59178587/203789595-ede6138f-2c29-4148-b52f-874ab3ea43f7.png)
 
 ## Story
 All Obsidian and Task Plugin users love the program. What has been set up with the Task Plugin is just great and helps so many people to organize their work. However, just listing tasks according to certain criteria is sometimes a bit boring. To get a quick visual impression of one's workday/workweek/workmonth, a calendar view would be ideal. To be honest, I'm too stupid to program my own plugins for Obsidian, but I know some Javascript, so I programmed this Dataview snippet. I hope to offer many people a good addition to the Task Plugin and hope for an integration into the Task Plugin someday. But I'm sure there are better programmers out there, who can make my code, which is probably horrible for professionals, much better.
@@ -10,7 +10,7 @@ All Obsidian and Task Plugin users love the program. What has been set up with t
 1.  Install "Dataview Plugin" from the external plugins
 2.  Create a new folder called "tasksCalendar" or any other name and paste the files "view.js" and "view.css" into it
 
-    <img width="259" alt="Bildschirm­foto 2022-10-30 um 10 00 03" src="https://user-images.githubusercontent.com/59178587/198870629-392cb4fe-654a-421c-b8fb-d4b66def329b.png">
+![Tree Demo](https://user-images.githubusercontent.com/59178587/203789303-4474847e-ab84-4f33-8665-c17ca887ec79.png)
 
 3.  Create a new note or edit an existing one and add the following code line:
 
@@ -65,55 +65,43 @@ firstDayOfWeek: 0
 ```
 Set monday (1) or sunday (0) as first day of week
 
----
-## Optional parameters
 
-### dailyNoteFolder:
+### options:
 ```
-dailyNoteFolder: "MyCustomFolder"
-dailyNoteFolder: "Inbox/Daily Notes/Work"
+options: "style1"
 ```
-This parameter must only be specified if this is to be used. Here you can define a custom folder path for the daily notes if they should not be saved in the default folder for new files. Of course, folder structures with several levels can also be defined here. This paramter 
+You have multiple options to personalize your Tasks-Calendar. The absolutelely must have is to set a custom week view style (style1, style2, ...) as your default week view style. However, you can switch between the individual styles at any time in the calendar itself by clicking the week view button again if this view is active.
 
-### startPosition:
-```
-startPosition: "2024-06-01"
-```
-This parameter is optional and can be used to set a date to give focus on a custom month/week after load. On month calendar every date between the first and the last day of the month will be shown the right month. On the week calendar all dates between the first day and the last day of that week will be shown the right week. The input format must look like this `YYYY-MM-DD`.
+<img width="1982" alt="Style-switcher" src="https://user-images.githubusercontent.com/59178587/203786071-eb97d99d-507b-4a92-9812-ba5cf6fd66ad.png">
 
-### globalTaskFilter:
-```
-globalTaskFilter: "#task"
-```
-This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
-
----
-## Options parameter
+But that's not all. With the options parameter you can hide things you don't need or like, get a mini version of the calendar and many more...
 
 ```
 options: "noIcons"
 ```
-Hide Task plugin Icons in front of each task
+Hide the task icons in front of each task.
 
 ```
 options: "noProcess"
 ```
-The tasks with a start- and due-date are not displayed on all days between them
+By default the Tasks-Calendar show up tasks with a start- and a due-date on all days between these two like a calendar app displays all-day events across all days from the first to the last day. If you don't like this, you can turn it off with the `noProcess` option.
 
 ```
 options: "noDailyNote"
 ```
 Hide daily notes inside calendar
 
+Some users do not use the Task plugin, but work mainly with daily notes. To enable these users to use the functionality of this calendar, all tasks from daily notes are displayed on the respective date of the daily note. As some task plugin users may also work with daily notes, some may find it annoying to see them in the calendar as well between all Task plugin stuff. With the option `noDailyNote` you can hide all tasks (without any Task plugin date syntax) from your calendar.
+
 ```
 options: "noCellNameEvent"
 ```
-Disable pointer events for cell names to prevent unintentional execution and thus opening of a daily note.
+By default you can click on each cell name to jump directly into the daily note. If no daily note with this date exist, a new one will be created. This is nice for hardcore daily note users, but for others it could be annoying. To prevent unintentional execution you can disable the cell name click-events with the option `noCellNameEvent`.
 
 ```
 options: "mini"
 ```
-Reduces the calendar width, height and font sizes to a more compact format
+Reduces the calendar width, height and font sizes to a more compact format. This can be used to embed the calendar into a complex sidebar in Obsidian.
 On mobile devices, the font size is automatically reduced (on some views) because the limited screen size.
 
 ```
@@ -140,20 +128,31 @@ options: "noLayer"
 The back layer of the grid with the month or week information can be hidden with this.
 
 
+### Optional parameters
+
+#### dailyNoteFolder:
+```
+dailyNoteFolder: "MyCustomFolder"
+dailyNoteFolder: "Inbox/Daily Notes/Work"
+```
+This parameter must only be specified if this is to be used. Here you can define a custom folder path for the daily notes if they should not be saved in the default folder for new files. Of course, folder structures with several levels can also be defined here. This paramter 
+
+#### startPosition:
+```
+startPosition: "2024-06-01"
+```
+This parameter is optional and can be used to set a date to give focus on a custom month/week after load. On month calendar every date between the first and the last day of the month will be shown the right month. On the week calendar all dates between the first day and the last day of that week will be shown the right week. The input format must look like this `YYYY-MM-DD`.
+
+#### globalTaskFilter:
+```
+globalTaskFilter: "#task"
+```
+This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
+
+
 ---
 
-### Style options
-
-```
-options: "style1"
-```
-There are different style options (style1, style2, ...) to change the look of the weekly calendar view. The style inside the dataviewjs code block is set as default. However, you can switch between the individual styles at any time in the calendar itself by clicking the Week View button again.
-
-![Style_Switcher](https://user-images.githubusercontent.com/59178587/203377096-d4e03471-007a-4d9f-86c3-9274a2329f7c.png)
-
----
-
-## Note color & icon
+## Note colors and icon
 In each note file you can define custom "color" and "icon" to show up in the calendar. To do so, you only need to add the following metadata to the first line of your note. By default the note-color is used for the dimmed background and as text-color. If you would like to give your tasks a completely different color then the note-color itself, then use the textColor meta.
 
 ```
@@ -164,15 +163,16 @@ icon: "❤️"
 ---
 ```
     
-The color should be hex in quotation marks to work properly. This color is set for text and as semi-transparent background. The icon itself is placed in front of each task to help identify where this task comes from.
+The color should be hex in quotation marks to work properly. This color is set for text and as semi-transparent background. The icon itself is placed in front of the task filename header.
+
+![Note Color Demo](https://user-images.githubusercontent.com/59178587/203788233-555edbc4-915c-499c-bdf4-87c6030bfd55.png)
 
 ---
 
 ## Filter
 On the upper left corner of each calendar-view is a filter-icon to show or hide all done and cancelled tasks. The default-filter is set by options. If you have `filter` inside your options parameter, the filter is enabled by default.
 
-<img width="144" alt="Bildschirm­foto 2022-11-22 um 18 54 39" src="https://user-images.githubusercontent.com/59178587/203386541-fde8e574-87dc-4cb5-9271-3c791356f73e.png">
-
+![Filter Demo](https://user-images.githubusercontent.com/59178587/203787018-483bf485-3ce5-43b4-99ae-2a3a8efbf690.png)
 
 ---
 
@@ -182,17 +182,4 @@ On the upper right corner is statistic button which opens a detailed list of all
 
 Through a meaningful icon and a counter, you can quickly get an overview of incompleted tasks within the selected month/week without opening the pop-up window.
 
-<img width="171" alt="Bildschirm­foto 2022-11-22 um 18 47 24" src="https://user-images.githubusercontent.com/59178587/203385685-a2fa0d24-9bee-46e8-82a4-d342955dcb2f.png">
-
----
-
-## How It Works
-This snippet fetch all tasks with a date like due, start, scheduled, done. Tasks with a start and a due date are presented on all days from start to end (due). This way you can show up periods on you calendar like a holiday. This default handling can be disabled in `options` inside the dataviewjs code line by adding `noProcess`.
-
-<img width="1115" alt="Bildschirm­foto 2022-10-30 um 10 23 43" src="https://user-images.githubusercontent.com/59178587/198871481-bd9d4b89-ff99-435c-8c30-625f27f1a4f7.png">
-
-Hovering a task let popup a small info about the note and task (note-title: task-description). In the upper left corner is the calendar switcher, which can be used to switch between two different calendar views (month/week). Under `view` in the dataviewjs code line the default calendar view is set. When switching between the views, the calendar remains in the previous month. By clicking on the calendar header, you can return to today (the current month or week) at any time. The arrow keys in the upper right corner can be used to scroll backwards and forwards through the months/weeks. The filter in the upper right corner allows you to hide all finished tasks in the calendar. The filter itself can be switched on by default with `noDone` in the `options` within the dataviewjs code line.
-
-<img width="1116" alt="Bildschirm­foto 2022-10-30 um 10 19 22" src="https://user-images.githubusercontent.com/59178587/198871327-7eb684f4-04ee-4155-83be-7016889b2fee.png">
-
-After a task is completed the start- and scheduled dates are no longer needed and will be hidden. The task is now only displayed on the final completion date.
+![Focus Demo](https://user-images.githubusercontent.com/59178587/203786131-6ddf1389-8b66-4f3c-9d7a-121c5fe38540.png)
