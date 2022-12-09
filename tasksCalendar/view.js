@@ -1,11 +1,20 @@
-let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, startPosition, dql, options} = input;
+let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, startPosition, dql, options, dailyNoteFormatString, dailyNoteRegexString} = input;
 
 // Error Handling
 if (!pages && pages!="") { dv.span('> [!ERROR] Missing pages parameter\n> \n> Please set the pages parameter like\n> \n> `pages: ""`'); return false };
 if (!options.includes("style")) { dv.span('> [!ERROR] Missing style parameter\n> \n> Please set a style inside options parameter like\n> \n> `options: "style1"`'); return false };
 if (!view) { dv.span('> [!ERROR] Missing view parameter\n> \n> Please set a default view inside view parameter like\n> \n> `view: "month"`'); return false };
 if (!firstDayOfWeek) { dv.span('> [!ERROR] Missing firstDayOfWeek parameter\n> \n> Please set the first day of the week inside firstDayOfWeek parameter like\n> \n> `firstDayOfWeek: 1`'); return false };
-
+if (dailyNoteFormatString && dailyNoteRegexString) { var dailyNoteFormat = dailyNoteFormatString; var dailyNoteRegex = new RegExp(dailyNoteRegexString); } 
+else { 
+	if (!dailyNoteFormatString && !dailyNoteRegexString) {
+		// default parametrs
+		var dailyNoteFormat = "YYYY-MM-DD"; 
+		var dailyNoteRegex = new RegExp("/(\d{4}\-\d{2}\-\d{2})/");
+	} else {
+	dv.span('> [!ERROR] Entered only one of the dailyNoteFormatString or dailyNoteRegexString parameters\n> \n> Please set both parameters like\n> \n> `dailyNoteFormatString: "YYYY-MM-DD"`\n> `dailyNoteRegexString: "/(\d{4}\-\d{2}\-\d{2})/"`\n> \n>Or set none of them'); return false
+	}
+}
 // Get, Set, Eval Pages
 if (pages=="") { var tasks = dv.pages().file.tasks } else { if (pages.startsWith("dv.pages")) { var tasks = eval(pages) } else { var tasks = dv.pages(pages).file.tasks } };
 
@@ -54,7 +63,7 @@ function getMeta(tasks) {
 	for (i=0;i<tasks.length;i++) {
 		var taskText = tasks[i].text;
 		var taskFile = getFilename(tasks[i].path);
-		var dailyNoteMatch = taskFile.match(/(\d{2}\.\d{2}\.\d{2})/); // check if filename mathches regex
+		var dailyNoteMatch = taskFile.match(dailyNoteRegex); // check if filename mathches regex
 		var dailyTaskMatch = taskText.match(/(\d{4}\-\d{2}\-\d{2})/);
 		if (dailyNoteMatch) {
 			if(!dailyTaskMatch) {
@@ -448,7 +457,7 @@ function getMonth(tasks, month) {
 			var shortWeekday = moment(month).add(i, "days").format("ddd");
 
 			// Filter Tasks
-			var DateForDailyNotes = moment(month).add(i, "days").format("DD.MM.YY");
+			var DateForDailyNotes = moment(month).add(i, "days").format(dailyNoteFormat);
 			getTasks(currentDate, DateForDailyNotes);
 			
 			// Count Events Only From Selected Month
@@ -524,7 +533,7 @@ function getWeek(tasks, week) {
 		var longDayName = moment(currentDate).format("ddd, D. MMM");
 		
 		// Filter Tasks
-		var DateForDailyNotes = moment(week).add(i, "days").format("DD.MM.YY");
+		var DateForDailyNotes = moment(week).add(i, "days").format(dailyNoteFormat);
 		getTasks(currentDate, DateForDailyNotes);
 		
 		// Count Events From Selected Week
