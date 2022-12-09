@@ -54,7 +54,7 @@ function getMeta(tasks) {
 	for (i=0;i<tasks.length;i++) {
 		var taskText = tasks[i].text;
 		var taskFile = getFilename(tasks[i].path);
-		var dailyNoteMatch = taskFile.match(/(\d{4}\-\d{2}\-\d{2})/);
+		var dailyNoteMatch = taskFile.match(/(\d{2}\.\d{2}\.\d{2})/); // check if filename mathches regex
 		var dailyTaskMatch = taskText.match(/(\d{4}\-\d{2}\-\d{2})/);
 		if (dailyNoteMatch) {
 			if(!dailyTaskMatch) {
@@ -131,7 +131,7 @@ function transColor(color, percent) {
 	return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (B<255?B<1?0:B:255)*0x100 + (G<255?G<1?0:G:255)).toString(16).slice(1);
 };
 
-function getTasks(date) {
+function getTasks(date, DateForDailyNotes) {
 	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
 	doneWithoutCompletionDate = tasks.filter(t=>t.completed && t.checked && !t.completion && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
 	done = done.concat(doneWithoutCompletionDate);
@@ -142,7 +142,7 @@ function getTasks(date) {
 	scheduled = tasks.filter(t=>!t.completed && !t.checked && t.scheduled && moment(t.scheduled.toString()).isSame(date)).sort(t=>t.scheduled);
 	process = tasks.filter(t=>!t.completed && !t.checked && t.due && t.start && moment(t.due.toString()).isAfter(date) && moment(t.start.toString()).isBefore(date) );
 	cancelled = tasks.filter(t=>!t.completed && t.checked && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
-	dailyNote = tasks.filter(t=>!t.completed && !t.checked && t.dailyNote && moment(t.dailyNote.toString()).isSame(date)).sort(t=>t.dailyNote);
+	dailyNote = tasks.filter(t=>!t.completed && !t.checked && t.dailyNote && moment(t.dailyNote.toString()).isSame(DateForDailyNotes)).sort(t=>t.dailyNote);
 };
 
 function setTask(obj, cls) {
@@ -440,7 +440,7 @@ function getMonth(tasks, month) {
 				weekNr = moment(month).add(i, "days").format("w");
 				yearNr = moment(month).add(i, "days").format("YYYY");
 			};
-			var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
+			var currentDate = moment(month).add(i, "days").format("DD.MM.YY");
 			if (!dailyNoteFolder) {var dailyNotePath = currentDate} else {var dailyNotePath = dailyNoteFolder+"/"+currentDate};
 			var weekDay = moment(month).add(i, "days").format("d");
 			var shortDayName = moment(month).add(i, "days").format("D");
@@ -448,7 +448,8 @@ function getMonth(tasks, month) {
 			var shortWeekday = moment(month).add(i, "days").format("ddd");
 
 			// Filter Tasks
-			getTasks(currentDate);
+			var DateForDailyNotes = moment(month).add(i, "days").format("DD.MM.YY");
+			getTasks(currentDate, DateForDailyNotes);
 			
 			// Count Events Only From Selected Month
 			if (moment(month).format("MM") == moment(month).add(i, "days").format("MM")) {
@@ -523,7 +524,8 @@ function getWeek(tasks, week) {
 		var longDayName = moment(currentDate).format("ddd, D. MMM");
 		
 		// Filter Tasks
-		getTasks(currentDate);
+		var DateForDailyNotes = moment(week).add(i, "days").format("DD.MM.YY");
+		getTasks(currentDate, DateForDailyNotes);
 		
 		// Count Events From Selected Week
 		dueCounter += due.length;
