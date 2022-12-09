@@ -450,14 +450,14 @@ function getMonth(tasks, month) {
 				yearNr = moment(month).add(i, "days").format("YYYY");
 			};
 			var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
-			if (!dailyNoteFolder) {var dailyNotePath = currentDate} else {var dailyNotePath = dailyNoteFolder+"/"+currentDate};
+			var DateForDailyNotes = moment(month).add(i, "days").format(dailyNoteFormat);
+			if (!dailyNoteFolder) {var dailyNotePath = DateForDailyNotes} else {var dailyNotePath = dailyNoteFolder+"/"+DateForDailyNotes};
 			var weekDay = moment(month).add(i, "days").format("d");
 			var shortDayName = moment(month).add(i, "days").format("D");
 			var longDayName = moment(month).add(i, "days").format("D. MMM");
 			var shortWeekday = moment(month).add(i, "days").format("ddd");
 
 			// Filter Tasks
-			var DateForDailyNotes = moment(month).add(i, "days").format(dailyNoteFormat);
 			getTasks(currentDate, DateForDailyNotes);
 			
 			// Count Events Only From Selected Month
@@ -527,13 +527,13 @@ function getWeek(tasks, week) {
 	
 	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
 		var currentDate = moment(week).add(i, "days").format("YYYY-MM-DD");
-		if (!dailyNoteFolder) {var dailyNotePath = currentDate} else {var dailyNotePath = dailyNoteFolder+"/"+currentDate};
+		var DateForDailyNotes = moment(week).add(i, "days").format(dailyNoteFormat);
+		if (!dailyNoteFolder) {var dailyNotePath = DateForDailyNotes} else {var dailyNotePath = dailyNoteFolder+"/"+DateForDailyNotes};
 		var weekDay = moment(week).add(i, "days").format("d");
 		var dayName = moment(currentDate).format("ddd D.");
 		var longDayName = moment(currentDate).format("ddd, D. MMM");
 		
 		// Filter Tasks
-		var DateForDailyNotes = moment(week).add(i, "days").format(dailyNoteFormat);
 		getTasks(currentDate, DateForDailyNotes);
 		
 		// Count Events From Selected Week
