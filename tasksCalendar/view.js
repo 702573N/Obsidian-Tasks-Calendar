@@ -440,7 +440,7 @@ function getMonth(tasks, month) {
 				weekNr = moment(month).add(i, "days").format("w");
 				yearNr = moment(month).add(i, "days").format("YYYY");
 			};
-			var currentDate = moment(month).add(i, "days").format("DD.MM.YY");
+			var currentDate = moment(month).add(i, "days").format("YYYY-MM-DD");
 			if (!dailyNoteFolder) {var dailyNotePath = currentDate} else {var dailyNotePath = dailyNoteFolder+"/"+currentDate};
 			var weekDay = moment(month).add(i, "days").format("d");
 			var shortDayName = moment(month).add(i, "days").format("D");
