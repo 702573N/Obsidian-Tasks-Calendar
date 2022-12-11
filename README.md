@@ -157,6 +157,9 @@ globalTaskFilter: "#task"
 This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
 
 #### css:
+```
+css: ".tasksCalendar.style4[view='week'] .grid { height: 300px !important }"
+```
 Now you can write custom css rules inside a css parameter. Please use the developer console to identify the elements classes! Each style string should start with .tasksCalendar to avoid css conflicts!
 
 ---
