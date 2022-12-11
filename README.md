@@ -138,6 +138,12 @@ dailyNoteFolder: "Inbox/Daily Notes/Work"
 ```
 This parameter must only be specified if this is to be used. Here you can define a custom folder path for the daily notes if they should not be saved in the default folder for new files. Of course, folder structures with several levels can also be defined here. This paramter 
 
+#### dailyNoteFormat:
+```
+dailyNoteFormat: "YYYY, MMMM DD - dddd"
+```
+This parameter must only be specified if this is to be used. Without this parameter the default format "YYYY-MM-DD" is used to identify your daily notes. You can set a custom format with a limited base set of characters: Y M D d . , - : (SPACE)
+
 #### startPosition:
 ```
 startPosition: "2024-06-01"
@@ -150,6 +156,8 @@ globalTaskFilter: "#task"
 ```
 This parameter must only be specified if this is to be used. Set a global task filter to hide from task text/description inside tasks-calendar.
 
+#### css:
+Now you can write custom css rules inside a css parameter. Please use the developer console to identify the elements classes! Each style string should start with .tasksCalendar to avoid css conflicts!
 
 ---
 
