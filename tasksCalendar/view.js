@@ -168,7 +168,6 @@ function momentToRegex(momentFormat) {
 };
 
 function getTasks(date) {
-	console.log(moment(date).format(dailyNoteFormat));
 	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
 	doneWithoutCompletionDate = tasks.filter(t=>t.completed && t.checked && !t.completion && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
 	done = done.concat(doneWithoutCompletionDate);
