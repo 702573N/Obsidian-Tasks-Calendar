@@ -1,21 +1,23 @@
-let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, startPosition, dql, options} = input;
+let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, dailyNoteFormat, startPosition, css, options} = input;
 
 // Error Handling
 if (!pages && pages!="") { dv.span('> [!ERROR] Missing pages parameter\n> \n> Please set the pages parameter like\n> \n> `pages: ""`'); return false };
 if (!options.includes("style")) { dv.span('> [!ERROR] Missing style parameter\n> \n> Please set a style inside options parameter like\n> \n> `options: "style1"`'); return false };
 if (!view) { dv.span('> [!ERROR] Missing view parameter\n> \n> Please set a default view inside view parameter like\n> \n> `view: "month"`'); return false };
 if (!firstDayOfWeek) { dv.span('> [!ERROR] Missing firstDayOfWeek parameter\n> \n> Please set the first day of the week inside firstDayOfWeek parameter like\n> \n> `firstDayOfWeek: 1`'); return false };
+if (dailyNoteFormat) { if (dailyNoteFormat.match(/[|\\YMDd.,-: ]/g).length != dailyNoteFormat.length) { dv.span('> [!ERROR] The `dailyNoteFormat` contains invalid characters'); return false }};
 
 // Get, Set, Eval Pages
 if (pages=="") { var tasks = dv.pages().file.tasks } else { if (pages.startsWith("dv.pages")) { var tasks = eval(pages) } else { var tasks = dv.pages(pages).file.tasks } };
 
 // Variables
-var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled, dailyNote;
+var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled, dailyNote, dailyNoteRegEx;
+if (!dailyNoteFormat) { dailyNoteFormat = "YYYY-MM-DD" };
+var dailyNoteRegEx = momentToRegex(dailyNoteFormat)
 var tToday = moment().format("YYYY-MM-DD");
 var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
-var dateformat = "ddd, D. MMM";
 var tid = (new Date()).getTime();
 startPosition == null ? "" : startPosition;
 var selectedMonth = moment(startPosition).date(1);
@@ -42,6 +44,12 @@ var taskCancelledIcon = "🚫";
 var taskStartIcon = "🛫";
 var taskDailyNoteIcon = "📄";
 
+// Append custom CSS
+if (css) {
+	var style = document.createElement("style");
+	style.innerHTML = css;
+	rootNode.append(style);
+};
 
 // Initialze
 getMeta(tasks);
@@ -54,11 +62,11 @@ function getMeta(tasks) {
 	for (i=0;i<tasks.length;i++) {
 		var taskText = tasks[i].text;
 		var taskFile = getFilename(tasks[i].path);
-		var dailyNoteMatch = taskFile.match(/(\d{4}\-\d{2}\-\d{2})/);
+		var dailyNoteMatch = taskFile.match(eval(dailyNoteRegEx));
 		var dailyTaskMatch = taskText.match(/(\d{4}\-\d{2}\-\d{2})/);
 		if (dailyNoteMatch) {
 			if(!dailyTaskMatch) {
-				tasks[i].dailyNote = dailyNoteMatch[1];
+				tasks[i].dailyNote = moment(dailyNoteMatch[1], dailyNoteFormat).format("YYYY-MM-DD")
 			};
 		};
 		var dueMatch = taskText.match(/\📅\W(\d{4}\-\d{2}\-\d{2})/);
@@ -131,7 +139,36 @@ function transColor(color, percent) {
 	return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (B<255?B<1?0:B:255)*0x100 + (G<255?G<1?0:G:255)).toString(16).slice(1);
 };
 
+function momentToRegex(momentFormat) {
+	momentFormat = momentFormat.replaceAll(".", "\\.");
+	momentFormat = momentFormat.replaceAll(",", "\\,");
+	momentFormat = momentFormat.replaceAll("-", "\\-");
+	momentFormat = momentFormat.replaceAll(":", "\\:");
+	momentFormat = momentFormat.replaceAll(" ", "\\s");
+	
+	momentFormat = momentFormat.replace("dddd", "\\w{1,}");
+	momentFormat = momentFormat.replace("ddd", "\\w{1,3}");
+	momentFormat = momentFormat.replace("dd", "\\w{2}");
+	momentFormat = momentFormat.replace("d", "\\d{1}");
+	
+	momentFormat = momentFormat.replace("YYYY", "\\d{4}");
+	momentFormat = momentFormat.replace("YY", "\\d{2}");
+	
+	momentFormat = momentFormat.replace("MMMM", "\\w{1,}");
+	momentFormat = momentFormat.replace("MMM", "\\w{3}");
+	momentFormat = momentFormat.replace("MM", "\\d{2}");
+	
+	momentFormat = momentFormat.replace("DDDD", "\\d{3}");
+	momentFormat = momentFormat.replace("DDD", "\\d{1,3}");
+	momentFormat = momentFormat.replace("DD", "\\d{2}");
+	momentFormat = momentFormat.replace("D", "\\d{1,2}");
+	
+	regEx = "/^(" + momentFormat + ")$/";
+	return regEx;
+};
+
 function getTasks(date) {
+	console.log(moment(date).format(dailyNoteFormat));
 	done = tasks.filter(t=>t.completed && t.checked && t.completion && moment(t.completion.toString()).isSame(date)).sort(t=>t.completion);
 	doneWithoutCompletionDate = tasks.filter(t=>t.completed && t.checked && !t.completion && t.due && moment(t.due.toString()).isSame(date)).sort(t=>t.due);
 	done = done.concat(doneWithoutCompletionDate);
@@ -362,7 +399,7 @@ function setWeekViewContextEvents() {
 function setWeekViewContext() {
 	var activeStyle = Array.from(rootNode.classList).filter(v=>v.startsWith("style"));
 	var liElements = "";
-	var styles = 10;
+	var styles = 11;
 	for (i=1;i<styles+1;i++) {
 		var liIcon = "<div class='liIcon iconStyle"+i+"'><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div><div class='box'></div></div>";
 		liElements += "<li data-style='style"+i+"'>"+liIcon+"Style "+i+"</li>";
