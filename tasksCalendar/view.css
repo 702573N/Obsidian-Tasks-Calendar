@@ -195,7 +195,7 @@ body:not(.is-mobile) .tasksCalendar .weekViewContext li:not(.active):hover {
 	background: var(--background-secondary);
 }
 .tasksCalendar .weekViewContext .liIcon {
-	display: grid;
+	display: grid !important;
 	height: 18px;
 	width: 18px;
 	margin-right: 5px;
@@ -216,6 +216,7 @@ body:not(.is-mobile) .tasksCalendar .weekViewContext li:not(.active):hover {
 	overflow: hidden;
 	cursor: default;
 	width: 100%;
+	height: 75vH;
 }
 .tasksCalendar .cell {
 	z-index: 1;
@@ -360,7 +361,6 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 .tasksCalendar[view='month'] .grid {
 	display: grid;
 	gap: 4px;
-	height: 75vH;
 	grid-template-rows: 20px 1fr !important;
 	grid-template-columns: 1fr !important;
 }
@@ -460,7 +460,6 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 .tasksCalendar[view='week'] .grid {
 	display: grid;
 	gap: 2px 4px;
-	height: 75vH;
 }
 .tasksCalendar[view='week'] .cell {
 	border: 1px solid var(--nav-item-background-active);
@@ -536,6 +535,10 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 .tasksCalendar[view='week'].style10 .grid .cell:nth-child(5), .iconStyle10 .box:nth-child(5) { grid-area: 1 / 9 / 3 / 11; } 
 .tasksCalendar[view='week'].style10 .grid .cell:nth-child(6), .iconStyle10 .box:nth-child(6) { grid-area: 3 / 7 / 4 / 9; } 
 .tasksCalendar[view='week'].style10 .grid .cell:nth-child(7), .iconStyle10 .box:nth-child(7) { grid-area: 3 / 9 / 4 / 11; } 
+.tasksCalendar[view='week'].style11 .grid, .iconStyle11 { grid-template-rows: 1fr; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+.tasksCalendar[view='week'].style11 .grid { height: 300px }
+.tasksCalendar[view='week'].style11 .cell[data-weekday="0"], .iconStyle11 { display: none !important }
+.tasksCalendar[view='week'].style11 .cell[data-weekday="6"], .iconStyle11 { display: none !important }
 
 /* Options classes */
 .tasksCalendar.noIcons .task .icon { display: none !important; }
