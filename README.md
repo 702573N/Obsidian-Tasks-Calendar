@@ -146,9 +146,13 @@ This parameter must only be specified if this is to be used. Without this parame
 
 #### startPosition:
 ```
-startPosition: "2024-06-01"
+view: "month"
+startPosition: "2022-12" (2022 - December)
+
+view: "week"
+startPosition: "2022-50" (2022 - Week 50)
 ```
-This parameter is optional and can be used to set a date to give focus on a custom month/week after load. On month calendar every date between the first and the last day of the month will be shown the right month. On the week calendar all dates between the first day and the last day of that week will be shown the right week. The input format must look like this `YYYY-MM-DD`.
+This parameter is optional and can be used to set a custom month or week to give focus after load. The default format on month view is `YYYY-MM`and on week view `YYYY-ww`. The first 4 digits represents the year and the last 1-2 digits represents the month or the week. Both must be separated with a minus character.
 
 #### globalTaskFilter:
 ```
