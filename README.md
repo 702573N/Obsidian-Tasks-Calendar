@@ -145,12 +145,17 @@ dailyNoteFormat: "YYYY, MMMM DD - dddd"
 This parameter must only be specified if this is to be used. Without this parameter the default format "YYYY-MM-DD" is used to identify your daily notes. You can set a custom format with a limited base set of characters: Y M D d . , - : (SPACE)
 
 #### startPosition:
+
+Month: 2022 - December
 ```
 view: "month"
-startPosition: "2022-12" (2022 - December)
+startPosition: "2022-12"
+```
 
+Week: 2022 - W50
+```
 view: "week"
-startPosition: "2022-50" (2022 - Week 50)
+startPosition: "2022-50"
 ```
 This parameter is optional and can be used to set a custom month or week to give focus after load. The default format on month view is `YYYY-MM`and on week view `YYYY-ww`. The first 4 digits represents the year and the last 1-2 digits represents the month or the week. Both must be separated with a minus character.
 
