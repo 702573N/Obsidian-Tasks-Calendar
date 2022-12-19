@@ -5,6 +5,7 @@ if (!pages && pages!="") { dv.span('> [!ERROR] Missing pages parameter\n> \n> Pl
 if (!options.includes("style")) { dv.span('> [!ERROR] Missing style parameter\n> \n> Please set a style inside options parameter like\n> \n> `options: "style1"`'); return false };
 if (!view) { dv.span('> [!ERROR] Missing view parameter\n> \n> Please set a default view inside view parameter like\n> \n> `view: "month"`'); return false };
 if (!firstDayOfWeek) { dv.span('> [!ERROR] Missing firstDayOfWeek parameter\n> \n> Please set the first day of the week inside firstDayOfWeek parameter like\n> \n> `firstDayOfWeek: 1`'); return false };
+if (startPosition) { if (!startPosition.match(/\d{4}\-\d{1,2}/gm)) { dv.span('> [!ERROR] Wrong startPosition format\n> \n> Please set a startPosition with the following format\n> \n> Month: `YYYY-MM` | Week: `YYYY-ww`'); return false }};
 if (dailyNoteFormat) { if (dailyNoteFormat.match(/[|\\YMDd.,-: ]/g).length != dailyNoteFormat.length) { dv.span('> [!ERROR] The `dailyNoteFormat` contains invalid characters'); return false }};
 
 // Get, Set, Eval Pages
@@ -19,9 +20,8 @@ var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var tid = (new Date()).getTime();
-startPosition == null ? "" : startPosition;
-var selectedMonth = moment(startPosition).date(1);
-var selectedWeek = moment(startPosition).startOf("week");
+if (startPosition) { var selectedMonth = moment(startPosition, "YYYY-MM").date(1); var selectedWeek = moment(startPosition, "YYYY-ww").startOf("week") } else { var selectedMonth = moment(startPosition).date(1); var selectedWeek = moment(startPosition).startOf("week") };
+if (css) { var style = document.createElement("style"); style.innerHTML = css; rootNode.append(style) };
 var selectedDate = eval("selected"+capitalize(view));
 var arrowLeftIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
@@ -43,13 +43,6 @@ var taskProcessIcon = "⏺️";
 var taskCancelledIcon = "🚫";
 var taskStartIcon = "🛫";
 var taskDailyNoteIcon = "📄";
-
-// Append custom CSS
-if (css) {
-	var style = document.createElement("style");
-	style.innerHTML = css;
-	rootNode.append(style);
-};
 
 // Initialze
 getMeta(tasks);
