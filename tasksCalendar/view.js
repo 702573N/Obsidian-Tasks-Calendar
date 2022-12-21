@@ -253,15 +253,6 @@ function setButtons() {
 function setButtonEvents() {
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
 		var activeView = rootNode.getAttribute("view");
-		
-		if (btn.className != "filter" && btn.className != "statistic") {
-			if (activeView == "list") {
-				rootNode.querySelector(`#tasksCalendar${tid} .list`).remove();
-			} else if (activeView == "week" || activeView == "month") {
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
-			};
-		};
-		
 		if ( btn.className == "previous" ) {
 			if (activeView == "month") {
 				selectedDate = moment(selectedDate).subtract(1, "months");
@@ -444,7 +435,16 @@ function setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounte
 	rootNode.querySelector("#statisticDailyNote").innerText = "📄 Daily Notes: " + dailyNoteCounter;
 };
 
+function removeExistingView() {
+	if (rootNode.querySelector(`#tasksCalendar${tid} .grid`)) {
+		rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+	} else if (rootNode.querySelector(`#tasksCalendar${tid} .list`)) {
+		rootNode.querySelector(`#tasksCalendar${tid} .list`).remove();
+	};
+};
+
 function getMonth(tasks, month) {
+	removeExistingView();
 	var currentTitle = "<span>"+moment(month).format("MMMM")+"</span><span> "+moment(month).format("YYYY")+"</span>";
 	rootNode.querySelector('button.current').innerHTML = currentTitle;
 	var gridContent = "";
@@ -549,6 +549,7 @@ function getMonth(tasks, month) {
 };
 
 function getWeek(tasks, week) {
+	removeExistingView();
 	var currentTitle = "<span>"+moment(week).format("YYYY")+"</span><span> "+moment(week).format("[W]w")+"</span>";
 	rootNode.querySelector('button.current').innerHTML = currentTitle
 	var gridContent = "";
@@ -615,7 +616,7 @@ function getWeek(tasks, week) {
 };
 
 function getList(tasks, month) {
-
+	removeExistingView();
 	var currentTitle = "<span>"+moment(month).format("MMMM")+"</span><span> "+moment(month).format("YYYY")+"</span>";
 	rootNode.querySelector('button.current').innerHTML = currentTitle;
 	var listContent = "";
