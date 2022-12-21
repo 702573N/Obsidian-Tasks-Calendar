@@ -484,11 +484,11 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 
 
 /* List View */
-.tasksCalendar .list {
+.tasksCalendar[view='list'] .list {
 	border: 1px solid var(--nav-item-background-active);
 	border-radius: 5px;
 }
-.tasksCalendar .list .listHeader {
+.tasksCalendar[view='list'] .list .listHeader {
 	background: var(--background-secondary);
 	color: var(--text-normal);
 	border-top: 1px solid var(--nav-item-background-active);
@@ -502,48 +502,48 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	padding: 0 10px;
 	margin-top: -1px;
 }
-.tasksCalendar .list .listHeader span {
+.tasksCalendar[view='list'] .list .listHeader span {
 	display: inline-block;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-.tasksCalendar .list .listHeader.today {
+.tasksCalendar[view='list'] .list .listHeader.today {
 	color: var(--icon-color-active);
 	font-weight: bold;
 }
-.tasksCalendar .list .task,
-.tasksCalendar .list .task.done,
-.tasksCalendar .list .task .note,
-.tasksCalendar .list .task.done .note{
+.tasksCalendar[view='list'] .list .task,
+.tasksCalendar[view='list'] .list .task.done,
+.tasksCalendar[view='list'] .list .task .note,
+.tasksCalendar[view='list'] .list .task.done .note{
 	background: transparent !important;
 }
-.tasksCalendar .list .note {
+.tasksCalendar[view='list'] .list .note {
 	display: inline-block;
 	width: 150px;
 	flex-shrink: 0;
 	flex-grow: 0;
 }
-.tasksCalendar .list .description {
+.tasksCalendar[view='list'] .list .description {
 	width: 100%;
 	flex-shrink: 1;
 	flex-grow: 1;
 }
-.tasksCalendar .list .task .inner {
+.tasksCalendar[view='list'] .list .task .inner {
 	display: flex !important;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	padding: 0 10px;
 	white-space: nowrap;
 }
-.tasksCalendar .list .task.done .note,
-.tasksCalendar .list .task.done .description,
-.tasksCalendar .list .task.cancelled .note,
-.tasksCalendar .list .task.cancelled .description {
+.tasksCalendar[view='list'] .list .task.done .note,
+.tasksCalendar[view='list'] .list .task.done .description,
+.tasksCalendar[view='list'] .list .task.cancelled .note,
+.tasksCalendar[view='list'] .list .task.cancelled .description {
 	color: var(--text-faint) !important;
 }
-.tasksCalendar .list .task .note,
-.tasksCalendar .list .task .description {
+.tasksCalendar[view='list'] .list .task .note,
+.tasksCalendar[view='list'] .list .task .description {
 	color: var(--task-color) !important;
 	line-clamp: 0 !important;
 	white-space: nowrap !important;
@@ -671,10 +671,10 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 .tasksCalendar.noWeekNr .gridHead:first-child { visibility: hidden !important; width: 0 !important; }
 .tasksCalendar.noWeekNr .wrapper { grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important; }
 .tasksCalendar.noWeekNr .gridHeads { grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important; }
-.tasksCalendar[view='week, month'] .lineClamp1 .task .inner { -webkit-line-clamp: 1 !important; white-space: nowrap !important; }
-.tasksCalendar[view='week, month'] .lineClamp2 .task .inner { -webkit-line-clamp: 2 !important; }
-.tasksCalendar[view='week, month'] .lineClamp3 .task .inner { -webkit-line-clamp: 3 !important; }
-.tasksCalendar[view='week, month'] .noLineClamp .task .inner { display: block !important; }
+.tasksCalendar.lineClamp1 .task .inner { -webkit-line-clamp: 1 !important; white-space: nowrap !important; }
+.tasksCalendar.lineClamp2 .task .inner { -webkit-line-clamp: 2 !important; }
+.tasksCalendar.lineClamp3 .task .inner { -webkit-line-clamp: 3 !important; }
+.tasksCalendar.noLineClamp .task .inner { display: block !important; }
 
 /* Mobile View */
 body.is-mobile .tasksCalendar .gridHead, body.is-mobile .tasksCalendar .cellName, body.is-mobile .tasksCalendar .task { font-size: 9px; }
