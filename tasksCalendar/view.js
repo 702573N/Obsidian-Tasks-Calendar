@@ -28,6 +28,7 @@ var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height=
 var filterIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>';
 var monthIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg>';
 var weekIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M17 14h-6"></path><path d="M13 18H7"></path><path d="M7 14h.01"></path><path d="M17 18h.01"></path></svg>';
+var listIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>';
 var calendarClockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h5"></path><path d="M17.5 17.5 16 16.25V14"></path><path d="M22 16a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z"></path></svg>';
 var calendarCheckIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg>';
 var calendarHeartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h7"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path><path d="M21.29 14.7a2.43 2.43 0 0 0-2.65-.52c-.3.12-.57.3-.8.53l-.34.34-.35-.34a2.43 2.43 0 0 0-2.65-.53c-.3.12-.56.3-.79.53-.95.94-1 2.53.2 3.74L17.5 22l3.6-3.55c1.2-1.21 1.14-2.8.19-3.74Z"></path></svg>';
@@ -244,7 +245,7 @@ function setTaskContentContainer(currentDate) {
 };
 
 function setButtons() {
-	var buttons = "<button class='filter'>"+filterIcon+"</button><button class='monthView' title='Month'>"+monthIcon+"</button><button class='weekView' title='Week'>"+weekIcon+"</button><button class='current'></button><button class='previous'>"+arrowLeftIcon+"</button><button class='next'>"+arrowRightIcon+"</button><button class='statistic' percentage=''></button>";
+	var buttons = "<button class='filter'>"+filterIcon+"</button><button class='listView' title='List'>"+listIcon+"</button><button class='monthView' title='Month'>"+monthIcon+"</button><button class='weekView' title='Week'>"+weekIcon+"</button><button class='current'></button><button class='previous'>"+arrowLeftIcon+"</button><button class='next'>"+arrowRightIcon+"</button><button class='statistic' percentage=''></button>";
 	rootNode.querySelector("span").appendChild(dv.el("div", buttons, {cls: "buttons", attr: {}}));
 	setButtonEvents();
 };
@@ -252,35 +253,47 @@ function setButtons() {
 function setButtonEvents() {
 	rootNode.querySelectorAll('button').forEach(btn => btn.addEventListener('click', (() => {
 		var activeView = rootNode.getAttribute("view");
+		
+		if (btn.className != "filter" && btn.className != "statistic") {
+			if (activeView == "list") {
+				rootNode.querySelector(`#tasksCalendar${tid} .list`).remove();
+			} else if (activeView == "week" || activeView == "month") {
+				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
+			};
+		};
+		
 		if ( btn.className == "previous" ) {
 			if (activeView == "month") {
 				selectedDate = moment(selectedDate).subtract(1, "months");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
 			} else if (activeView == "week") {
 				selectedDate = moment(selectedDate).subtract(7, "days").startOf("week");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getWeek(tasks, selectedDate);
-			};
+			} else if (activeView == "list") {
+				selectedDate = moment(selectedDate).subtract(1, "months");
+				getList(tasks, selectedDate);
+			}
 		} else if ( btn.className == "current") {
 			if (activeView == "month") {
 				selectedDate = moment().date(1);
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
 			} else if (activeView == "week") {
 				selectedDate = moment().startOf("week");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getWeek(tasks, selectedDate);
+			} else if (activeView == "list") {
+				selectedDate = moment().date(1);
+				getList(tasks, selectedDate);
 			};
 		} else if ( btn.className == "next" ) {
 			if (activeView == "month") {
 				selectedDate = moment(selectedDate).add(1, "months");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getMonth(tasks, selectedDate);
 			} else if (activeView == "week") {
 				selectedDate = moment(selectedDate).add(7, "days").startOf("week");
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getWeek(tasks, selectedDate);
+			} else if (activeView == "list") {
+				selectedDate = moment(selectedDate).add(1, "months");
+				getList(tasks, selectedDate);
 			};
 		} else if ( btn.className == "filter" ) {
 			rootNode.classList.toggle("filter");
@@ -292,8 +305,14 @@ function setButtonEvents() {
 			} else {
 				selectedDate = moment(selectedDate).date(1);
 			};
-			rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 			getMonth(tasks, selectedDate);
+		} else if ( btn.className == "listView" ) {
+			if ( moment().format("ww-YYYY") == moment(selectedDate).format("ww-YYYY") ) {
+				selectedDate = moment().date(1);
+			} else {
+				selectedDate = moment(selectedDate).date(1);
+			};
+			getList(tasks, selectedDate);
 		} else if ( btn.className == "weekView" ) {
 			if (rootNode.getAttribute("view") == "week") {
 				var leftPos = rootNode.querySelector("button.weekView").offsetLeft;
@@ -309,12 +328,11 @@ function setButtonEvents() {
 					}, 100);
 				};
 			} else {
-				if (activeView == "month" && moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
+				if (moment().format("MM-YYYY") != moment(selectedDate).format("MM-YYYY")) {
 					selectedDate = moment(selectedDate).startOf("month").startOf("week");
 				} else {
 					selectedDate = moment().startOf("week");
 				};
-				rootNode.querySelector(`#tasksCalendar${tid} .grid`).remove();
 				getWeek(tasks, selectedDate);
 			};
 		} else if ( btn.className == "statistic" ) {
@@ -427,7 +445,7 @@ function setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounte
 };
 
 function getMonth(tasks, month) {
-	var currentTitle = "<span>"+moment(month).format("MMMM")+"</span><span> "+moment(month).format("YYYY");
+	var currentTitle = "<span>"+moment(month).format("MMMM")+"</span><span> "+moment(month).format("YYYY")+"</span>";
 	rootNode.querySelector('button.current').innerHTML = currentTitle;
 	var gridContent = "";
 	var firstDayOfMonth = moment(month).format("d");
@@ -531,7 +549,7 @@ function getMonth(tasks, month) {
 };
 
 function getWeek(tasks, week) {
-	var currentTitle = "<span>"+moment(week).format("YYYY")+"</span><span> "+moment(week).format("[W]w");
+	var currentTitle = "<span>"+moment(week).format("YYYY")+"</span><span> "+moment(week).format("[W]w")+"</span>";
 	rootNode.querySelector('button.current').innerHTML = currentTitle
 	var gridContent = "";
 	var currentWeekday = moment(week).format("d");
@@ -594,4 +612,56 @@ function getWeek(tasks, week) {
 	rootNode.querySelector("span").appendChild(dv.el("div", gridContent, {cls: "grid", attr:{'data-week': weekNr}}));
 	setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounter, scheduledCounter, recurrenceCounter, dailyNoteCounter);
 	rootNode.setAttribute("view", "week");
+};
+
+function getList(tasks, month) {
+
+	var currentTitle = "<span>"+moment(month).format("MMMM")+"</span><span> "+moment(month).format("YYYY")+"</span>";
+	rootNode.querySelector('button.current').innerHTML = currentTitle;
+	var listContent = "";
+	var dueCounter = 0;
+	var doneCounter = 0;
+	var overdueCounter = 0;
+	var startCounter = 0;
+	var scheduledCounter = 0;
+	var recurrenceCounter = 0;
+	var dailyNoteCounter = 0;
+
+	// Loop Days From Current Month
+	for (i=0;i<moment(month).endOf('month').format("D");i++) {
+		var currentDate = moment(month).startOf('month').add(i, "days").format("YYYY-MM-DD");
+		var monthName = moment(month).format("MMM").replace(".","").substring(0,3);
+
+		// Filter Tasks
+		getTasks(currentDate);
+		
+		// Count Events
+		dueCounter += due.length;
+		dueCounter += recurrence.length;
+		dueCounter += scheduled.length;
+		dueCounter += dailyNote.length;
+		doneCounter += done.length;
+		startCounter += start.length;
+		scheduledCounter += scheduled.length;
+		recurrenceCounter += recurrence.length;
+		dailyNoteCounter += dailyNote.length;
+		if (moment().format("YYYY-MM-DD") == currentDate) {
+			overdueCounter = overdue.length;
+			listContent += "<div class='listHeader today'><span>" + moment(currentDate).format("dddd, D") + "</span><span>" + moment(currentDate).format("[W]ww") + "</span></div>"
+		} else {
+			listContent += "<div class='listHeader'><span>" + moment(currentDate).format("dddd, D") + "</span><span>" + moment(currentDate).format("[W]ww") + "</span></div>"
+		};
+		listContent += setTaskContentContainer(currentDate);
+	};
+	rootNode.querySelector("span").appendChild(dv.el("div", listContent, {cls: "list", attr:{"data-month": monthName}}));
+	setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounter, scheduledCounter, recurrenceCounter, dailyNoteCounter);
+	rootNode.setAttribute("view", "list");
+	
+	// Scroll To Today If Selected Month Is Current Month
+	if ( moment().format("YYYY-MM") == moment(month).format("YYYY-MM") ) {
+		var listElement = rootNode.querySelector(".list");
+		var todayElement = rootNode.querySelector(".today")
+		var scrollPos = todayElement.offsetTop - todayElement.offsetHeight - 11;
+		listElement.scrollTo(0, scrollPos);
+	};
 };
