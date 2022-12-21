@@ -53,10 +53,11 @@ It is also possible to define complex queries. These must start with `dv.pages` 
 
 ### view:
 ```
+view: "list"
 view: "month"
 view: "week"
 ```
-With the view parameter you can set the default selected calendar
+With the view parameter you can set the default calendar view.
   
 
 ### firstDayOfWeek:
