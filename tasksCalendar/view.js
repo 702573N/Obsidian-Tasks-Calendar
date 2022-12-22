@@ -4,7 +4,15 @@ let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, dailyNoteFo
 if (!pages && pages!="") { dv.span('> [!ERROR] Missing pages parameter\n> \n> Please set the pages parameter like\n> \n> `pages: ""`'); return false };
 if (!options.includes("style")) { dv.span('> [!ERROR] Missing style parameter\n> \n> Please set a style inside options parameter like\n> \n> `options: "style1"`'); return false };
 if (!view) { dv.span('> [!ERROR] Missing view parameter\n> \n> Please set a default view inside view parameter like\n> \n> `view: "month"`'); return false };
-if (!firstDayOfWeek) { dv.span('> [!ERROR] Missing firstDayOfWeek parameter\n> \n> Please set the first day of the week inside firstDayOfWeek parameter like\n> \n> `firstDayOfWeek: 1`'); return false };
+if (firstDayOfWeek) { 
+	if (firstDayOfWeek.match(/[|\\0123456]/g) == null) { 
+		dv.span('> [!ERROR] Wrong value inside firstDayOfWeek parameter\n> \n> Please choose a number between 0 and 6');
+		return false
+	};
+} else {
+	dv.span('> [!ERROR] Missing firstDayOfWeek parameter\n> \n> Please set the first day of the week inside firstDayOfWeek parameter like\n> \n> `firstDayOfWeek: "1"`'); 
+	return false 
+};
 if (startPosition) { if (!startPosition.match(/\d{4}\-\d{1,2}/gm)) { dv.span('> [!ERROR] Wrong startPosition format\n> \n> Please set a startPosition with the following format\n> \n> Month: `YYYY-MM` | Week: `YYYY-ww`'); return false }};
 if (dailyNoteFormat) { if (dailyNoteFormat.match(/[|\\YMDd.,-: ]/g).length != dailyNoteFormat.length) { dv.span('> [!ERROR] The `dailyNoteFormat` contains invalid characters'); return false }};
 
@@ -33,7 +41,7 @@ var calendarClockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" heig
 var calendarCheckIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg>';
 var calendarHeartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h7"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path><path d="M21.29 14.7a2.43 2.43 0 0 0-2.65-.52c-.3.12-.57.3-.8.53l-.34.34-.35-.34a2.43 2.43 0 0 0-2.65-.53c-.3.12-.56.3-.79.53-.95.94-1 2.53.2 3.74L17.5 22l3.6-3.55c1.2-1.21 1.14-2.8.19-3.74Z"></path></svg>';
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
-var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'><div class='note'>{{note}}</div><div class='icon'>{{icon}}</div><div class='description' data-overdue='{{overdue}}'>{{taskContent}}</div></div></div></a>";
+var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'><div class='note'>{{note}}</div><div class='icon'>{{icon}}</div><div class='description' data-relative='{{relative}}'>{{taskContent}}</div></div></div></a>";
 const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view, style: 'position:relative;-webkit-user-select:none!important'}});
 var taskDoneIcon = "✅";
 var taskDueIcon = "📅";
@@ -184,7 +192,7 @@ function setTask(obj, cls) {
 	var taskText = obj.text.replace("'", "&apos;");
 	var taskPath = obj.link.path.replace("'", "&apos;");
 	var taskIcon = eval("task"+capitalize(cls)+"Icon");
-	if (obj.due < moment().format("YYYY-MM-DD")) { var overdue = moment().diff(obj.due, "days") } else { var overdue = "0" };
+	if (obj.due) { var relative = moment(obj.due).fromNow() } else { var relative = "" };
 	var noteFilename = getFilename(taskPath);
 	if (noteIcon) { noteFilename = noteIcon+"&nbsp;"+noteFilename } else { noteFilename = taskIcon+"&nbsp;"+noteFilename; cls += " noNoteIcon" };
 	var taskSubpath = obj.header.subpath;
@@ -199,7 +207,7 @@ function setTask(obj, cls) {
  	} else {
  		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--dark-task-text-color:"+transColor("#7D7D7D", darker)+";--light-task-text-color:"+transColor("#7D7D7D", lighter);
  	};
-	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", cls).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", noteFilename + ": " + taskText).replace("{{note}}",noteFilename).replace("{{icon}}",taskIcon).replace("{{overdue}}",overdue);
+	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", cls).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", noteFilename + ": " + taskText).replace("{{note}}",noteFilename).replace("{{icon}}",taskIcon).replace("{{relative}}",relative);
 	return newTask;
 };
 
@@ -465,7 +473,7 @@ function getMonth(tasks, month) {
 	
 	// Set Grid Heads
 	var gridHeads = "";
-	for (h=0-firstDayOfMonth+firstDayOfWeek;h<7-firstDayOfMonth+firstDayOfWeek;h++) {
+	for (h=0-firstDayOfMonth+parseInt(firstDayOfWeek);h<7-firstDayOfMonth+parseInt(firstDayOfWeek);h++) {
 		var weekDayNr = moment(month).add(h, "days").format("d");
 		var weekDayName = moment(month).add(h, "days").format("ddd");
 		if ( tDay == weekDayNr && tMonth == moment(month).format("M") && tYear == moment(month).format("YYYY") ) {
@@ -477,7 +485,7 @@ function getMonth(tasks, month) {
 	
 	// Set Wrappers
 	var wrappers = "";
-	var starts = 0-firstDayOfMonth+firstDayOfWeek;
+	var starts = 0-firstDayOfMonth+parseInt(firstDayOfWeek);
 	for (w=1; w<7; w++) {
 		var wrapper = "";
 		var weekNr = "";
@@ -564,7 +572,7 @@ function getWeek(tasks, week) {
 	var recurrenceCounter = 0;
 	var dailyNoteCounter = 0;
 	
-	for (i=0-currentWeekday+firstDayOfWeek;i<7-currentWeekday+firstDayOfWeek;i++) {
+	for (i=0-currentWeekday+parseInt(firstDayOfWeek);i<7-currentWeekday+parseInt(firstDayOfWeek);i++) {
 		var currentDate = moment(week).add(i, "days").format("YYYY-MM-DD");
 		if (!dailyNoteFolder) {var dailyNotePath = currentDate} else {var dailyNotePath = dailyNoteFolder+"/"+currentDate};
 		var weekDay = moment(week).add(i, "days").format("d");
