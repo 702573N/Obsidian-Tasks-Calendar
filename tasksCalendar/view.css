@@ -322,18 +322,32 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	margin-right: 3px;
 }
 .tasksCalendar .task .description {
+	display: inline;
 	padding: 1px;
 }
-.tasksCalendar .task.overdue .description:before {
-	content: "+" attr(data-overdue) " days";
-	color: white;
-	background: #ff443a;
+.tasksCalendar .task .description:before {
+	display: inline;
+	content: attr(data-relative);
 	margin-right: 3px;
 	border-radius: 3px;
 	margin-right: 3px;
 	padding: 0 3px;
 	font-size: 9px;
 	vertical-align: middle;
+}
+.tasksCalendar .task.overdue .description:before {
+	color: white;
+	background: #ff443a;
+}
+.tasksCalendar .task:not(.overdue) .description:before {
+	display: none;
+	background: black;
+	color: white;
+}
+.tasksCalendar .task.dailyNote .description:before,
+.tasksCalendar .task.done .description:before,
+.tasksCalendar .task.cancelled .description:before {
+	display: none !important;
 }
 .tasksCalendar .task.cancelled .note,
 .tasksCalendar .task.done .note {
@@ -547,9 +561,8 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	background: var(--background-modifier-active-hover);
 }
 .tasksCalendar[view='list'] details.today summary {
-	color: var(--icon-color-active);
 	font-weight: bold;
-	background: var(--background-modifier-active-hover);
+	background: none;
 }
 .tasksCalendar[view='list'] details.today .content {
 	margin: 5px;
@@ -559,6 +572,7 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	margin: 5px;
 	border-radius: 5px;
 	overflow: hidden;
+	/*background: var(--background-secondary);*/
 }
 .tasksCalendar[view='list'] summary {
 	background: var(--background-secondary);
@@ -694,7 +708,7 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 .tasksCalendar.lineClamp2 .task .inner { -webkit-line-clamp: 2 !important; }
 .tasksCalendar.lineClamp3 .task .inner { -webkit-line-clamp: 3 !important; }
 .tasksCalendar.noLineClamp .task .inner { display: block !important; }
-.tasksCalendar.noOverdueDays .task .description:before { display: none !important; }
+.tasksCalendar.noOverdueFlag .task .description:before { display: none !important; }
 
 /* Mobile View */
 body.is-mobile .tasksCalendar .gridHead, body.is-mobile .tasksCalendar .cellName, body.is-mobile .tasksCalendar .task { font-size: 9px; }
