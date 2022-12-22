@@ -33,7 +33,7 @@ var calendarClockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" heig
 var calendarCheckIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="m9 16 2 2 4-4"></path></svg>';
 var calendarHeartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h7"></path><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path><path d="M21.29 14.7a2.43 2.43 0 0 0-2.65-.52c-.3.12-.57.3-.8.53l-.34.34-.35-.34a2.43 2.43 0 0 0-2.65-.53c-.3.12-.56.3-.79.53-.95.94-1 2.53.2 3.74L17.5 22l3.6-3.55c1.2-1.21 1.14-2.8.19-3.74Z"></path></svg>';
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
-var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'><div class='note'>{{note}}</div><div class='icon'>{{icon}}</div><div class='description'>{{taskContent}}</div></div></div></a>";
+var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'><div class='note'>{{note}}</div><div class='icon'>{{icon}}</div><div class='description' data-overdue='{{overdue}}'>{{taskContent}}</div></div></div></a>";
 const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view, style: 'position:relative;-webkit-user-select:none!important'}});
 var taskDoneIcon = "✅";
 var taskDueIcon = "📅";
@@ -184,6 +184,7 @@ function setTask(obj, cls) {
 	var taskText = obj.text.replace("'", "&apos;");
 	var taskPath = obj.link.path.replace("'", "&apos;");
 	var taskIcon = eval("task"+capitalize(cls)+"Icon");
+	if (obj.due < moment().format("YYYY-MM-DD")) { var overdue = moment().diff(obj.due, "days") } else { var overdue = "0" };
 	var noteFilename = getFilename(taskPath);
 	if (noteIcon) { noteFilename = noteIcon+"&nbsp;"+noteFilename } else { noteFilename = taskIcon+"&nbsp;"+noteFilename; cls += " noNoteIcon" };
 	var taskSubpath = obj.header.subpath;
@@ -198,7 +199,7 @@ function setTask(obj, cls) {
  	} else {
  		var style = "--task-background:#7D7D7D33;--task-color:#7D7D7D;--dark-task-text-color:"+transColor("#7D7D7D", darker)+";--light-task-text-color:"+transColor("#7D7D7D", lighter);
  	};
-	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", cls).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", noteFilename + ": " + taskText).replace("{{note}}",noteFilename).replace("{{icon}}",taskIcon);
+	var newTask = taskTemplate.replace("{{taskContent}}", taskText).replace("{{class}}", cls).replace("{{taskPath}}", taskLine).replace("{{due}}","done").replaceAll("{{style}}",style).replace("{{title}}", noteFilename + ": " + taskText).replace("{{note}}",noteFilename).replace("{{icon}}",taskIcon).replace("{{overdue}}",overdue);
 	return newTask;
 };
 
@@ -627,7 +628,7 @@ function getList(tasks, month) {
 	var scheduledCounter = 0;
 	var recurrenceCounter = 0;
 	var dailyNoteCounter = 0;
-
+	
 	// Loop Days From Current Month
 	for (i=0;i<moment(month).endOf('month').format("D");i++) {
 		var currentDate = moment(month).startOf('month').add(i, "days").format("YYYY-MM-DD");
@@ -648,11 +649,10 @@ function getList(tasks, month) {
 		dailyNoteCounter += dailyNote.length;
 		if (moment().format("YYYY-MM-DD") == currentDate) {
 			overdueCounter = overdue.length;
-			listContent += "<div class='listHeader today'><span>" + moment(currentDate).format("dddd, D") + "</span><span>" + moment(currentDate).format("[W]ww") + "</span></div>"
+			listContent += "<details open class='today'><summary><span>" + moment(currentDate).format("dddd, D") + "</span><span class='weekNr'> " + moment(currentDate).format("[W]w") + "</span></summary><div class='content'>" + setTaskContentContainer(currentDate) + "</div></details>"
 		} else {
-			listContent += "<div class='listHeader'><span>" + moment(currentDate).format("dddd, D") + "</span><span>" + moment(currentDate).format("[W]ww") + "</span></div>"
+			listContent += "<details open><summary><span>" + moment(currentDate).format("dddd, D") + "</span><span class='weekNr'> " + moment(currentDate).format("[W]w") + "</span></summary><div class='content'>" + setTaskContentContainer(currentDate) + "</div></details>"
 		};
-		listContent += setTaskContentContainer(currentDate);
 	};
 	rootNode.querySelector("span").appendChild(dv.el("div", listContent, {cls: "list", attr:{"data-month": monthName}}));
 	setStatisticValues(dueCounter, doneCounter, overdueCounter, startCounter, scheduledCounter, recurrenceCounter, dailyNoteCounter);
@@ -662,7 +662,7 @@ function getList(tasks, month) {
 	if ( moment().format("YYYY-MM") == moment(month).format("YYYY-MM") ) {
 		var listElement = rootNode.querySelector(".list");
 		var todayElement = rootNode.querySelector(".today")
-		var scrollPos = todayElement.offsetTop - todayElement.offsetHeight - 11;
+		var scrollPos = todayElement.offsetTop - todayElement.offsetHeight + 87;
 		listElement.scrollTo(0, scrollPos);
 	};
 };
