@@ -129,6 +129,10 @@ options: "noLayer"
 ```
 The back layer of the grid with the month or week information can be hidden with this.
 
+```
+options: "noOverdueDays"
+```
+You can use this option to hide the overdue days flag on overdue tasks.
 
 ### Optional parameters
 
