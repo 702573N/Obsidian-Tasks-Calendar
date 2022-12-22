@@ -62,8 +62,8 @@ With the view parameter you can set the default calendar view.
 
 ### firstDayOfWeek:
 ```
-firstDayOfWeek: 1
-firstDayOfWeek: 0
+firstDayOfWeek: "1"
+firstDayOfWeek: "0"
 ```
 Set monday (1) or sunday (0) as first day of week
 
