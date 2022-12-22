@@ -322,8 +322,18 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	margin-right: 3px;
 }
 .tasksCalendar .task .description {
-	display: inline;
 	padding: 1px;
+}
+.tasksCalendar .task.overdue .description:before {
+	content: "+" attr(data-overdue) " days";
+	color: white;
+	background: #ff443a;
+	margin-right: 3px;
+	border-radius: 3px;
+	margin-right: 3px;
+	padding: 0 3px;
+	font-size: 9px;
+	vertical-align: middle;
 }
 .tasksCalendar .task.cancelled .note,
 .tasksCalendar .task.done .note {
@@ -488,46 +498,11 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	border: 1px solid var(--nav-item-background-active);
 	border-radius: 5px;
 }
-.tasksCalendar[view='list'] .list .listHeader {
-	background: var(--background-secondary);
-	color: var(--text-normal);
-	border-top: 1px solid var(--nav-item-background-active);
-	border-bottom: 1px solid var(--nav-item-background-active);
-	font-size: 14px;
-	font-weight: normal;
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	justify-content: space-between;
-	padding: 0 10px;
-	margin-top: -1px;
-}
-.tasksCalendar[view='list'] .list .listHeader span {
-	display: inline-block;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-.tasksCalendar[view='list'] .list .listHeader.today {
-	color: var(--icon-color-active);
-	font-weight: bold;
-}
 .tasksCalendar[view='list'] .list .task,
 .tasksCalendar[view='list'] .list .task.done,
 .tasksCalendar[view='list'] .list .task .note,
 .tasksCalendar[view='list'] .list .task.done .note{
 	background: transparent !important;
-}
-.tasksCalendar[view='list'] .list .note {
-	display: inline-block;
-	width: 150px;
-	flex-shrink: 0;
-	flex-grow: 0;
-}
-.tasksCalendar[view='list'] .list .description {
-	width: 100%;
-	flex-shrink: 1;
-	flex-grow: 1;
 }
 .tasksCalendar[view='list'] .list .task .inner {
 	display: flex !important;
@@ -535,6 +510,17 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	flex-wrap: nowrap;
 	padding: 0 10px;
 	white-space: nowrap;
+}
+.tasksCalendar[view='list'] .list .task .note {
+	display: inline-block;
+	width: 150px;
+	flex-shrink: 0;
+	flex-grow: 0;
+}
+.tasksCalendar[view='list'] .list .task .description {
+	width: 100%;
+	flex-shrink: 1;
+	flex-grow: 1;
 }
 .tasksCalendar[view='list'] .list .task.done .note,
 .tasksCalendar[view='list'] .list .task.done .description,
@@ -550,6 +536,38 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	font-size: 14px;
+}
+.tasksCalendar summary::marker,
+.tasksCalendar summary::-webkit-details-marker {
+	display: none !important;
+	content: "" !important;
+}
+.tasksCalendar[view='list'] details.today {
+	margin: 40px 5px;
+	background: var(--background-modifier-active-hover);
+}
+.tasksCalendar[view='list'] details.today summary {
+	color: var(--icon-color-active);
+	font-weight: bold;
+	background: var(--background-modifier-active-hover);
+}
+.tasksCalendar[view='list'] details.today .content {
+	margin: 5px;
+}
+.tasksCalendar[view='list'] details {
+	display: block;
+	margin: 5px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.tasksCalendar[view='list'] summary {
+	background: var(--background-secondary);
+	padding: 0 10px;
+	border-radius: 5px;
+}
+.tasksCalendar[view='list'] summary span.weekNr {
+	font-size: 11px;
+	color: var(--text-faint);
 }
 
 
@@ -671,10 +689,12 @@ body:not(.is-mobile) .tasksCalendar .task:hover {
 .tasksCalendar.noWeekNr .gridHead:first-child { visibility: hidden !important; width: 0 !important; }
 .tasksCalendar.noWeekNr .wrapper { grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important; }
 .tasksCalendar.noWeekNr .gridHeads { grid-template-columns: 0px 1fr 1fr 1fr 1fr 1fr 1fr 1fr !important; }
+.tasksCalendar.noWeekNr .list .weekNr { display: none !important; }
 .tasksCalendar.lineClamp1 .task .inner { -webkit-line-clamp: 1 !important; white-space: nowrap !important; }
 .tasksCalendar.lineClamp2 .task .inner { -webkit-line-clamp: 2 !important; }
 .tasksCalendar.lineClamp3 .task .inner { -webkit-line-clamp: 3 !important; }
 .tasksCalendar.noLineClamp .task .inner { display: block !important; }
+.tasksCalendar.noOverdueDays .task .description:before { display: none !important; }
 
 /* Mobile View */
 body.is-mobile .tasksCalendar .gridHead, body.is-mobile .tasksCalendar .cellName, body.is-mobile .tasksCalendar .task { font-size: 9px; }
