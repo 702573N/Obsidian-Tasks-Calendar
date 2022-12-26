@@ -14,7 +14,7 @@ if (firstDayOfWeek) {
 	return false 
 };
 if (startPosition) { if (!startPosition.match(/\d{4}\-\d{1,2}/gm)) { dv.span('> [!ERROR] Wrong startPosition format\n> \n> Please set a startPosition with the following format\n> \n> Month: `YYYY-MM` | Week: `YYYY-ww`'); return false }};
-if (dailyNoteFormat) { if (dailyNoteFormat.match(/[|\\YMDd.,-: ]/g).length != dailyNoteFormat.length) { dv.span('> [!ERROR] The `dailyNoteFormat` contains invalid characters'); return false }};
+if (dailyNoteFormat) { if (dailyNoteFormat.match(/[|\\YMDWwd.,-: \[\]]/g).length != dailyNoteFormat.length) { dv.span('> [!ERROR] The `dailyNoteFormat` contains invalid characters'); return false }};
 
 // Get, Set, Eval Pages
 if (pages=="") { var tasks = dv.pages().file.tasks } else { if (pages.startsWith("dv.pages")) { var tasks = eval(pages) } else { var tasks = dv.pages(pages).file.tasks } };
@@ -165,7 +165,10 @@ function momentToRegex(momentFormat) {
 	momentFormat = momentFormat.replace("DD", "\\d{2}");
 	momentFormat = momentFormat.replace("D", "\\d{1,2}");
 	
+	momentFormat = momentFormat.replace("ww", "\\d{1,2}");
+	
 	regEx = "/^(" + momentFormat + ")$/";
+	console.log(regEx)
 	return regEx;
 };
 
@@ -670,7 +673,7 @@ function getList(tasks, month) {
 	if ( moment().format("YYYY-MM") == moment(month).format("YYYY-MM") ) {
 		var listElement = rootNode.querySelector(".list");
 		var todayElement = rootNode.querySelector(".today")
-		var scrollPos = todayElement.offsetTop - todayElement.offsetHeight + 87;
+		var scrollPos = todayElement.offsetTop - todayElement.offsetHeight + 85;
 		listElement.scrollTo(0, scrollPos);
 	};
 };
