@@ -29,7 +29,6 @@ var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var tid = (new Date()).getTime();
 if (startPosition) { var selectedMonth = moment(startPosition, "YYYY-MM").date(1); var selectedWeek = moment(startPosition, "YYYY-ww").startOf("week") } else { var selectedMonth = moment(startPosition).date(1); var selectedWeek = moment(startPosition).startOf("week") };
-if (css) { var style = document.createElement("style"); style.innerHTML = css; rootNode.append(style) };
 var selectedDate = eval("selected"+capitalize(view));
 var arrowLeftIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
@@ -43,6 +42,7 @@ var calendarHeartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" heig
 var cellTemplate = "<div class='cell {{class}}' data-weekday='{{weekday}}'><a class='internal-link cellName' href='{{dailyNote}}'>{{cellName}}</a><div class='cellContent'>{{cellContent}}</div></div>";
 var taskTemplate = "<a class='internal-link' href='{{taskPath}}'><div class='task {{class}}' style='{{style}}' title='{{title}}'><div class='inner'><div class='note'>{{note}}</div><div class='icon'>{{icon}}</div><div class='description' data-relative='{{relative}}'>{{taskContent}}</div></div></div></a>";
 const rootNode = dv.el("div", "", {cls: "tasksCalendar "+options, attr: {id: "tasksCalendar"+tid, view: view, style: 'position:relative;-webkit-user-select:none!important'}});
+if (css) { var style = document.createElement("style"); style.innerHTML = css; rootNode.append(style) };
 var taskDoneIcon = "✅";
 var taskDueIcon = "📅";
 var taskScheduledIcon = "⏳";
