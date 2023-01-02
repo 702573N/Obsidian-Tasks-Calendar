@@ -10,9 +10,10 @@
 - All notes can pinned directly into your timeline using creation date and the starring functionality in Obsidian
 - To Do, Overdue, Process box counters to focus your tasks
 - Quick add a task to your todays daily note, only one step away
-- Give your life color with metadata into your notes and so in your personal timeline
+- Give your life color with metadata in your notes and so in your personal timeline
 - Tidy timeline without being overwhelmed by completed tasks but still showing what you have done today
 - Focus yourself in today's work and block out everything from yesterday and tomorrow
+- Custom color for all your tags
 
 ---
 ---
