@@ -1,5 +1,3 @@
----
-
 # Taskido: Obsidian-Tasks-Timeline
 ## [Click here!](https://github.com/702573N/Obsidian-Tasks-Timeline)
 
