@@ -3,7 +3,7 @@
 # Taskido - the Obsidian-Tasks-Timeline
 ### [Fore more information click here!](https://github.com/702573N/Obsidian-Tasks-Timeline)
 
-![New](https://user-images.githubusercontent.com/59178587/210227914-34fa8921-e4a1-483f-a55d-6b7f49f7c3ac.png)
+<p align="center"><img width="400" alt="Semi_Transparent" src="https://user-images.githubusercontent.com/59178587/210307060-5ed916ee-819d-46b1-9a5e-efdd15728957.png"></p>
 
 ---
 
