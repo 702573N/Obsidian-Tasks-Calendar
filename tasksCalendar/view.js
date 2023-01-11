@@ -1,4 +1,4 @@
-let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, dailyNoteFormat, startPosition, css, options} = input;
+let {pages, view, firstDayOfWeek, globalTaskFilter, dailyNoteFolder, dailyNoteFormat, startPosition, upcomingDays, css, options} = input;
 
 // Error Handling
 if (!pages && pages!="") { dv.span('> [!ERROR] Missing pages parameter\n> \n> Please set the pages parameter like\n> \n> `pages: ""`'); return false };
@@ -28,7 +28,7 @@ var tMonth = moment().format("M");
 var tDay = moment().format("d");
 var tYear = moment().format("YYYY");
 var tid = (new Date()).getTime();
-if (startPosition) { var selectedMonth = moment(startPosition, "YYYY-MM").date(1); var selectedWeek = moment(startPosition, "YYYY-ww").startOf("week") } else { var selectedMonth = moment(startPosition).date(1); var selectedWeek = moment(startPosition).startOf("week") };
+if (startPosition) { var selectedMonth = moment(startPosition, "YYYY-MM").date(1);  var selectedList = moment(startPosition, "YYYY-MM").date(1); var selectedWeek = moment(startPosition, "YYYY-ww").startOf("week") } else { var selectedMonth = moment(startPosition).date(1); var selectedWeek = moment(startPosition).startOf("week"); var selectedList = moment(startPosition).date(1); };
 var selectedDate = eval("selected"+capitalize(view));
 var arrowLeftIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>';
 var arrowRightIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
@@ -168,7 +168,7 @@ function momentToRegex(momentFormat) {
 	momentFormat = momentFormat.replace("ww", "\\d{1,2}");
 	
 	regEx = "/^(" + momentFormat + ")$/";
-	console.log(regEx)
+
 	return regEx;
 };
 
@@ -660,7 +660,21 @@ function getList(tasks, month) {
 		dailyNoteCounter += dailyNote.length;
 		if (moment().format("YYYY-MM-DD") == currentDate) {
 			overdueCounter = overdue.length;
-			listContent += "<details open class='today'><summary><span>" + moment(currentDate).format("dddd, D") + "</span><span class='weekNr'> " + moment(currentDate).format("[W]w") + "</span></summary><div class='content'>" + setTaskContentContainer(currentDate) + "</div></details>"
+			var overdueDetails = "<details open class='overdue'><summary>Overdue</summary>" + setTaskContentContainer(currentDate) + "</details>";
+			var todayDetails = "<details open class='today'><summary>Today</summary>" + setTaskContentContainer(currentDate) + "</details>";
+			
+			// Upcoming
+			if (!upcomingDays) { upcomingDays = "7" };
+			var upcomingContent = "";
+			for (t=1;t<parseInt(upcomingDays)+1;t++) {
+				var next = moment(currentDate).add(t, "days").format("YYYY-MM-DD");
+				getTasks(next);
+				upcomingContent += setTaskContentContainer(next);
+			};
+			var upcomingDetails = "<details open class='upcoming'><summary>Upcoming</summary>" + upcomingContent + "</details>";
+			
+			listContent += "<details open class='today'><summary><span>" + moment(currentDate).format("dddd, D") + "</span><span class='weekNr'> " + moment(currentDate).format("[W]w") + "</span></summary><div class='content'>" + overdueDetails + todayDetails + upcomingDetails + "</div></details>"
+			
 		} else {
 			listContent += "<details open><summary><span>" + moment(currentDate).format("dddd, D") + "</span><span class='weekNr'> " + moment(currentDate).format("[W]w") + "</span></summary><div class='content'>" + setTaskContentContainer(currentDate) + "</div></details>"
 		};
