@@ -17,7 +17,15 @@ if (startPosition) { if (!startPosition.match(/\d{4}\-\d{1,2}/gm)) { dv.span('> 
 if (dailyNoteFormat) { if (dailyNoteFormat.match(/[|\\YMDWwd.,-: \[\]]/g).length != dailyNoteFormat.length) { dv.span('> [!ERROR] The `dailyNoteFormat` contains invalid characters'); return false }};
 
 // Get, Set, Eval Pages
-if (pages=="") { var tasks = dv.pages().file.tasks } else { if (pages.startsWith("dv.pages")) { var tasks = eval(pages) } else { var tasks = dv.pages(pages).file.tasks } };
+if (pages == "") {
+  var tasks = dv.pages().file.tasks;
+} else if (typeof pages === "string" && pages.startsWith("dv.pages")) {
+  var tasks = eval(pages);
+} else if (typeof pages && pages.every(p => p.task)) {
+  var tasks = pages;
+} else {
+  var tasks = dv.pages(pages).file.tasks;
+}
 
 // Variables
 var done, doneWithoutCompletionDate, due, recurrence, overdue, start, scheduled, process, cancelled, dailyNote, dailyNoteRegEx;
